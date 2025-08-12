@@ -9,34 +9,71 @@ from backend.db_connection import db
 applications = Blueprint('applications', __name__)
 
 
-# student views status of submitted applications 
-@applications.route('/applications/<id>', methods=['GET'])
-def get_app_status(id):
+# Student viewing their own application statuses
+@applications.route('/student/<userID>/applications', methods=['GET'])
+def get_student_applications(userID):
+    current_app.logger.info('GET /student/<userID>/applications route')
+    
+    query = '''
+        SELECT u.userId,
+               u.firstName,
+               u.lastName,
+               a.applicationId,
+               a.status    AS applicationStatus,
+               cp.title    AS positionTitle,
+               cp.deadline AS applicationDeadline,
+               com.name    AS companyName,
+               a.dateApplied,
+               cp.description AS positionDescription
+        FROM users u
+                 JOIN appliesToApp ata ON u.userId = ata.studentId
+                 JOIN applications a ON ata.applicationId = a.applicationId
+                 JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+                 JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
+        WHERE u.userId = {0}
+        ORDER BY a.dateApplied DESC, cp.deadline ASC
+    '''.format(userID)
 
-    query = f'''SELECT a.applicationId,
-                       cp.title AS positionTitle,
-                       c.name AS companyName,
-                       a.status,
-                       a.dateTimeApplied
-                FROM applications a
-                JOIN appliesToApp ata ON a.applicationId = ata.applicationId
-                JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
-                JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
-                JOIN users u ON crp.employerId = u.userId
-                JOIN companyProfiles c ON u.companyProfileId = c.companyProfileId
-                WHERE ata.studentId = {str(id)}
-    '''
-
-    current_app.logger.info(f'GET /applications/<id> query={query}')
-
-    # db connection
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-
-    current_app.logger.info(f'GET /applicaitons/<id> Result of query = {theData}')
-
-    response = make_response(jsonify(theData))
-    response.status_code = 200
-    return response
     
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+# Advisor viewing all their advisees' application statuses
+@applications.route('/advisor/<advisorID>/students/applications', methods=['GET'])
+def get_advisor_student_applications(advisorID):
+    current_app.logger.info('GET /advisor/<advisorID>/students/applications route')
+    
+    query = '''
+        SELECT aa.advisorId,
+               u.userId,
+               u.firstName,
+               u.lastName,
+               a.applicationId,
+               a.status    AS applicationStatus,
+               cp.title    AS positionTitle,
+               cp.deadline AS applicationDeadline,
+               com.name    AS companyName,
+               a.dateApplied
+        FROM advisor_advisee aa
+                 JOIN users u ON aa.studentId = u.userId
+                 JOIN appliesToApp ata ON u.userId = ata.studentId
+                 JOIN applications a ON ata.applicationId = a.applicationId
+                 JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+                 JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
+                 LEFT JOIN workedAtPos wp ON u.userId = wp.studentId AND wp.coopPositionId = cp.coopPositionId
+        WHERE aa.advisorId = {0}
+        ORDER BY u.lastName, u.firstName, a.dateApplied DESC
+    '''.format(advisorID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
