@@ -8,15 +8,15 @@ from backend.db_connection import db
 coopPositions = Blueprint('coopPositions', __name__)
 
 # Student/Advisor views the average pay for each industry
-@coopPositions.route('/coopPositions/<industryAveragePay>', methods=['GET'])
-def get_industry_average_pay(industryAveragePay):
+@coopPositions.route('/coopPositions/industryAveragePay', methods=['GET'])
+def get_industry_average_pay():
     query = '''
         SELECT cp.industry, AVG(cp.hourlyPay) AS industryAvgHourlyPay
         FROM coopPositions cp
         GROUP BY cp.industry;
-        '''.format(industryAveragePay)
+        '''
     
-    current_app.logger.info('GET /coopPositions/<industryAveragePay> route')
+    current_app.logger.info('GET /coopPositions/industryAveragePay route')
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
