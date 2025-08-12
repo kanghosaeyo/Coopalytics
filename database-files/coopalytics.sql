@@ -23,13 +23,14 @@ CREATE TABLE demographics (
     nationality   VARCHAR(20),
     sexuality     VARCHAR(20),
     disability    VARCHAR(20)
+
+    FOREIGN KEY (demographicId) REFERENCES users (userId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE users (
     userId           INT PRIMARY KEY,
     firstName        VARCHAR(20) NOT NULL,
     lastName         VARCHAR(20) NOT NULL,
-    demographicId    INT,
     email            VARCHAR(20) NOT NULL,
     phone            VARCHAR(20),
     major            VARCHAR(20),
@@ -40,7 +41,6 @@ CREATE TABLE users (
     companyProfileId INT,
     industry         VARCHAR(20),
 
-    FOREIGN KEY (demographicId) REFERENCES demographics (demographicId) ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY (companyProfileId) REFERENCES companyProfiles (companyProfileId) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
