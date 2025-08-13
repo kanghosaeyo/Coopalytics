@@ -202,3 +202,22 @@ def delete_unapproved_position(pos_id):
         }))
         the_response.status_code = 409
         return the_response
+    
+# Admin flags a position 
+@coopPositions.route('/coopPositions/<int:pos_id>/flag/<int:value>', methods=['PUT'])
+def set_position_flag(pos_id, value):
+    current_app.logger.info('PUT /coopPositions/%s/flag/%s route', pos_id, value)
+
+    query = '''
+        UPDATE coopPositions
+        SET flag = %s
+        WHERE coopPositionId = %s;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (value, pos_id))
+    db.get_db().commit()
+
+    the_response = make_response(jsonify({'message': 'flag updated!'}))
+    the_response.status_code = 200
+    return the_response
