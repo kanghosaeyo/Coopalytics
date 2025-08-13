@@ -50,7 +50,6 @@ def get_desired_skills(studentID):
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-    
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
@@ -169,7 +168,7 @@ def approve_position(pos_id):
     the_response.status_code = 200
     return the_response
 
-# Admin deletes an unapproved/invalid posting (only when flagged = TRUE)
+# Admin deletes an unapproved/invalid posting 
 @coopPositions.route('/coopPositions/<int:pos_id>', methods=['DELETE'])
 def delete_unapproved_position(pos_id):
     current_app.logger.info('DELETE /coopPositions/%s route', pos_id)
