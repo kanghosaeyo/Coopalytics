@@ -219,6 +219,78 @@ def update_users():
     db.get_db().commit()
     return 'user updated!'
 
+
+# Employer views student profile
+@users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
+def view_users():
+    current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
+    user_info = request.json
+    application_info = request.json
+    user_id = user_info['userId']
+    first_name = user_info['firstName']
+    last_name = user_info['lastName']
+    email = user_info['email']
+    major = user_info['major']
+    minor = user_info['minor']
+    college = user_info['college']
+    grade = user_info['grade']
+    grad_year = user_info['gradYear']
+    gpa = application_info['gpa']
+    resume = application_info['resume']
+    cover_letter = application_info['coverLetter']
+
+
+    query = '''
+        SELECT u.userId, u.firstName, u.lastName, u.email, u.major,
+       u.minor, u.college, u.grade, u.gradYear, a.gpa,
+       a.resume, a.coverLetter
+       FROM users u JOIN applications a;'''
+    data = (first_name, last_name, email, major, minor, college, grad_year, grade, user_id,
+            gpa, resume, cover_letter)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
+
+
+    theData = cursor.fetchall()
+   
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Employer filters student profiles
+@users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
+def view_users():
+    current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
+    user_info = request.json
+    skill_info = request.json
+    user_id = user_info['userId']
+    first_name = user_info['firstName']
+    last_name = user_info['lastName']
+    name = skill_info['name']
+    grad_year = user_info['gradYear']
+    major = user_info['major']
+
+    query = '''
+        SELECT u.userId, u.firstName, u.lastName
+        FROM users u JOIN skillDetails sd
+        ON u.userId = sd.studentId
+        JOIN skills s
+        ON sd.skillId = s.skillId
+        WHERE s.name = %s
+        OR s.name = %s
+        OR s.name = %s
+        AND u.gradYear = %s
+        AND u.major = %s;'''
+    data = (user_id, first_name, last_name, name, name, name, grad_year, major)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
+
+    theData = cursor.fetchall()
+   
+    the_response = make_response(jsonify(theData))
+
 # Admin creates a user (student/employer/advisor)
 @users.route('/users', methods=['POST'])
 def create_user():
@@ -271,5 +343,6 @@ def delete_user():
     db.get_db().commit()
 
     the_response = make_response(jsonify({'message': 'user deleted!'}))
+
     the_response.status_code = 200
     return the_response
