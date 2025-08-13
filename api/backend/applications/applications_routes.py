@@ -44,7 +44,7 @@ def get_student_applications(studentID):
 
 # student sees how many positions they have applied to
 @applications.route('/student/<studentID>/applications/summary', methods=['GET'])
-def get_student_applications(studentID):
+def get_numb_apps(studentID):
     current_app.logger.info('GET /student/<studentID>/applications route')
     
     query = '''
