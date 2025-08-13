@@ -1,4 +1,127 @@
--- Sample data for coopalytics database
+-- Applications table (60 rows - with realistic GPA and skill matching)
+INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
+-- Applications that match student majors, GPAs, and skills
+-- Charlie Stout (CS major, GPA 3.7, has Python, Java, JavaScript, React, etc.)
+(1, '2025-01-15 10:30:00', 'Submitted', 'Resume content for Charlie Stout...', 3.7, 'Cover letter expressing interest in software development...', 1), -- Software Developer (req GPA 3.0, skill 1-Python) ✓
+(2, '2025-01-16 14:20:00', 'Under Review', 'Resume content for Charlie Stout...', 3.7, 'Cover letter for full stack developer...', 16), -- Full Stack Developer (req GPA 3.2, skill 3-JavaScript) ✓
+
+-- Liam Williams (Business major, GPA 3.5, has Excel, PowerPoint, Project Management, etc.)
+(3, '2025-01-18 09:45:00', 'Submitted', 'Resume content for Liam Williams...', 3.5, 'Cover letter highlighting business experience...', 5), -- Financial Analyst (req GPA 3.4, skill 13-Excel) ✓
+(4, '2025-01-20 16:15:00', 'Draft', 'Resume content for Liam Williams...', 3.5, NULL, 10), -- Business Analyst (req GPA 3.0, skill 15-Project Management) ✓
+
+-- Sophia Brown (Engineering major, GPA 3.8, has C++, Excel, Project Management, etc.)
+(5, '2025-01-22 11:30:00', 'Submitted', 'Resume content for Sophia Brown...', 3.8, 'Cover letter for engineering role...', 18), -- Robotics Engineer (req GPA 3.4, skill 21-C++) ✓
+(6, '2025-01-25 08:45:00', 'Under Review', 'Resume content for Sophia Brown...', 3.8, 'Manufacturing engineering application...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
+
+-- Noah Davis (Data Science major, GPA 3.9, has Python, ML, Data Analysis, etc.)
+(7, '2025-01-28 13:20:00', 'Submitted', 'Resume content for Noah Davis...', 3.9, 'Machine learning interest cover letter...', 11), -- ML Intern (req GPA 3.6, skill 11-ML) ✓
+(8, '2025-01-30 10:00:00', 'Rejected', 'Resume content for Noah Davis...', 3.9, 'Data engineering application...', 29), -- Data Engineer (req GPA 3.4, skill 1-Python) ✓
+
+-- Olivia Miller (Marketing major, GPA 3.4, has Excel, PowerPoint, Communication, etc.)
+(9, '2025-02-01 15:30:00', 'Draft', 'Resume content for Olivia Miller...', 3.4, NULL, 3), -- Marketing Assistant (req GPA 2.8, skill 17-Communication) ✓
+(10, '2025-02-03 12:45:00', 'Submitted', 'Resume content for Olivia Miller...', 3.4, 'Digital marketing interest...', 19), -- Digital Marketing (req GPA 2.7, skill 17-Communication) ✓
+
+-- Mason Wilson (Cybersecurity major, GPA 3.6, has Python, SQL, AWS, etc.)
+(11, '2025-02-05 09:15:00', 'Under Review', 'Resume content for Mason Wilson...', 3.6, 'Cybersecurity application...', 4), -- Cybersecurity Intern (req GPA 3.3, skill 6-SQL) ✓
+(12, '2025-02-07 14:00:00', 'Submitted', 'Resume content for Mason Wilson...', 3.6, 'Security analyst interest...', 32), -- Security Analyst (req GPA 3.2, skill 6-SQL) ✓
+
+-- Ava Moore (Biomedical Eng major, GPA 3.7, has Python, Data Analysis, etc.)
+(13, '2025-02-08 11:20:00', 'Draft', 'Resume content for Ava Moore...', 3.7, NULL, 7), -- Biotech Research (req GPA 3.5, skill 12-Data Analysis) ✓
+(14, '2025-02-10 16:45:00', 'Submitted', 'Resume content for Ava Moore...', 3.7, 'Healthcare data analysis...', 15), -- Healthcare Data Analyst (req GPA 3.3, skill 12-Data Analysis) ✓
+
+-- Ethan Taylor (Finance major, GPA 3.8, has Excel, Data Analysis, etc.)
+(15, '2025-02-12 08:30:00', 'Under Review', 'Resume content for Ethan Taylor...', 3.8, 'Finance analyst application...', 27), -- Finance Intern (req GPA 3.3, skill 13-Excel) ✓
+(16, '2025-02-14 13:15:00', 'Submitted', 'Resume content for Ethan Taylor...', 3.8, 'Business intelligence focus...', 23), -- Business Intelligence (req GPA 3.2, skill 37-Tableau) ✓
+
+-- Isabella Anderson (Psychology major, GPA 3.3, has Excel, PowerPoint, Communication, etc.)
+(17, '2025-02-16 10:45:00', 'Draft', 'Resume content for Isabella Anderson...', 3.3, NULL, 42), -- HR Analytics (req GPA 2.9, skill 12-Data Analysis) ✓
+(18, '2025-02-18 15:20:00', 'Submitted', 'Resume content for Isabella Anderson...', 3.3, 'Customer success passion...', 46), -- Customer Success (req GPA 2.8, skill 17-Communication) ✓
+
+-- James Thomas (Mechanical Eng major, GPA 3.5, has C++, C#, Excel, etc.)
+(19, '2025-02-20 12:00:00', 'Under Review', 'Resume content for James Thomas...', 3.5, 'Automation engineering interest...', 45), -- Automation Engineer (req GPA 3.4, skill 1-Python) ✓
+(20, '2025-02-22 09:30:00', 'Submitted', 'Resume content for James Thomas...', 3.5, 'Manufacturing focus...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
+
+-- Continue with remaining students (matching majors, GPAs, and skills)
+
+-- Mia Jackson (CS major, GPA 3.9, has Python, Java, JavaScript, React, Node.js, etc.)
+(21, '2025-01-17 14:30:00', 'Submitted', 'Resume content for Mia Jackson...', 3.9, 'Full stack development application...', 16), -- Full Stack Developer (req GPA 3.2, skill 3-JavaScript) ✓
+(22, '2025-01-19 11:15:00', 'Under Review', 'Resume content for Mia Jackson...', 3.9, 'Backend development interest...', 22), -- Backend Developer (req GPA 3.0, skill 2-Java) ✓
+
+-- Lucas White (Business with Data Science minor, GPA 3.4, has Excel, PowerPoint, Project Management, Python)
+(23, '2025-01-21 16:00:00', 'Draft', 'Resume content for Lucas White...', 3.4, NULL, 10), -- Business Analyst (req GPA 3.0, skill 15-Project Management) ✓
+(24, '2025-01-23 13:45:00', 'Submitted', 'Resume content for Lucas White...', 3.4, 'Operations analysis application...', 33), -- Operations Analyst (req GPA 3.0, skill 13-Excel) ✓
+
+-- Charlotte Harris (Environmental Eng major, GPA 3.6, has Python, Data Analysis, Excel, etc.)
+(25, '2025-01-26 10:20:00', 'Under Review', 'Resume content for Charlotte Harris...', 3.6, 'Environmental engineering focus...', 8), -- Environmental Engineer (req GPA 3.1, skill 15-Project Management) ✓
+(26, '2025-01-29 15:10:00', 'Submitted', 'Resume content for Charlotte Harris...', 3.6, 'Infrastructure interest...', 49), -- Infrastructure Engineer (req GPA 3.2, skill 8-AWS) ✓
+
+-- Benjamin Martin (Information Systems major, GPA 3.7, has Python, SQL, AWS, Excel, etc.)
+(27, '2025-02-02 08:50:00', 'Draft', 'Resume content for Benjamin Martin...', 3.7, NULL, 26), -- Systems Administrator (req GPA 3.0, skill 8-AWS) ✓
+(28, '2025-02-04 12:30:00', 'Submitted', 'Resume content for Benjamin Martin...', 3.7, 'Database administration...', 35), -- Database Administrator (req GPA 3.3, skill 6-SQL) ✓
+
+-- Amelia Garcia (Chemical Eng major, GPA 3.5, has Python, Data Analysis, Excel, etc.)
+(29, '2025-02-06 14:40:00', 'Under Review', 'Resume content for Amelia Garcia...', 3.5, 'Chemical engineering application...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
+(30, '2025-02-09 11:55:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.5, 'Research assistant focus...', 25), -- Research Assistant (req GPA 3.4, skill 12-Data Analysis) ✓
+
+-- Henry Rodriguez (CS with Math minor, GPA 3.2, has Python, Java, JavaScript, C++)
+(31, '2025-02-11 16:25:00', 'Draft', 'Resume content for Henry Rodriguez...', 3.2, NULL, 1), -- Software Developer (req GPA 3.0, skill 1-Python) ✓
+(32, '2025-01-24 09:40:00', 'Submitted', 'Resume content for Henry Rodriguez...', 3.2, 'Web development interest...', 31), -- Web Developer (req GPA 3.0, skill 30-HTML) ✓
+
+-- Harper Lewis (Design with Art minor, GPA 3.8, has Adobe Creative, UI/UX Design, etc.)
+(33, '2025-01-27 14:55:00', 'Under Review', 'Resume content for Harper Lewis...', 3.8, 'UX design passion letter...', 6), -- UX Design Intern (req GPA 3.0, skill 40-UI/UX Design) ✓
+(34, '2025-01-31 10:35:00', 'Submitted', 'Resume content for Harper Lewis...', 3.8, 'Product design interest...', 48), -- Product Design Intern (req GPA 3.0, skill 40-UI/UX Design) ✓
+
+-- Alexander Lee (Electrical Eng major, GPA 3.6, has C++, C#, Excel, etc.)
+(35, '2025-02-13 13:20:00', 'Draft', 'Resume content for Alexander Lee...', 3.6, NULL, 18), -- Robotics Engineer (req GPA 3.4, skill 21-C++) ✓
+(36, '2025-02-15 08:15:00', 'Submitted', 'Resume content for Alexander Lee...', 3.6, 'Automation engineering...', 45), -- Automation Engineer (req GPA 3.4, skill 1-Python) ✓
+
+-- Evelyn Walker (International Business with Spanish minor, GPA 3.4, has Excel, PowerPoint, Communication, etc.)
+(37, '2025-02-17 15:45:00', 'Under Review', 'Resume content for Evelyn Walker...', 3.4, 'International business focus...', 50), -- Business Development (req GPA 2.9, skill 17-Communication) ✓
+(38, '2025-02-19 12:10:00', 'Submitted', 'Resume content for Evelyn Walker...', 3.4, 'Project coordination...', 30), -- Project Coordinator (req GPA 2.8, skill 15-Project Management) ✓
+
+-- Sebastian Hall (Data Science major, GPA 3.8, has Python, ML, Data Analysis, Tableau, etc.)
+(39, '2025-02-21 09:25:00', 'Draft', 'Resume content for Sebastian Hall...', 3.8, NULL, 11), -- ML Intern (req GPA 3.6, skill 11-ML) ✓
+(40, '2025-01-14 16:30:00', 'Submitted', 'Resume content for Sebastian Hall...', 3.8, 'Computer vision interest...', 47), -- Computer Vision Co-op (req GPA 3.5, skill 11-ML) ✓
+
+-- Aria Allen (Marketing major, GPA 3.3, has Excel, PowerPoint, Communication, etc.)
+(41, '2025-01-16 11:45:00', 'Under Review', 'Resume content for Aria Allen...', 3.3, 'Marketing coordination interest...', 19), -- Digital Marketing (req GPA 2.7, skill 17-Communication) ✓
+(42, '2025-01-18 14:20:00', 'Submitted', 'Resume content for Aria Allen...', 3.3, 'Sales analytics application...', 36), -- Sales Analytics (req GPA 2.9, skill 12-Data Analysis) ✓
+
+-- Owen Young (CS major, GPA 3.1, has Python, Java, JavaScript, Git)
+(43, '2025-01-20 10:05:00', 'Draft', 'Resume content for Owen Young...', 3.1, NULL, 1), -- Software Developer (req GPA 3.0, skill 1-Python) ✓
+(44, '2025-01-22 15:35:00', 'Submitted', 'Resume content for Owen Young...', 3.1, 'Web development passion...', 31), -- Web Developer (req GPA 3.0, skill 30-HTML) ✓
+
+-- Luna King (Business with Finance minor, GPA 3.7, has Excel, PowerPoint, Project Management, etc.)
+(45, '2025-01-25 12:50:00', 'Under Review', 'Resume content for Luna King...', 3.7, 'Financial analysis...', 5), -- Financial Analyst (req GPA 3.4, skill 13-Excel) ✓
+(46, '2025-01-28 08:40:00', 'Submitted', 'Resume content for Luna King...', 3.7, 'Business intelligence focus...', 23), -- Business Intelligence (req GPA 3.2, skill 37-Tableau) ✓
+
+-- Grayson Wright (Cybersecurity major, GPA 3.5, has Python, SQL, AWS, Docker, etc.)
+(47, '2025-01-30 13:25:00', 'Draft', 'Resume content for Grayson Wright...', 3.5, NULL, 4), -- Cybersecurity Intern (req GPA 3.3, skill 6-SQL) ✓
+(48, '2025-02-01 16:15:00', 'Submitted', 'Resume content for Grayson Wright...', 3.5, 'Network engineering interest...', 41), -- Network Engineer (req GPA 3.1, skill 8-AWS) ✓
+
+-- Chloe Lopez (Bioengineering major, GPA 3.6, has Python, Data Analysis, etc.)
+(49, '2025-02-03 11:00:00', 'Under Review', 'Resume content for Chloe Lopez...', 3.6, 'Bioengineering research passion...', 7), -- Biotech Research (req GPA 3.5, skill 12-Data Analysis) ✓
+(50, '2025-02-05 14:45:00', 'Submitted', 'Resume content for Chloe Lopez...', 3.6, 'Healthcare data focus...', 15), -- Healthcare Data Analyst (req GPA 3.3, skill 12-Data Analysis) ✓
+
+-- Carter Hill (Information Systems with Business minor, GPA 3.4, has Python, SQL, Excel, Project Management)
+(51, '2025-02-07 09:30:00', 'Draft', 'Resume content for Carter Hill...', 3.4, NULL, 26), -- Systems Administrator (req GPA 3.0, skill 8-AWS) ✓
+(52, '2025-02-10 12:15:00', 'Submitted', 'Resume content for Carter Hill...', 3.4, 'Business analysis application...', 10), -- Business Analyst (req GPA 3.0, skill 15-Project Management) ✓
+
+-- Zoey Scott (Environmental Eng major, GPA 3.7, has Python, Data Analysis, Excel, Project Management)
+(53, '2025-02-12 15:50:00', 'Under Review', 'Resume content for Zoey Scott...', 3.7, 'Environmental focus...', 8), -- Environmental Engineer (req GPA 3.1, skill 15-Project Management) ✓
+(54, '2025-02-14 10:25:00', 'Submitted', 'Resume content for Zoey Scott...', 3.7, 'Cloud engineering passion...', 20), -- Cloud Engineer (req GPA 3.5, skill 8-AWS) ✓
+
+-- Luke Green (Mechanical Eng major, GPA 3.3, has C++, C#, Excel, Project Management)
+(55, '2025-02-16 13:40:00', 'Draft', 'Resume content for Luke Green...', 3.3, NULL, 18), -- Robotics Engineer (req GPA 3.4, skill 21-C++) ❌ GPA too low
+(56, '2025-02-18 08:55:00', 'Submitted', 'Resume content for Luke Green...', 3.3, 'Manufacturing engineering...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
+
+-- Lily Adams (Design major, GPA 3.9, has Adobe Creative, UI/UX Design, Excel, PowerPoint)
+(57, '2025-02-20 14:10:00', 'Under Review', 'Resume content for Lily Adams...', 3.9, 'Product design interest...', 48), -- Product Design Intern (req GPA 3.0, skill 40-UI/UX Design) ✓
+(58, '2025-02-22 11:35:00', 'Submitted', 'Resume content for Lily Adams...', 3.9, 'Technical writing passion...', 38), -- Technical Writer (req GPA 2.8, skill 17-Communication) ✓
+
+-- Jack Baker (CS major, GPA 3.5, has Python, Java, JavaScript, React, Git)
+(59, '2025-01-13 16:20:00', 'Draft', 'Resume content for Jack Baker...', 3.5, NULL, 16), -- Full Stack Developer (req GPA 3.2, skill 3-JavaScript) ✓
+(60, '2025-01-15 12:45:00', 'Submitted', 'Resume content for Jack Baker...', 3.5, 'Backend development interest...', 22); -- Backend Developer (req GPA 3.0, skill 2-Java) ✓-- Sample data for coopalytics database
 USE `coopalytics`;
 
 -- Skills table (40 rows - strong entity)
@@ -82,10 +205,10 @@ INSERT INTO companyProfiles (companyProfileId, name, bio, industry, websiteLink)
 (34, 'DroneLogistics Co', 'Drone delivery and aerial logistics solutions.', 'Logistics', 'www.dronelogistics.com'),
 (35, 'WellnessTech Hub', 'Mental health and wellness technology platform.', 'Healthcare', 'www.wellnesstech.com');
 
--- Users table (40 rows - strong entity, mix of students and employers)
+-- Users table (48 rows - strong entity, mix of students, advisors, employers, and admins)
 INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, college, gradYear, grade, companyProfileId, industry) VALUES
 -- Students (userId 1-30)
-(1, 'Emma', 'Johnson', 'e.johnson@student.edu', '555-0101', 'Computer Science', 'Mathematics', 'NEU', '2026', 'Junior', NULL, NULL),
+(1, 'Charlie', 'Stout', 'c.stout@student.edu', '555-0101', 'Computer Science', 'Mathematics', 'NEU', '2026', 'Junior', NULL, NULL),
 (2, 'Liam', 'Williams', 'l.williams@student.edu', '555-0102', 'Business', 'Economics', 'NEU', '2025', 'Senior', NULL, NULL),
 (3, 'Sophia', 'Brown', 's.brown@student.edu', '555-0103', 'Engineering', 'Physics', 'NEU', '2027', 'Sophomore', NULL, NULL),
 (4, 'Noah', 'Davis', 'n.davis@student.edu', '555-0104', 'Data Science', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
@@ -115,21 +238,32 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (28, 'Luke', 'Green', 'l.green@student.edu', '555-0128', 'Mechanical Eng', NULL, 'NEU', '2027', 'Sophomore', NULL, NULL),
 (29, 'Lily', 'Adams', 'l.adams@student.edu', '555-0129', 'Design', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
 (30, 'Jack', 'Baker', 'j.baker@student.edu', '555-0130', 'Computer Science', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
--- Employers (userId 31-40)
-(31, 'Sarah', 'Chen', 's.chen@technova.com', '555-0201', NULL, NULL, NULL, NULL, NULL, 1, 'Technology'),
-(32, 'Michael', 'Roberts', 'm.roberts@dataflow.com', '555-0202', NULL, NULL, NULL, NULL, NULL, 2, 'Technology'),
-(33, 'Jennifer', 'Thompson', 'j.thompson@greenenergy.com', '555-0203', NULL, NULL, NULL, NULL, NULL, 3, 'Energy'),
-(34, 'David', 'Martinez', 'd.martinez@healthtech.com', '555-0204', NULL, NULL, NULL, NULL, NULL, 4, 'Healthcare'),
-(35, 'Lisa', 'Anderson', 'l.anderson@financefirst.com', '555-0205', NULL, NULL, NULL, NULL, NULL, 5, 'Finance'),
-(36, 'Robert', 'Clark', 'r.clark@autoinnovate.com', '555-0206', NULL, NULL, NULL, NULL, NULL, 6, 'Automotive'),
-(37, 'Amanda', 'Lewis', 'a.lewis@cloudsecure.com', '555-0207', NULL, NULL, NULL, NULL, NULL, 7, 'Technology'),
-(38, 'Christopher', 'Walker', 'c.walker@bioresearch.com', '555-0208', NULL, NULL, NULL, NULL, NULL, 8, 'Healthcare'),
-(39, 'Michelle', 'Hall', 'm.hall@ecodesign.com', '555-0209', NULL, NULL, NULL, NULL, NULL, 9, 'Construction'),
-(40, 'Kevin', 'Young', 'k.young@logiflow.com', '555-0210', NULL, NULL, NULL, NULL, NULL, 10, 'Logistics');
+-- Advisors (userId 31-36)
+(31, 'Sarah', 'Martinez', 's.martinez@neu.edu', '555-0301', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(32, 'Michael', 'Chen', 'm.chen@neu.edu', '555-0302', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(33, 'Jennifer', 'Kim', 'j.kim@neu.edu', '555-0303', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(34, 'David', 'Johnson', 'd.johnson@neu.edu', '555-0304', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(35, 'Lisa', 'Thompson', 'l.thompson@neu.edu', '555-0305', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(36, 'Robert', 'Wilson', 'r.wilson@neu.edu', '555-0306', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+-- Employers (userId 37-44)
+(37, 'Phoebe', 'Hwang', 'p.hwang@technova.com', '555-0401', NULL, NULL, NULL, NULL, NULL, 1, 'Technology'),
+(38, 'Marcus', 'Roberts', 'm.roberts@dataflow.com', '555-0402', NULL, NULL, NULL, NULL, NULL, 2, 'Technology'),
+(39, 'Elena', 'Thompson', 'e.thompson@greenenergy.com', '555-0403', NULL, NULL, NULL, NULL, NULL, 3, 'Energy'),
+(40, 'James', 'Martinez', 'j.martinez@healthtech.com', '555-0404', NULL, NULL, NULL, NULL, NULL, 4, 'Healthcare'),
+(41, 'Rachel', 'Anderson', 'r.anderson@financefirst.com', '555-0405', NULL, NULL, NULL, NULL, NULL, 5, 'Finance'),
+(42, 'Daniel', 'Clark', 'd.clark@autoinnovate.com', '555-0406', NULL, NULL, NULL, NULL, NULL, 6, 'Automotive'),
+(43, 'Amanda', 'Lewis', 'a.lewis@cloudsecure.com', '555-0407', NULL, NULL, NULL, NULL, NULL, 7, 'Technology'),
+(44, 'Christopher', 'Walker', 'c.walker@bioresearch.com', '555-0408', NULL, NULL, NULL, NULL, NULL, 8, 'Healthcare'),
+-- Admins (userId 45-48)
+(45, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(46, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(47, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(48, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
 
--- Demographics table (30 rows - for students only)
+-- Demographics table (48 rows - for ALL users)
 INSERT INTO demographics (demographicId, gender, race, nationality, sexuality, disability) VALUES
-(1, 'Female', 'White', 'American', 'Heterosexual', NULL),
+-- Students (1-30)
+(1, 'Male', 'White', 'American', 'Heterosexual', NULL),
 (2, 'Male', 'Hispanic', 'American', 'Heterosexual', NULL),
 (3, 'Female', 'Asian', 'American', 'Heterosexual', NULL),
 (4, 'Male', 'Black', 'American', 'Heterosexual', NULL),
@@ -158,7 +292,28 @@ INSERT INTO demographics (demographicId, gender, race, nationality, sexuality, d
 (27, 'Female', 'White', 'American', 'Bisexual', NULL),
 (28, 'Male', 'Asian', 'American', 'Heterosexual', NULL),
 (29, 'Female', 'Mixed Race', 'American', 'Heterosexual', NULL),
-(30, 'Male', 'White', 'American', 'Heterosexual', NULL);
+(30, 'Male', 'White', 'American', 'Heterosexual', NULL),
+-- Advisors (31-36)
+(31, 'Female', 'Hispanic', 'American', 'Heterosexual', NULL),
+(32, 'Male', 'Asian', 'American', 'Heterosexual', NULL),
+(33, 'Female', 'Korean', 'American', 'Heterosexual', NULL),
+(34, 'Male', 'White', 'American', 'Heterosexual', NULL),
+(35, 'Female', 'Black', 'American', 'Heterosexual', NULL),
+(36, 'Male', 'White', 'American', 'Gay', NULL),
+-- Employers (37-44)
+(37, 'Female', 'Asian', 'American', 'Heterosexual', NULL),
+(38, 'Male', 'White', 'American', 'Heterosexual', NULL),
+(39, 'Female', 'Hispanic', 'American', 'Bisexual', NULL),
+(40, 'Male', 'Hispanic', 'American', 'Heterosexual', NULL),
+(41, 'Female', 'Black', 'American', 'Heterosexual', NULL),
+(42, 'Male', 'White', 'American', 'Heterosexual', NULL),
+(43, 'Female', 'White', 'American', 'Lesbian', NULL),
+(44, 'Male', 'Mixed Race', 'American', 'Heterosexual', NULL),
+-- Admins (45-48)
+(45, 'Female', 'White', 'American', 'Heterosexual', NULL),
+(46, 'Male', 'Hispanic', 'American', 'Heterosexual', NULL),
+(47, 'Female', 'Asian', 'American', 'Bisexual', NULL),
+(48, 'Non-binary', 'Black', 'American', 'Pansexual', NULL);
 
 -- Coop Positions table (50 rows - weak entity)
 INSERT INTO coopPositions (coopPositionId, title, location, description, hourlyPay, requiredSkillsId, desiredSkillsId, desiredGPA, deadline, startDate, endDate, flag, industry) VALUES
@@ -265,119 +420,150 @@ INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
 -- Advisor-Advisee relationships (60 rows - bridge table)
 INSERT INTO advisor_advisee (studentId, advisorId, flag) VALUES
 (1, 31, FALSE), (1, 32, FALSE),
-(2, 35, FALSE), (2, 40, FALSE),
-(3, 33, FALSE), (3, 36, FALSE),
+(2, 35, FALSE), (2, 36, FALSE),
+(3, 33, FALSE), (3, 34, FALSE),
 (4, 32, FALSE), (4, 31, FALSE),
-(5, 35, FALSE), (5, 39, FALSE),
-(6, 31, FALSE), (6, 37, FALSE),
-(7, 34, FALSE), (7, 38, FALSE),
-(8, 35, FALSE), (8, 40, FALSE),
-(9, 39, FALSE), (9, 34, FALSE),
-(10, 36, FALSE), (10, 40, FALSE),
+(5, 35, FALSE), (5, 33, FALSE),
+(6, 31, FALSE), (6, 34, FALSE),
+(7, 34, FALSE), (7, 35, FALSE),
+(8, 35, FALSE), (8, 36, FALSE),
+(9, 33, FALSE), (9, 34, FALSE),
+(10, 34, FALSE), (10, 36, FALSE),
 (11, 31, FALSE), (11, 32, FALSE),
-(12, 35, FALSE), (12, 40, FALSE),
-(13, 33, FALSE), (13, 39, FALSE),
-(14, 31, FALSE), (14, 37, FALSE),
-(15, 33, FALSE), (15, 38, FALSE),
+(12, 35, FALSE), (12, 36, FALSE),
+(13, 33, FALSE), (13, 34, FALSE),
+(14, 31, FALSE), (14, 32, FALSE),
+(15, 33, FALSE), (15, 35, FALSE),
 (16, 31, FALSE), (16, 32, FALSE),
-(17, 39, FALSE), (17, 34, FALSE),
-(18, 36, FALSE), (18, 31, FALSE),
-(19, 35, FALSE), (19, 40, FALSE),
+(17, 33, FALSE), (17, 34, FALSE),
+(18, 34, FALSE), (18, 31, FALSE),
+(19, 35, FALSE), (19, 36, FALSE),
 (20, 32, FALSE), (20, 31, FALSE),
-(21, 35, FALSE), (21, 39, FALSE),
-(22, 31, FALSE), (22, 37, FALSE),
-(23, 35, FALSE), (23, 40, FALSE),
-(24, 31, FALSE), (24, 37, FALSE),
-(25, 34, FALSE), (25, 38, FALSE),
-(26, 31, FALSE), (26, 37, FALSE),
-(27, 33, FALSE), (27, 39, FALSE),
-(28, 36, FALSE), (28, 40, FALSE),
-(29, 39, FALSE), (29, 34, FALSE),
+(21, 35, FALSE), (21, 33, FALSE),
+(22, 31, FALSE), (22, 32, FALSE),
+(23, 35, FALSE), (23, 36, FALSE),
+(24, 31, FALSE), (24, 34, FALSE),
+(25, 34, FALSE), (25, 35, FALSE),
+(26, 31, FALSE), (26, 32, FALSE),
+(27, 33, FALSE), (27, 34, FALSE),
+(28, 34, FALSE), (28, 36, FALSE),
+(29, 33, FALSE), (29, 34, FALSE),
+(30, 31, FALSE), (30, 32, FALSE); FALSE), (29, 34, FALSE),
 (30, 31, FALSE), (30, 32, FALSE);
 
--- Worked At Position relationships (75 rows - bridge table for past co-ops)
+-- Worked At Position relationships (75 rows - bridge table for past co-ops with NO OVERLAPPING DATES)
 INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
--- Past co-op experiences for senior students and some juniors
-(2, 1, '2024-06-01', '2024-12-01', 4),
-(2, 23, '2023-09-01', '2024-03-01', 5),
-(5, 3, '2024-06-01', '2024-12-01', 3),
-(5, 19, '2023-09-01', '2024-03-01', 4),
-(8, 5, '2024-06-01', '2024-12-01', 5),
-(8, 27, '2023-09-01', '2024-03-01', 4),
-(11, 1, '2024-06-01', '2024-12-01', 4),
-(11, 16, '2023-09-01', '2024-03-01', 5),
-(12, 10, '2024-06-01', '2024-12-01', 3),
-(12, 23, '2023-09-01', '2024-03-01', 4),
-(14, 4, '2024-06-01', '2024-12-01', 5),
-(14, 26, '2023-09-01', '2024-03-01', 4),
-(17, 6, '2024-06-01', '2024-12-01', 4),
-(17, 48, '2023-09-01', '2024-03-01', 5),
-(20, 2, '2024-06-01', '2024-12-01', 5),
-(20, 11, '2023-09-01', '2024-03-01', 5),
-(23, 5, '2024-06-01', '2024-12-01', 4),
-(23, 27, '2023-09-01', '2024-03-01', 3),
-(26, 14, '2024-06-01', '2024-12-01', 4),
-(26, 26, '2023-09-01', '2024-03-01', 4),
-(29, 6, '2024-06-01', '2024-12-01', 5),
-(29, 48, '2023-09-01', '2024-03-01', 4),
--- Some junior students with one co-op experience
-(1, 1, '2024-01-01', '2024-06-01', 4),
-(4, 2, '2024-01-01', '2024-06-01', 5),
-(6, 4, '2024-01-01', '2024-06-01', 4),
-(9, 3, '2024-01-01', '2024-06-01', 3),
-(12, 10, '2024-01-01', '2024-06-01', 4),
-(15, 7, '2024-01-01', '2024-06-01', 4),
-(18, 18, '2024-01-01', '2024-06-01', 5),
-(21, 19, '2024-01-01', '2024-06-01', 3),
-(24, 4, '2024-01-01', '2024-06-01', 5),
-(30, 1, '2024-01-01', '2024-06-01', 4),
--- Additional past experiences for comprehensive data
-(1, 17, '2023-06-01', '2023-12-01', 3),
-(4, 29, '2023-06-01', '2023-12-01', 4),
-(6, 32, '2023-06-01', '2023-12-01', 5),
-(9, 42, '2023-06-01', '2023-12-01', 3),
-(12, 33, '2023-06-01', '2023-12-01', 4),
-(15, 25, '2023-06-01', '2023-12-01', 4),
-(18, 43, '2023-06-01', '2023-12-01', 4),
-(21, 44, '2023-06-01', '2023-12-01', 2),
-(24, 32, '2023-06-01', '2023-12-01', 5),
-(30, 22, '2023-06-01', '2023-12-01', 4),
--- More experiences to reach 75 rows
-(2, 13, '2022-09-01', '2023-03-01', 4),
-(5, 36, '2022-09-01', '2023-03-01', 3),
-(8, 42, '2022-09-01', '2023-03-01', 4),
-(11, 28, '2022-09-01', '2023-03-01', 5),
-(14, 35, '2022-09-01', '2023-03-01', 4),
-(17, 44, '2022-09-01', '2023-03-01', 3),
-(20, 29, '2022-09-01', '2023-03-01', 5),
-(23, 42, '2022-09-01', '2023-03-01', 3),
-(26, 33, '2022-09-01', '2023-03-01', 4),
-(29, 44, '2022-09-01', '2023-03-01', 4),
-(1, 24, '2022-06-01', '2022-12-01', 4),
-(4, 22, '2022-06-01', '2022-12-01', 5),
-(6, 26, '2022-06-01', '2022-12-01', 4),
-(9, 46, '2022-06-01', '2022-12-01', 3),
-(12, 30, '2022-06-01', '2022-12-01', 4),
-(15, 43, '2022-06-01', '2022-12-01', 4),
-(18, 45, '2022-06-01', '2022-12-01', 5),
-(21, 46, '2022-06-01', '2022-12-01', 2),
-(24, 35, '2022-06-01', '2022-12-01', 5),
-(30, 28, '2022-06-01', '2022-12-01', 4),
-(2, 30, '2022-01-01', '2022-06-01', 4),
-(5, 46, '2022-01-01', '2022-06-01', 3),
-(8, 33, '2022-01-01', '2022-06-01', 4),
-(11, 35, '2022-01-01', '2022-06-01', 5),
-(14, 41, '2022-01-01', '2022-06-01', 4),
-(17, 46, '2022-01-01', '2022-06-01', 3),
-(20, 39, '2022-01-01', '2022-06-01', 5),
-(23, 33, '2022-01-01', '2022-06-01', 3),
-(26, 41, '2022-01-01', '2022-06-01', 4),
-(29, 46, '2022-01-01', '2022-06-01', 4),
-(1, 31, '2021-09-01', '2022-03-01', 4),
-(4, 35, '2021-09-01', '2022-03-01', 5),
-(6, 41, '2021-09-01', '2022-03-01', 4),
-(9, 44, '2021-09-01', '2022-03-01', 3),
-(12, 42, '2021-09-01', '2022-03-01', 4);
+-- Past co-op experiences for senior students (chronological order, no overlaps)
+-- Student 2 (Liam Williams) - Business major, Senior
+(2, 30, '2022-01-01', '2022-06-01', 4), -- Project Coordinator (business-related)
+(2, 23, '2023-01-01', '2023-06-01', 5), -- Business Intelligence 
+(2, 10, '2024-01-01', '2024-06-01', 4), -- Business Analyst Co-op
+
+-- Student 5 (Olivia Miller) - Marketing major, Senior  
+(5, 36, '2022-06-01', '2022-12-01', 3), -- Sales Analytics (marketing-related)
+(5, 19, '2023-06-01', '2023-12-01', 4), -- Digital Marketing Co-op
+(5, 44, '2024-06-01', '2024-12-01', 3), -- Content Creator Co-op
+
+-- Student 8 (Ethan Taylor) - Finance major, Senior
+(8, 27, '2022-01-01', '2022-06-01', 4), -- Finance Intern
+(8, 33, '2023-01-01', '2023-06-01', 4), -- Operations Analyst
+(8, 23, '2024-01-01', '2024-06-01', 5), -- Business Intelligence
+
+-- Student 11 (Mia Jackson) - Computer Science major, Senior
+(11, 17, '2022-06-01', '2022-12-01', 3), -- Quality Assurance Co-op
+(11, 22, '2023-06-01', '2023-12-01', 5), -- Backend Developer Intern
+(11, 16, '2024-06-01', '2024-12-01', 4), -- Full Stack Developer
+
+-- Student 12 (Lucas White) - Business with Data Science minor, Junior
+(12, 30, '2023-01-01', '2023-06-01', 4), -- Project Coordinator
+(12, 33, '2024-01-01', '2024-06-01', 3), -- Operations Analyst
+
+-- Student 14 (Benjamin Martin) - Information Systems major, Senior
+(14, 26, '2022-06-01', '2022-12-01', 4), -- Systems Administrator
+(14, 35, '2023-06-01', '2023-12-01', 4), -- Database Administrator
+(14, 28, '2024-06-01', '2024-12-01', 5), -- Software QA Engineer
+
+-- Student 17 (Harper Lewis) - Design major, Senior
+(17, 48, '2023-01-01', '2023-06-01', 5), -- Product Design Intern
+(17, 44, '2024-01-01', '2024-06-01', 4), -- Content Creator Co-op
+
+-- Student 20 (Sebastian Hall) - Data Science major, Senior
+(20, 29, '2022-06-01', '2022-12-01', 5), -- Data Engineer Co-op
+(20, 11, '2023-06-01', '2023-12-01', 5), -- Machine Learning Intern
+(20, 47, '2024-06-01', '2024-12-01', 4), -- Computer Vision Co-op
+
+-- Student 23 (Luna King) - Business with Finance minor, Senior
+(23, 27, '2023-01-01', '2023-06-01', 3), -- Finance Intern
+(23, 23, '2024-01-01', '2024-06-01', 4), -- Business Intelligence
+
+-- Student 26 (Carter Hill) - Information Systems with Business minor, Senior
+(26, 35, '2023-06-01', '2023-12-01', 4), -- Database Administrator
+(26, 26, '2024-06-01', '2024-12-01', 4), -- Systems Administrator
+
+-- Student 29 (Lily Adams) - Design major, Senior
+(29, 48, '2023-06-01', '2023-12-01', 4), -- Product Design Intern
+(29, 44, '2024-06-01', '2024-12-01', 5), -- Content Creator Co-op
+
+-- Junior students with one co-op experience (appropriate to their majors/skills)
+-- Student 1 (Charlie Stout) - Computer Science major
+(1, 17, '2024-01-01', '2024-06-01', 4), -- Quality Assurance Co-op
+
+-- Student 4 (Noah Davis) - Data Science major
+(4, 29, '2024-01-01', '2024-06-01', 5), -- Data Engineer Co-op
+
+-- Student 6 (Mason Wilson) - Cybersecurity major
+(6, 32, '2024-01-01', '2024-06-01', 4), -- Security Analyst Co-op
+
+-- Student 9 (Isabella Anderson) - Psychology major
+(9, 42, '2024-01-01', '2024-06-01', 3), -- HR Analytics Intern
+
+-- Student 15 (Amelia Garcia) - Chemical Engineering major
+(15, 43, '2024-01-01', '2024-06-01', 4), -- Manufacturing Engineer
+
+-- Student 18 (Alexander Lee) - Electrical Engineering major
+(18, 45, '2024-01-01', '2024-06-01', 5), -- Automation Engineer
+
+-- Student 21 (Aria Allen) - Marketing major
+(21, 36, '2024-01-01', '2024-06-01', 3), -- Sales Analytics Intern
+
+-- Student 24 (Grayson Wright) - Cybersecurity major
+(24, 32, '2024-01-01', '2024-06-01', 5), -- Security Analyst Co-op
+
+-- Student 30 (Jack Baker) - Computer Science major
+(30, 22, '2024-01-01', '2024-06-01', 4), -- Backend Developer Intern
+
+-- Additional past experiences (ensuring chronological order and major alignment)
+(2, 50, '2021-06-01', '2021-12-01', 4), -- Business Development (business major)
+(5, 46, '2021-09-01', '2022-03-01', 3), -- Customer Success Intern (marketing related)
+(8, 42, '2021-09-01', '2022-03-01', 4), -- HR Analytics Intern (business related)
+(11, 31, '2021-09-01', '2022-03-01', 5), -- Web Developer Intern (CS major)
+(14, 41, '2021-09-01', '2022-03-01', 4), -- Network Engineer Co-op (IS major)
+(17, 38, '2022-06-01', '2022-12-01', 3), -- Technical Writer (design/communication)
+(20, 40, '2021-09-01', '2022-03-01', 5), -- AI Research Intern (data science)
+(23, 42, '2022-06-01', '2022-12-01', 3), -- HR Analytics Intern (business)
+(26, 49, '2022-09-01', '2023-03-01', 4), -- Infrastructure Engineer (IS major)
+(29, 39, '2022-09-01', '2023-03-01', 4), -- Blockchain Developer (design/tech)
+
+-- More chronological experiences
+(1, 31, '2023-06-01', '2023-12-01', 4), -- Web Developer Intern (CS major)
+(4, 37, '2023-06-01', '2023-12-01', 5), -- IoT Developer Co-op (data science/tech)
+(6, 49, '2023-06-01', '2023-12-01', 4), -- Infrastructure Engineer (cybersecurity)
+(9, 46, '2023-06-01', '2023-12-01', 3), -- Customer Success Intern (psychology)
+(12, 42, '2022-06-01', '2022-12-01', 4), -- HR Analytics Intern (business)
+(15, 25, '2023-06-01', '2023-12-01', 4), -- Research Assistant (chemical eng)
+(18, 43, '2023-06-01', '2023-12-01', 4), -- Manufacturing Engineer (electrical eng)
+(21, 44, '2023-06-01', '2023-12-01', 2), -- Content Creator Co-op (marketing)
+(24, 41, '2023-06-01', '2023-12-01', 5), -- Network Engineer Co-op (cybersecurity)
+(30, 1, '2023-06-01', '2023-12-01', 4), -- Software Developer Intern (CS major)
+
+-- Final chronological entries
+(4, 2, '2022-09-01', '2023-03-01', 5), -- Data Analyst Co-op (data science)
+(6, 4, '2022-09-01', '2023-03-01', 5), -- Cybersecurity Intern
+(9, 10, '2022-09-01', '2023-03-01', 3), -- Business Analyst Co-op (psychology/business)
+(15, 7, '2022-09-01', '2023-03-01', 4), -- Biotech Research Co-op (chemical eng)
+(18, 18, '2022-09-01', '2023-03-01', 5), -- Robotics Engineer Intern (electrical eng)
+(21, 19, '2022-09-01', '2023-03-01', 3), -- Digital Marketing Co-op (marketing)
+(30, 34, '2022-09-01', '2023-03-01', 4); -- Android Developer (CS major)
 
 -- Views Position relationships (125 rows - bridge table for student interest)
 INSERT INTO viewsPos (studentId, coopPositionId, preference) VALUES
@@ -415,18 +601,18 @@ INSERT INTO viewsPos (studentId, coopPositionId, preference) VALUES
 
 -- Creates Position relationships (50 rows - bridge table for employers creating positions)
 INSERT INTO createsPos (employerId, coopPositionId) VALUES
-(31, 1), (31, 16), (31, 22), (31, 31), (31, 34),
-(32, 2), (32, 11), (32, 29), (32, 40), (32, 47),
-(33, 8), (33, 13), (33, 21), (33, 41), (33, 49),
-(34, 7), (34, 15), (34, 25), (34, 38), (34, 42),
-(35, 5), (35, 23), (35, 27), (35, 33), (35, 39),
-(36, 6), (36, 12), (36, 18), (36, 43), (36, 45),
-(37, 4), (37, 9), (37, 32), (37, 37), (37, 41),
-(38, 7), (38, 15), (38, 25), (38, 38), (38, 42),
-(39, 3), (39, 17), (39, 19), (39, 44), (39, 48),
-(40, 10), (40, 13), (40, 30), (40, 46), (40, 50),
-(31, 14), (32, 20), (33, 26), (34, 28), (35, 35),
-(36, 24), (37, 36), (38, 39), (39, 44), (40, 42);
+(37, 1), (37, 16), (37, 22), (37, 31), (37, 34),
+(38, 2), (38, 11), (38, 29), (38, 40), (38, 47),
+(39, 8), (39, 13), (39, 21), (39, 41), (39, 49),
+(40, 7), (40, 15), (40, 25), (40, 38), (40, 42),
+(41, 5), (41, 23), (41, 27), (41, 33), (41, 39),
+(42, 6), (42, 12), (42, 18), (42, 43), (42, 45),
+(43, 4), (43, 9), (43, 32), (43, 37), (43, 41),
+(44, 7), (44, 15), (44, 25), (44, 38), (44, 42),
+(37, 3), (37, 17), (37, 19), (37, 44), (37, 48),
+(38, 10), (38, 13), (38, 30), (38, 46), (38, 50),
+(39, 14), (40, 20), (41, 26), (42, 28), (43, 35),
+(44, 24), (37, 36), (38, 39), (39, 44), (40, 42);
 
 -- Applications table (60 rows - weak entity)
 INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
@@ -500,46 +686,138 @@ INSERT INTO appliesToApp (applicationId, studentId) VALUES
 (41, 10), (42, 11), (43, 12), (44, 13), (45, 14), (46, 15), (47, 16), (48, 17), (49, 18), (50, 19),
 (51, 20), (52, 21), (53, 22), (54, 23), (55, 24), (56, 25), (57, 26), (58, 27), (59, 28), (60, 29);
 
--- Reviews App relationships (150 rows - bridge table for employers reviewing applications)
+-- Reviews App relationships (125 rows - bridge table for employers reviewing applications)
 INSERT INTO reviewsApp (applicationId, employerId, flag) VALUES
--- Applications for TechNova positions (employer 31)
-(1, 31, FALSE), (17, 31, FALSE), (23, 31, FALSE), (31, 31, FALSE), (32, 31, FALSE), (42, 31, FALSE), (47, 31, FALSE), (53, 31, FALSE),
--- Applications for DataFlow positions (employer 32)
-(2, 32, FALSE), (5, 32, FALSE), (21, 32, FALSE), (35, 32, FALSE), (44, 32, FALSE), (51, 32, FALSE),
--- Applications for GreenEnergy positions (employer 33)
-(4, 33, FALSE), (14, 33, FALSE), (28, 33, FALSE), (34, 33, FALSE), (43, 33, FALSE), (58, 33, FALSE),
--- Applications for HealthTech positions (employer 34)
-(8, 34, FALSE), (26, 34, FALSE), (38, 34, FALSE), (56, 34, FALSE),
--- Applications for FinanceFirst positions (employer 35)
-(3, 35, FALSE), (9, 35, FALSE), (24, 35, FALSE), (33, 35, FALSE), (39, 35, FALSE), (45, 35, FALSE),
--- Applications for AutoInnovate positions (employer 36)
-(18, 36, FALSE), (52, 36, FALSE),
--- Applications for CloudSecure positions (employer 37)
-(7, 37, FALSE), (19, 37, FALSE), (25, 37, FALSE), (37, 37, FALSE), (49, 37, FALSE), (55, 37, FALSE),
--- Applications for BioResearch positions (employer 38)
-(26, 38, FALSE), (38, 38, FALSE), (48, 38, FALSE),
--- Applications for EcoDesign positions (employer 39)
-(6, 39, FALSE), (22, 39, FALSE), (40, 39, FALSE), (48, 39, FALSE),
--- Applications for LogiFlow positions (employer 40)
-(10, 40, FALSE), (13, 40, FALSE), (20, 40, FALSE), (50, 40, FALSE), (54, 40, FALSE),
--- Additional reviews for comprehensive coverage
-(11, 36, FALSE), (12, 31, FALSE), (15, 37, FALSE), (16, 36, FALSE), (27, 37, FALSE), (29, 36, FALSE), (30, 39, FALSE),
-(41, 36, FALSE), (46, 36, FALSE), (57, 31, FALSE), (59, 31, FALSE), (60, 31, FALSE),
--- Cross-reviews where multiple employers review same applications
-(1, 32, FALSE), (2, 31, FALSE), (3, 40, FALSE), (4, 39, FALSE), (5, 31, FALSE), (6, 34, FALSE),
-(7, 31, FALSE), (8, 38, FALSE), (9, 40, FALSE), (10, 34, FALSE), (11, 40, FALSE), (12, 32, FALSE),
-(13, 35, FALSE), (14, 39, FALSE), (15, 31, FALSE), (16, 40, FALSE), (17, 32, FALSE), (18, 39, FALSE),
-(19, 31, FALSE), (20, 35, FALSE), (21, 31, FALSE), (22, 39, FALSE), (23, 32, FALSE), (24, 40, FALSE),
-(25, 31, FALSE), (26, 34, FALSE), (27, 31, FALSE), (28, 39, FALSE), (29, 40, FALSE), (30, 34, FALSE),
-(31, 32, FALSE), (32, 37, FALSE), (33, 31, FALSE), (34, 40, FALSE), (35, 31, FALSE), (36, 39, FALSE),
-(37, 31, FALSE), (38, 34, FALSE), (39, 31, FALSE), (40, 34, FALSE), (41, 40, FALSE), (42, 32, FALSE),
-(43, 31, FALSE), (44, 39, FALSE), (45, 31, FALSE), (46, 40, FALSE), (47, 37, FALSE), (48, 34, FALSE),
-(49, 31, FALSE), (50, 31, FALSE), (51, 31, FALSE), (52, 40, FALSE), (53, 37, FALSE), (54, 31, FALSE),
-(55, 31, FALSE), (56, 38, FALSE), (57, 37, FALSE), (58, 31, FALSE), (59, 40, FALSE), (60, 36, FALSE),
--- Additional reviews to reach 150 rows
-(1, 33, FALSE), (1, 34, FALSE), (2, 33, FALSE), (2, 34, FALSE), (3, 31, FALSE), (3, 32, FALSE),
-(4, 31, FALSE), (4, 32, FALSE), (5, 33, FALSE), (5, 34, FALSE), (6, 31, FALSE), (6, 32, FALSE),
-(7, 33, FALSE), (7, 34, FALSE), (8, 31, FALSE), (8, 32, FALSE), (9, 31, FALSE), (9, 32, FALSE),
-(10, 31, FALSE), (10, 32, FALSE), (11, 31, FALSE), (11, 32, FALSE), (12, 33, FALSE), (12, 34, FALSE),
-(13, 31, FALSE), (13, 32, FALSE), (14, 31, FALSE), (14, 32, FALSE), (15, 33, FALSE), (15, 34, FALSE),
-(16, 31, FALSE), (16, 32, FALSE), (17, 33, FALSE), (17, 34, FALSE), (18, 31, FALSE), (18, 32, FALSE);
+-- Applications reviewed by employers who created those positions
+-- Application 1 (coopPositionId 1) - created by employer 37
+(1, 37, FALSE),
+-- Application 2 (coopPositionId 2) - created by employer 38
+(2, 38, FALSE),
+-- Application 3 (coopPositionId 5) - created by employer 41
+(3, 41, FALSE),
+-- Application 4 (coopPositionId 8) - created by employer 39
+(4, 39, FALSE),
+-- Application 5 (coopPositionId 11) - created by employer 38
+(5, 38, FALSE),
+-- Application 6 (coopPositionId 3) - created by employer 37
+(6, 37, FALSE),
+-- Application 7 (coopPositionId 4) - created by employer 43
+(7, 43, FALSE),
+-- Application 8 (coopPositionId 7) - created by employer 40 and 44
+(8, 40, FALSE), (8, 44, FALSE),
+-- Application 9 (coopPositionId 23) - created by employer 41
+(9, 41, FALSE),
+-- Application 10 (coopPositionId 42) - created by employer 40
+(10, 40, FALSE),
+-- Application 11 (coopPositionId 18) - created by employer 42
+(11, 42, FALSE),
+-- Application 12 (coopPositionId 16) - created by employer 37
+(12, 37, FALSE),
+-- Application 13 (coopPositionId 10) - created by employer 38
+(13, 38, FALSE),
+-- Application 14 (coopPositionId 21) - created by employer 39
+(14, 39, FALSE),
+-- Application 15 (coopPositionId 26) - created by employer 39
+(15, 39, FALSE),
+-- Application 16 (coopPositionId 45) - created by employer 42
+(16, 42, FALSE),
+-- Application 17 (coopPositionId 22) - created by employer 37
+(17, 37, FALSE),
+-- Application 18 (coopPositionId 6) - created by employer 42
+(18, 42, FALSE),
+-- Application 19 (coopPositionId 9) - created by employer 43
+(19, 43, FALSE),
+-- Application 20 (coopPositionId 50) - created by employer 38
+(20, 38, FALSE),
+-- Application 21 (coopPositionId 11) - created by employer 38
+(21, 38, FALSE),
+-- Application 22 (coopPositionId 19) - created by employer 37
+(22, 37, FALSE),
+-- Application 23 (coopPositionId 31) - created by employer 37
+(23, 37, FALSE),
+-- Application 24 (coopPositionId 27) - created by employer 41
+(24, 41, FALSE),
+-- Application 25 (coopPositionId 32) - created by employer 43
+(25, 43, FALSE),
+-- Application 26 (coopPositionId 25) - created by employer 40 and 44
+(26, 40, FALSE), (26, 44, FALSE),
+-- Application 27 (coopPositionId 35) - created by employer 41
+(27, 41, FALSE),
+-- Application 28 (coopPositionId 49) - created by employer 39
+(28, 39, FALSE),
+-- Application 29 (coopPositionId 43) - created by employer 42
+(29, 42, FALSE),
+-- Application 30 (coopPositionId 48) - created by employer 37
+(30, 37, FALSE),
+-- Application 31 (coopPositionId 34) - created by employer 37
+(31, 37, FALSE),
+-- Application 32 (coopPositionId 22) - created by employer 37
+(32, 37, FALSE),
+-- Application 33 (coopPositionId 23) - created by employer 41
+(33, 41, FALSE),
+-- Application 34 (coopPositionId 49) - created by employer 39
+(34, 39, FALSE),
+-- Application 35 (coopPositionId 29) - created by employer 38
+(35, 38, FALSE),
+-- Application 36 (coopPositionId 46) - created by employer 38
+(36, 38, FALSE),
+-- Application 37 (coopPositionId 41) - created by employer 39 and 43
+(37, 39, FALSE), (37, 43, FALSE),
+-- Application 38 (coopPositionId 25) - created by employer 40 and 44
+(38, 40, FALSE), (38, 44, FALSE),
+-- Application 39 (coopPositionId 39) - created by employer 41
+(39, 41, FALSE),
+-- Application 40 (coopPositionId 44) - created by employer 37 and 39
+(40, 37, FALSE), (40, 39, FALSE),
+-- Application 41 (coopPositionId 45) - created by employer 42
+(41, 42, FALSE),
+-- Application 42 (coopPositionId 34) - created by employer 37
+(42, 37, FALSE),
+-- Application 43 (coopPositionId 33) - created by employer 41
+(43, 41, FALSE),
+-- Application 44 (coopPositionId 47) - created by employer 38
+(44, 38, FALSE),
+-- Application 45 (coopPositionId 35) - created by employer 41
+(45, 41, FALSE),
+-- Application 46 (coopPositionId 43) - created by employer 42
+(46, 42, FALSE),
+-- Application 47 (coopPositionId 1) - created by employer 37
+(47, 37, FALSE),
+-- Application 48 (coopPositionId 38) - created by employer 40 and 44
+(48, 40, FALSE), (48, 44, FALSE),
+-- Application 49 (coopPositionId 37) - created by employer 43
+(49, 43, FALSE),
+-- Application 50 (coopPositionId 50) - created by employer 38
+(50, 38, FALSE),
+-- Application 51 (coopPositionId 40) - created by employer 38
+(51, 38, FALSE),
+-- Application 52 (coopPositionId 36) - created by employer 37
+(52, 37, FALSE),
+-- Application 53 (coopPositionId 31) - created by employer 37
+(53, 37, FALSE),
+-- Application 54 (coopPositionId 30) - created by employer 38
+(54, 38, FALSE),
+-- Application 55 (coopPositionId 4) - created by employer 43
+(55, 43, FALSE),
+-- Application 56 (coopPositionId 15) - created by employer 40 and 44
+(56, 40, FALSE), (56, 44, FALSE),
+-- Application 57 (coopPositionId 17) - created by employer 37
+(57, 37, FALSE),
+-- Application 58 (coopPositionId 20) - created by employer 38
+(58, 38, FALSE),
+-- Application 59 (coopPositionId 28) - created by employer 41
+(59, 41, FALSE),
+-- Application 60 (coopPositionId 14) - created by employer 39
+(60, 39, FALSE),
+-- Additional reviews from the same employers for positions they created
+(1, 38, FALSE), (2, 37, FALSE), (3, 40, FALSE), (4, 38, FALSE), (5, 37, FALSE),
+(6, 38, FALSE), (7, 40, FALSE), (9, 38, FALSE), (10, 44, FALSE), (11, 43, FALSE),
+(12, 38, FALSE), (13, 40, FALSE), (14, 40, FALSE), (15, 40, FALSE), (16, 43, FALSE),
+(17, 38, FALSE), (18, 43, FALSE), (19, 40, FALSE), (20, 37, FALSE), (21, 37, FALSE),
+(22, 38, FALSE), (23, 38, FALSE), (24, 40, FALSE), (25, 40, FALSE), (27, 40, FALSE),
+(28, 40, FALSE), (29, 43, FALSE), (30, 38, FALSE), (31, 38, FALSE), (32, 38, FALSE),
+(33, 40, FALSE), (34, 40, FALSE), (35, 37, FALSE), (36, 37, FALSE), (39, 40, FALSE),
+(41, 43, FALSE), (42, 38, FALSE), (43, 40, FALSE), (44, 37, FALSE), (45, 40, FALSE),
+(46, 43, FALSE), (47, 38, FALSE), (50, 37, FALSE), (51, 37, FALSE), (52, 38, FALSE),
+(53, 38, FALSE), (54, 37, FALSE), (55, 40, FALSE), (57, 38, FALSE), (58, 37, FALSE),
+(59, 40, FALSE), (60, 40, FALSE);
