@@ -106,7 +106,6 @@ def get_advisor_student_applications(advisorID):
 @applications.route('/applicatinos', methods=['GET'])
 def get_applications(coopPositionId):
        current_app.logger.info('GET /applications')
-       current_app.logger.info('GET /applications')
        application_info = request.json
        coop_position_info = request.json
        datetime_applied = application_info['dateTimeApplied']
@@ -136,3 +135,36 @@ def get_applications(coopPositionId):
        the_response = make_response(jsonify(theData))
        the_response.status_code = 200
        return the_response
+
+# Student applies to a position
+@applications.route('/users/appliesToApp/applications', methods=['POST'])
+def create_application():
+     current_app.logger.info('GET /applications')
+     application_info = request.json
+     datetime_applied = application_info['dateTimeApplied']
+     status = application_info['status']
+     resume = application_info['resume']
+     gpa = application_info['gpa']
+     cover_letter = application_info['coverLetter']
+     coop_position_id = application_info['coopPositionId']
+     application_id = application_info['applicationId']
+
+
+     query = '''
+INSERT INTO applications
+VALUES (dateTimeApplied = %s,
+        status = %s,
+        resume = %s,
+        gpa = %s,
+        coverLetter = %s,
+        coopPositionId = %s,
+        applicationId = %s);
+        '''
+     data = (datetime_applied, status, resume, gpa, cover_letter,
+             coop_position_id, application_id)
+     
+     cursor = db.get_db().cursor()
+     r = cursor.execute(query, data)
+     db.get_db().commit()
+     return 'application submitted!'
+
