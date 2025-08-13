@@ -168,3 +168,39 @@ def approve_position(pos_id):
     the_response = make_response(jsonify({"ok": True, "positionId": pos_id, "status": "approved"}))
     the_response.status_code = 200
     return the_response
+
+# Admin deletes an unapproved/invalid posting (only when flagged = TRUE)
+@coopPositions.route('/coopPositions/<int:pos_id>', methods=['DELETE'])
+def delete_unapproved_position(pos_id):
+    current_app.logger.info('DELETE /coopPositions/%s route', pos_id)
+
+    query = '''
+        DELETE FROM coopPositions
+        WHERE coopPositionId = %s
+          AND flagged = TRUE
+    '''
+
+    cursor = db.get_db().cursor()
+    try:
+        cursor.execute(query, (pos_id,))
+        if cursor.rowcount == 0:
+            the_response = make_response(jsonify({
+                "ok": False,
+                "error": "not found or already approved"
+            }))
+            the_response.status_code = 409
+            return the_response
+
+        db.get_db().commit()
+        the_response = make_response(jsonify({"ok": True, "positionId": pos_id, "deleted": True}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        # Likely blocked by foreign key references (e.g., applications)
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": "cannot delete due to related records"
+        }))
+        the_response.status_code = 409
+        return the_response
