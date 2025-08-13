@@ -51,3 +51,38 @@ def update_users():
     r = cursor.execute(query, data)
     db.get_db().commit()
     return 'user updated!'
+
+# Admin creates a user (student/employer/advisor)
+@users.route('/users', methods=['POST'])
+def create_user():
+    current_app.logger.info('POST /users route')
+
+    b = request.json or {}
+    user_id = b['userId']
+    first_name = b['firstName']
+    last_name = b['lastName']
+    email = b['email']
+    phone = b.get('phone')
+    major = b.get('major')
+    minor = b.get('minor')
+    college = b.get('college')
+    grad_year = b.get('gradYear')
+    grade = b.get('grade')
+    company_profile_id = b.get('companyProfileId')   
+    industry = b.get('industry')
+    demographic_id = b.get('demographicId')        
+
+    query = '''
+        INSERT INTO users
+            (userId, firstName, lastName, demographicId, email, phone,
+             major, minor, college, gradYear, grade, companyProfileId, industry)
+        VALUES
+            (%s, %s, %s, %s, %s, %s,
+             %s, %s, %s, %s, %s, %s, %s);
+    '''
+    data = (user_id, first_name, last_name, demographic_id, email, phone,major, minor, college, grad_year, grade, company_profile_id, industry)
+
+    cur = db.get_db().cursor()
+    cur.execute(query, data)
+    db.get_db().commit()
+    return 'user created!', 201
