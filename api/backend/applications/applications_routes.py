@@ -42,6 +42,30 @@ def get_student_applications(userID):
     the_response.status_code = 200
     return the_response
 
+# student sees how many positions they have applied to
+@applications.route('/student/<studentID>/applications', methods=['GET'])
+def get_student_applications(studentID):
+    current_app.logger.info('GET /student/<studentID>/applications route')
+    
+    query = '''
+        SELECT a.status, 
+            COUNT(*) AS ApplicationCount
+        FROM applications a
+            JOIN appliesToApp ata ON a.applicationId = ata.applicationId
+        WHERE ata.studentId = {0}
+        GROUP BY a.status
+
+    '''.format(studentID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 
 # Advisor viewing all their advisees' application statuses
 @applications.route('/advisor/<advisorID>/students/applications', methods=['GET'])
