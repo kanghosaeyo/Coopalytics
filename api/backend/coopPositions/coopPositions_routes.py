@@ -203,7 +203,7 @@ def delete_unapproved_position(pos_id):
         the_response.status_code = 409
         return the_response
     
-# Admin flags a position (set or clear): PUT /coopPositions/<id>/flag/<value> where value is 0 or 1
+# Admin flags a position 
 @coopPositions.route('/coopPositions/<int:pos_id>/flag/<int:value>', methods=['PUT'])
 def set_position_flag(pos_id, value):
     current_app.logger.info('PUT /coopPositions/%s/flag/%s route', pos_id, value)
