@@ -21,7 +21,7 @@ companyProfile = Blueprint('companyProfiles', __name__)
 # Remember, we are using POST routes to create new entries
 # in the database. 
 @companyProfile.route('/companyProfiles', methods=['POST'])
-def add_new_product():
+def createCompanyProfile():
 
 #     INSERT INTO companyProfiles
 # VALUE (20000, 'Google',
