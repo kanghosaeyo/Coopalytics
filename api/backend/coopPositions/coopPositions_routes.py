@@ -82,3 +82,36 @@ def get_required_skills(studentID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Admin reviews positions before they go live 
+@coopPositions.route('/coopPositions/pending', methods=['GET'])
+def get_pending_positions():
+    current_app.logger.info('GET /coopPositions/pending route')
+
+    query = '''
+        SELECT
+            cp.coopPositionId,
+            cp.title,
+            cp.location,
+            cp.description,
+            cp.hourlyPay,
+            cp.deadline,
+            cp.startDate,
+            cp.endDate,
+            cp.industry,
+            com.name AS companyName
+        FROM coopPositions cp
+        LEFT JOIN createsPos cr  ON cr.coopPositionId = cp.coopPositionId
+        LEFT JOIN users u        ON u.userId = cr.employerId
+        LEFT JOIN companyProfiles com ON com.companyProfileId = u.companyProfileId
+        WHERE cp.flagged = FALSE
+        ORDER BY cp.deadline IS NULL, cp.deadline ASC, cp.coopPositionId DESC
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
