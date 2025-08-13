@@ -52,11 +52,12 @@ def update_users():
     db.get_db().commit()
     return 'user updated!'
 
-# Employer views student profile [Phoebe, 3]
-@users.route('/employer/<reviewsApp>/applications', methods=['GET'])
+# Employer views student profile
+@users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
 def view_users():
-    current_app.logger.info('GET /employer/<reviewsApp>/applications')
+    current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
     user_info = request.json
+    application_info = request.json
     user_id = user_info['userId']
     first_name = user_info['firstName']
     last_name = user_info['lastName']
@@ -66,9 +67,9 @@ def view_users():
     college = user_info['college']
     grade = user_info['grade']
     grad_year = user_info['gradYear']
-    gpa = user_info['gpa']
-    resume = user_info['resume']
-    cover_letter = user_info['coverLetter']
+    gpa = application_info['gpa']
+    resume = application_info['resume']
+    cover_letter = application_info['coverLetter']
 
 
     query = '''
@@ -82,6 +83,39 @@ def view_users():
     r = cursor.execute(query, data)
     db.get_db().commit()
 
+
+    theData = cursor.fetchall()
+   
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Employer filters student profiles
+@users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
+def view_users():
+    current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
+    user_info = request.json
+    skill_info = request.json
+    user_id = user_info['userId']
+    first_name = user_info['firstName']
+    last_name = user_info['lastName']
+    name = skill_info['name']
+
+    query = '''
+        SELECT u.userId, u.firstName, u.lastName
+        FROM users u JOIN skillDetails sd
+        ON u.userId = sd.studentId
+        JOIN skills s
+        ON sd.skillId = s.skillId
+        WHERE s.name = %s
+        OR s.name = %s
+        OR s.name = %s
+        AND u.gradYear = %s
+        AND u.major = %s;'''
+    data = (first_name, last_name, name, name, name)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
 
     theData = cursor.fetchall()
    
