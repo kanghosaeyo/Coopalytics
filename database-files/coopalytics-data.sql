@@ -1,4 +1,4 @@
--- Applications table (60 rows - with realistic GPA and skill matching)
+-- Updated Applications table (60 rows - with realistic GPA and skill matching)
 INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
 -- Applications that match student majors, GPAs, and skills
 -- Charlie Stout (CS major, GPA 3.7, has Python, Java, JavaScript, React, etc.)
@@ -59,9 +59,9 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 (27, '2025-02-02 08:50:00', 'Draft', 'Resume content for Benjamin Martin...', 3.7, NULL, 26), -- Systems Administrator (req GPA 3.0, skill 8-AWS) ✓
 (28, '2025-02-04 12:30:00', 'Submitted', 'Resume content for Benjamin Martin...', 3.7, 'Database administration...', 35), -- Database Administrator (req GPA 3.3, skill 6-SQL) ✓
 
--- Amelia Garcia (Chemical Eng major, GPA 3.5, has Python, Data Analysis, Excel, etc.)
-(29, '2025-02-06 14:40:00', 'Under Review', 'Resume content for Amelia Garcia...', 3.5, 'Chemical engineering application...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
-(30, '2025-02-09 11:55:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.5, 'Research assistant focus...', 25), -- Research Assistant (req GPA 3.4, skill 12-Data Analysis) ✓
+-- Amelia Garcia (Physics major - CHANGED TO COLLEGE OF SCIENCE, GPA 3.5, has Python, Data Analysis, Excel, etc.)
+(29, '2025-02-06 14:40:00', 'Under Review', 'Resume content for Amelia Garcia...', 3.5, 'Physics research application...', 25), -- Research Assistant (req GPA 3.4, skill 12-Data Analysis) ✓
+(30, '2025-02-09 11:55:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.5, 'Data analysis focus...', 15), -- Healthcare Data Analyst (req GPA 3.3, skill 12-Data Analysis) ✓
 
 -- Henry Rodriguez (CS with Math minor, GPA 3.2, has Python, Java, JavaScript, C++)
 (31, '2025-02-11 16:25:00', 'Draft', 'Resume content for Henry Rodriguez...', 3.2, NULL, 1), -- Software Developer (req GPA 3.0, skill 1-Python) ✓
@@ -99,8 +99,8 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 (47, '2025-01-30 13:25:00', 'Draft', 'Resume content for Grayson Wright...', 3.5, NULL, 4), -- Cybersecurity Intern (req GPA 3.3, skill 6-SQL) ✓
 (48, '2025-02-01 16:15:00', 'Submitted', 'Resume content for Grayson Wright...', 3.5, 'Network engineering interest...', 41), -- Network Engineer (req GPA 3.1, skill 8-AWS) ✓
 
--- Chloe Lopez (Bioengineering major, GPA 3.6, has Python, Data Analysis, etc.)
-(49, '2025-02-03 11:00:00', 'Under Review', 'Resume content for Chloe Lopez...', 3.6, 'Bioengineering research passion...', 7), -- Biotech Research (req GPA 3.5, skill 12-Data Analysis) ✓
+-- Chloe Lopez (Biology major - CHANGED TO COLLEGE OF SCIENCE, GPA 3.6, has Python, Data Analysis, etc.)
+(49, '2025-02-03 11:00:00', 'Under Review', 'Resume content for Chloe Lopez...', 3.6, 'Biology research passion...', 7), -- Biotech Research (req GPA 3.5, skill 12-Data Analysis) ✓
 (50, '2025-02-05 14:45:00', 'Submitted', 'Resume content for Chloe Lopez...', 3.6, 'Healthcare data focus...', 15), -- Healthcare Data Analyst (req GPA 3.3, skill 12-Data Analysis) ✓
 
 -- Carter Hill (Information Systems with Business minor, GPA 3.4, has Python, SQL, Excel, Project Management)
@@ -111,9 +111,9 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 (53, '2025-02-12 15:50:00', 'Under Review', 'Resume content for Zoey Scott...', 3.7, 'Environmental focus...', 8), -- Environmental Engineer (req GPA 3.1, skill 15-Project Management) ✓
 (54, '2025-02-14 10:25:00', 'Submitted', 'Resume content for Zoey Scott...', 3.7, 'Cloud engineering passion...', 20), -- Cloud Engineer (req GPA 3.5, skill 8-AWS) ✓
 
--- Luke Green (Mechanical Eng major, GPA 3.3, has C++, C#, Excel, Project Management)
-(55, '2025-02-16 13:40:00', 'Draft', 'Resume content for Luke Green...', 3.3, NULL, 18), -- Robotics Engineer (req GPA 3.4, skill 21-C++) ❌ GPA too low
-(56, '2025-02-18 08:55:00', 'Submitted', 'Resume content for Luke Green...', 3.3, 'Manufacturing engineering...', 43), -- Manufacturing Engineer (req GPA 3.3, skill 15-Project Management) ✓
+-- Luke Green (Chemistry major - CHANGED TO COLLEGE OF SCIENCE, GPA 3.3, has Python, Data Analysis, Excel, Project Management)
+(55, '2025-02-16 13:40:00', 'Draft', 'Resume content for Luke Green...', 3.3, NULL, 25), -- Research Assistant (req GPA 3.4, skill 12-Data Analysis) ✗ GPA too low
+(56, '2025-02-18 08:55:00', 'Submitted', 'Resume content for Luke Green...', 3.3, 'Chemical research...', 7), -- Biotech Research (req GPA 3.5, skill 12-Data Analysis) ✗ GPA too low
 
 -- Lily Adams (Design major, GPA 3.9, has Adobe Creative, UI/UX Design, Excel, PowerPoint)
 (57, '2025-02-20 14:10:00', 'Under Review', 'Resume content for Lily Adams...', 3.9, 'Product design interest...', 48), -- Product Design Intern (req GPA 3.0, skill 40-UI/UX Design) ✓
@@ -121,7 +121,9 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 
 -- Jack Baker (CS major, GPA 3.5, has Python, Java, JavaScript, React, Git)
 (59, '2025-01-13 16:20:00', 'Draft', 'Resume content for Jack Baker...', 3.5, NULL, 16), -- Full Stack Developer (req GPA 3.2, skill 3-JavaScript) ✓
-(60, '2025-01-15 12:45:00', 'Submitted', 'Resume content for Jack Baker...', 3.5, 'Backend development interest...', 22); -- Backend Developer (req GPA 3.0, skill 2-Java) ✓-- Sample data for coopalytics database
+(60, '2025-01-15 12:45:00', 'Submitted', 'Resume content for Jack Baker...', 3.5, 'Backend development interest...', 22); -- Backend Developer (req GPA 3.0, skill 2-Java) ✓
+
+-- Sample data for coopalytics database
 USE `coopalytics`;
 
 -- Skills table (40 rows - strong entity)
@@ -205,39 +207,39 @@ INSERT INTO companyProfiles (companyProfileId, name, bio, industry, websiteLink)
 (34, 'DroneLogistics Co', 'Drone delivery and aerial logistics solutions.', 'Logistics', 'www.dronelogistics.com'),
 (35, 'WellnessTech Hub', 'Mental health and wellness technology platform.', 'Healthcare', 'www.wellnesstech.com');
 
--- Users table (48 rows - strong entity, mix of students, advisors, employers, and admins)
+-- Users table (48 rows - strong entity, mix of students, advisors, employers, and admins) - UPDATED WITH COLLEGES
 INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, college, gradYear, grade, companyProfileId, industry) VALUES
--- Students (userId 1-30)
-(1, 'Charlie', 'Stout', 'c.stout@student.edu', '555-0101', 'Computer Science', 'Mathematics', 'NEU', '2026', 'Junior', NULL, NULL),
-(2, 'Liam', 'Williams', 'l.williams@student.edu', '555-0102', 'Business', 'Economics', 'NEU', '2025', 'Senior', NULL, NULL),
-(3, 'Sophia', 'Brown', 's.brown@student.edu', '555-0103', 'Engineering', 'Physics', 'NEU', '2027', 'Sophomore', NULL, NULL),
-(4, 'Noah', 'Davis', 'n.davis@student.edu', '555-0104', 'Data Science', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(5, 'Olivia', 'Miller', 'o.miller@student.edu', '555-0105', 'Marketing', 'Psychology', 'NEU', '2025', 'Senior', NULL, NULL),
-(6, 'Mason', 'Wilson', 'm.wilson@student.edu', '555-0106', 'Cybersecurity', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(7, 'Ava', 'Moore', 'a.moore@student.edu', '555-0107', 'Biomedical Eng', 'Chemistry', 'NEU', '2027', 'Sophomore', NULL, NULL),
-(8, 'Ethan', 'Taylor', 'e.taylor@student.edu', '555-0108', 'Finance', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
-(9, 'Isabella', 'Anderson', 'i.anderson@student.edu', '555-0109', 'Psychology', 'Sociology', 'NEU', '2026', 'Junior', NULL, NULL),
-(10, 'James', 'Thomas', 'j.thomas@student.edu', '555-0110', 'Mechanical Eng', NULL, 'NEU', '2027', 'Sophomore', NULL, NULL),
-(11, 'Mia', 'Jackson', 'm.jackson@student.edu', '555-0111', 'Computer Science', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
-(12, 'Lucas', 'White', 'l.white@student.edu', '555-0112', 'Business', 'Data Science', 'NEU', '2026', 'Junior', NULL, NULL),
-(13, 'Charlotte', 'Harris', 'c.harris@student.edu', '555-0113', 'Environmental Eng', 'Biology', 'NEU', '2027', 'Sophomore', NULL, NULL),
-(14, 'Benjamin', 'Martin', 'b.martin@student.edu', '555-0114', 'Information Systems', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
-(15, 'Amelia', 'Garcia', 'a.garcia@student.edu', '555-0115', 'Chemical Eng', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(16, 'Henry', 'Rodriguez', 'h.rodriguez@student.edu', '555-0116', 'Computer Science', 'Mathematics', 'NEU', '2027', 'Sophomore', NULL, NULL),
-(17, 'Harper', 'Lewis', 'h.lewis@student.edu', '555-0117', 'Design', 'Art', 'NEU', '2025', 'Senior', NULL, NULL),
-(18, 'Alexander', 'Lee', 'a.lee@student.edu', '555-0118', 'Electrical Eng', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(19, 'Evelyn', 'Walker', 'e.walker@student.edu', '555-0119', 'International Business', 'Spanish', 'NEU', '2027', 'Sophomore', NULL, NULL),
-(20, 'Sebastian', 'Hall', 's.hall@student.edu', '555-0120', 'Data Science', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
-(21, 'Aria', 'Allen', 'a.allen@student.edu', '555-0121', 'Marketing', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(22, 'Owen', 'Young', 'o.young@student.edu', '555-0122', 'Computer Science', NULL, 'NEU', '2027', 'Sophomore', NULL, NULL),
-(23, 'Luna', 'King', 'l.king@student.edu', '555-0123', 'Business', 'Finance', 'NEU', '2025', 'Senior', NULL, NULL),
-(24, 'Grayson', 'Wright', 'g.wright@student.edu', '555-0124', 'Cybersecurity', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(25, 'Chloe', 'Lopez', 'c.lopez@student.edu', '555-0125', 'Bioengineering', NULL, 'NEU', '2027', 'Sophomore', NULL, NULL),
-(26, 'Carter', 'Hill', 'c.hill@student.edu', '555-0126', 'Information Systems', 'Business', 'NEU', '2025', 'Senior', NULL, NULL),
-(27, 'Zoey', 'Scott', 'z.scott@student.edu', '555-0127', 'Environmental Eng', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
-(28, 'Luke', 'Green', 'l.green@student.edu', '555-0128', 'Mechanical Eng', NULL, 'NEU', '2027', 'Sophomore', NULL, NULL),
-(29, 'Lily', 'Adams', 'l.adams@student.edu', '555-0129', 'Design', NULL, 'NEU', '2025', 'Senior', NULL, NULL),
-(30, 'Jack', 'Baker', 'j.baker@student.edu', '555-0130', 'Computer Science', NULL, 'NEU', '2026', 'Junior', NULL, NULL),
+-- Students (userId 1-30) - UPDATED WITH APPROPRIATE COLLEGES
+(1, 'Charlie', 'Stout', 'c.stout@student.edu', '555-0101', 'Computer Science', 'Mathematics', 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(2, 'Liam', 'Williams', 'l.williams@student.edu', '555-0102', 'Business', 'Economics', 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(3, 'Sophia', 'Brown', 's.brown@student.edu', '555-0103', 'Mechanical Engineering', 'Physics', 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
+(4, 'Noah', 'Davis', 'n.davis@student.edu', '555-0104', 'Data Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(5, 'Olivia', 'Miller', 'o.miller@student.edu', '555-0105', 'Marketing', 'Psychology', 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(6, 'Mason', 'Wilson', 'm.wilson@student.edu', '555-0106', 'Cybersecurity', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(7, 'Ava', 'Moore', 'a.moore@student.edu', '555-0107', 'Biomedical Engineering', 'Chemistry', 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
+(8, 'Ethan', 'Taylor', 'e.taylor@student.edu', '555-0108', 'Finance', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(9, 'Isabella', 'Anderson', 'i.anderson@student.edu', '555-0109', 'Psychology', 'Sociology', 'College of Social Sciences and Humanities', '2026', 'Junior', NULL, NULL),
+(10, 'James', 'Thomas', 'j.thomas@student.edu', '555-0110', 'Mechanical Engineering', NULL, 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
+(11, 'Mia', 'Jackson', 'm.jackson@student.edu', '555-0111', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(12, 'Lucas', 'White', 'l.white@student.edu', '555-0112', 'Business', 'Data Science', 'D\'Amore-McKim School of Business', '2026', 'Junior', NULL, NULL),
+(13, 'Charlotte', 'Harris', 'c.harris@student.edu', '555-0113', 'Environmental Engineering', 'Biology', 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
+(14, 'Benjamin', 'Martin', 'b.martin@student.edu', '555-0114', 'Information Systems', NULL, 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(15, 'Amelia', 'Garcia', 'a.garcia@student.edu', '555-0115', 'Physics', 'Mathematics', 'College of Science', '2026', 'Junior', NULL, NULL), -- CHANGED FROM Chemical Engineering
+(16, 'Henry', 'Rodriguez', 'h.rodriguez@student.edu', '555-0116', 'Computer Science', 'Mathematics', 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(17, 'Harper', 'Lewis', 'h.lewis@student.edu', '555-0117', 'Design', 'Art', 'College of Arts, Media and Design', '2025', 'Senior', NULL, NULL),
+(18, 'Alexander', 'Lee', 'a.lee@student.edu', '555-0118', 'Electrical Engineering', NULL, 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(19, 'Evelyn', 'Walker', 'e.walker@student.edu', '555-0119', 'International Business', 'Spanish', 'D\'Amore-McKim School of Business', '2027', 'Sophomore', NULL, NULL),
+(20, 'Sebastian', 'Hall', 's.hall@student.edu', '555-0120', 'Data Science', NULL, 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(21, 'Aria', 'Allen', 'a.allen@student.edu', '555-0121', 'Marketing', NULL, 'D\'Amore-McKim School of Business', '2026', 'Junior', NULL, NULL),
+(22, 'Owen', 'Young', 'o.young@student.edu', '555-0122', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(23, 'Luna', 'King', 'l.king@student.edu', '555-0123', 'Business', 'Finance', 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(24, 'Grayson', 'Wright', 'g.wright@student.edu', '555-0124', 'Cybersecurity', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(25, 'Chloe', 'Lopez', 'c.lopez@student.edu', '555-0125', 'Biology', 'Chemistry', 'College of Science', '2027', 'Sophomore', NULL, NULL), -- CHANGED FROM Bioengineering
+(26, 'Carter', 'Hill', 'c.hill@student.edu', '555-0126', 'Information Systems', 'Business', 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(27, 'Zoey', 'Scott', 'z.scott@student.edu', '555-0127', 'Environmental Engineering', NULL, 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(28, 'Luke', 'Green', 'l.green@student.edu', '555-0128', 'Chemistry', 'Mathematics', 'College of Science', '2027', 'Sophomore', NULL, NULL), -- CHANGED FROM Mechanical Engineering
+(29, 'Lily', 'Adams', 'l.adams@student.edu', '555-0129', 'Design', NULL, 'College of Arts, Media and Design', '2025', 'Senior', NULL, NULL),
+(30, 'Jack', 'Baker', 'j.baker@student.edu', '555-0130', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
 -- Advisors (userId 31-36)
 (31, 'Sarah', 'Martinez', 's.martinez@neu.edu', '555-0301', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
 (32, 'Michael', 'Chen', 'm.chen@neu.edu', '555-0302', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
@@ -368,13 +370,13 @@ INSERT INTO coopPositions (coopPositionId, title, location, description, hourlyP
 (49, 'Infrastructure Engineer', 'Portland, ME', 'Manage cloud infrastructure and implement DevOps best practices.', 24.00, 8, 35, 3.2, '2025-03-23 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Technology'),
 (50, 'Business Development', 'Concord, NH', 'Identify new business opportunities and support partnership development.', 18.50, 17, 15, 2.9, '2025-02-18 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Business');
 
--- Skill Details table (150 rows - bridge table for M:N relationship between students and skills)
+-- Skill Details table (150 rows - UPDATED TO REFLECT MAJOR CHANGES)
 INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
--- Student 1 (Emma Johnson) - Computer Science major
+-- Student 1 (Charlie Stout) - Computer Science major
 (1, 1, 4), (2, 1, 3), (3, 1, 5), (4, 1, 4), (5, 1, 3), (6, 1, 4), (10, 1, 5), (17, 1, 4), (19, 1, 4), (20, 1, 5),
 -- Student 2 (Liam Williams) - Business major
 (13, 2, 5), (14, 2, 4), (15, 2, 4), (16, 2, 3), (17, 2, 5), (18, 2, 4), (19, 2, 4), (20, 2, 5),
--- Student 3 (Sophia Brown) - Engineering major
+-- Student 3 (Sophia Brown) - Mechanical Engineering major
 (21, 3, 4), (13, 3, 3), (15, 3, 3), (17, 3, 4), (19, 3, 5), (20, 3, 4),
 -- Student 4 (Noah Davis) - Data Science major
 (1, 4, 5), (11, 4, 4), (12, 4, 5), (37, 4, 4), (38, 4, 3), (6, 4, 4), (17, 4, 4), (19, 4, 5), (20, 4, 4),
@@ -398,8 +400,8 @@ INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
 (1, 13, 3), (12, 13, 3), (13, 13, 4), (15, 13, 4), (17, 13, 4), (19, 13, 5), (20, 13, 4),
 -- Student 14 (Benjamin Martin) - Information Systems major
 (1, 14, 4), (6, 14, 4), (8, 14, 3), (13, 14, 4), (15, 14, 4), (17, 14, 4), (19, 14, 4), (20, 14, 4),
--- Student 15 (Amelia Garcia) - Chemical Engineering major
-(1, 15, 3), (12, 15, 4), (13, 15, 3), (15, 15, 3), (17, 15, 4), (19, 15, 4), (20, 15, 4),
+-- Student 15 (Amelia Garcia) - Physics major (CHANGED from Chemical Engineering)
+(1, 15, 4), (12, 15, 5), (13, 15, 4), (38, 15, 4), (17, 15, 4), (19, 15, 5), (20, 15, 4),
 -- Continue with remaining students...
 (1, 16, 4), (2, 16, 3), (3, 16, 3), (21, 16, 4), (17, 16, 3), (19, 16, 4), (20, 16, 4),
 (39, 17, 5), (40, 17, 5), (13, 17, 3), (14, 17, 4), (17, 17, 5), (19, 17, 4), (20, 17, 4),
@@ -410,10 +412,12 @@ INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
 (1, 22, 3), (2, 22, 3), (3, 22, 4), (10, 22, 4), (17, 22, 3), (19, 22, 4), (20, 22, 4),
 (13, 23, 5), (14, 23, 4), (15, 23, 4), (17, 23, 4), (19, 23, 4), (20, 23, 4),
 (1, 24, 4), (6, 24, 5), (8, 24, 4), (9, 24, 3), (17, 24, 4), (19, 24, 5), (20, 24, 4),
-(1, 25, 3), (12, 25, 4), (17, 25, 4), (19, 25, 4), (20, 25, 4),
+-- Student 25 (Chloe Lopez) - Biology major (CHANGED from Bioengineering)
+(1, 25, 3), (12, 25, 5), (38, 25, 4), (17, 25, 4), (19, 25, 4), (20, 25, 4),
 (1, 26, 4), (6, 26, 3), (13, 26, 4), (15, 26, 4), (17, 26, 4), (19, 26, 4), (20, 26, 4),
 (1, 27, 3), (12, 27, 3), (13, 27, 3), (15, 27, 4), (17, 27, 4), (19, 27, 5), (20, 27, 4),
-(21, 28, 4), (22, 28, 3), (13, 28, 3), (15, 28, 3), (17, 28, 3), (19, 28, 4), (20, 28, 4),
+-- Student 28 (Luke Green) - Chemistry major (CHANGED from Mechanical Engineering)
+(1, 28, 3), (12, 28, 4), (13, 28, 4), (38, 28, 3), (17, 28, 3), (19, 28, 4), (20, 28, 4),
 (39, 29, 5), (40, 29, 4), (13, 29, 3), (14, 29, 4), (17, 29, 5), (19, 29, 4), (20, 29, 4),
 (1, 30, 4), (2, 30, 3), (3, 30, 4), (4, 30, 3), (10, 30, 4), (17, 30, 4), (19, 30, 4), (20, 30, 5);
 
@@ -448,10 +452,9 @@ INSERT INTO advisor_advisee (studentId, advisorId, flag) VALUES
 (27, 33, FALSE), (27, 34, FALSE),
 (28, 34, FALSE), (28, 36, FALSE),
 (29, 33, FALSE), (29, 34, FALSE),
-(30, 31, FALSE), (30, 32, FALSE); FALSE), (29, 34, FALSE),
 (30, 31, FALSE), (30, 32, FALSE);
 
--- Worked At Position relationships (75 rows - bridge table for past co-ops with NO OVERLAPPING DATES)
+-- Worked At Position relationships (75 rows - UPDATED TO REFLECT MAJOR CHANGES)
 INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
 -- Past co-op experiences for senior students (chronological order, no overlaps)
 -- Student 2 (Liam Williams) - Business major, Senior
@@ -517,8 +520,8 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 -- Student 9 (Isabella Anderson) - Psychology major
 (9, 42, '2024-01-01', '2024-06-01', 3), -- HR Analytics Intern
 
--- Student 15 (Amelia Garcia) - Chemical Engineering major
-(15, 43, '2024-01-01', '2024-06-01', 4), -- Manufacturing Engineer
+-- Student 15 (Amelia Garcia) - Physics major (CHANGED from Chemical Engineering)
+(15, 25, '2024-01-01', '2024-06-01', 4), -- Research Assistant
 
 -- Student 18 (Alexander Lee) - Electrical Engineering major
 (18, 45, '2024-01-01', '2024-06-01', 5), -- Automation Engineer
@@ -550,7 +553,7 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 (6, 49, '2023-06-01', '2023-12-01', 4), -- Infrastructure Engineer (cybersecurity)
 (9, 46, '2023-06-01', '2023-12-01', 3), -- Customer Success Intern (psychology)
 (12, 42, '2022-06-01', '2022-12-01', 4), -- HR Analytics Intern (business)
-(15, 25, '2023-06-01', '2023-12-01', 4), -- Research Assistant (chemical eng)
+(15, 7, '2023-06-01', '2023-12-01', 4), -- Biotech Research Co-op (physics/research)
 (18, 43, '2023-06-01', '2023-12-01', 4), -- Manufacturing Engineer (electrical eng)
 (21, 44, '2023-06-01', '2023-12-01', 2), -- Content Creator Co-op (marketing)
 (24, 41, '2023-06-01', '2023-12-01', 5), -- Network Engineer Co-op (cybersecurity)
@@ -560,7 +563,7 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 (4, 2, '2022-09-01', '2023-03-01', 5), -- Data Analyst Co-op (data science)
 (6, 4, '2022-09-01', '2023-03-01', 5), -- Cybersecurity Intern
 (9, 10, '2022-09-01', '2023-03-01', 3), -- Business Analyst Co-op (psychology/business)
-(15, 7, '2022-09-01', '2023-03-01', 4), -- Biotech Research Co-op (chemical eng)
+(15, 40, '2022-09-01', '2023-03-01', 5), -- AI Research Intern (physics/research)
 (18, 18, '2022-09-01', '2023-03-01', 5), -- Robotics Engineer Intern (electrical eng)
 (21, 19, '2022-09-01', '2023-03-01', 3), -- Digital Marketing Co-op (marketing)
 (30, 34, '2022-09-01', '2023-03-01', 4); -- Android Developer (CS major)
@@ -582,7 +585,7 @@ INSERT INTO viewsPos (studentId, coopPositionId, preference) VALUES
 (12, 10, FALSE), (12, 23, TRUE), (12, 30, FALSE), (12, 33, TRUE), (12, 50, TRUE),
 (13, 8, TRUE), (13, 13, FALSE), (13, 21, TRUE), (13, 41, FALSE), (13, 49, TRUE),
 (14, 4, FALSE), (14, 14, TRUE), (14, 26, FALSE), (14, 35, TRUE), (14, 41, FALSE),
-(15, 7, TRUE), (15, 15, FALSE), (15, 25, TRUE), (15, 43, FALSE), (15, 45, TRUE),
+(15, 7, TRUE), (15, 15, FALSE), (15, 25, TRUE), (15, 40, TRUE), (15, 47, FALSE), -- UPDATED for Physics major
 (16, 1, TRUE), (16, 16, FALSE), (16, 22, TRUE), (16, 31, FALSE), (16, 34, TRUE),
 (17, 6, FALSE), (17, 17, TRUE), (17, 38, FALSE), (17, 44, TRUE), (17, 48, TRUE),
 (18, 9, TRUE), (18, 18, FALSE), (18, 32, TRUE), (18, 41, FALSE), (18, 45, TRUE),
@@ -592,10 +595,10 @@ INSERT INTO viewsPos (studentId, coopPositionId, preference) VALUES
 (22, 1, FALSE), (22, 16, TRUE), (22, 22, FALSE), (22, 31, TRUE), (22, 34, FALSE),
 (23, 5, TRUE), (23, 23, FALSE), (23, 27, TRUE), (23, 33, FALSE), (23, 50, TRUE),
 (24, 4, TRUE), (24, 9, FALSE), (24, 32, TRUE), (24, 37, TRUE), (24, 41, FALSE),
-(25, 7, FALSE), (25, 15, TRUE), (25, 25, FALSE), (25, 38, TRUE), (25, 42, FALSE),
+(25, 7, FALSE), (25, 15, TRUE), (25, 25, FALSE), (25, 40, TRUE), (25, 47, TRUE), -- UPDATED for Biology major
 (26, 14, TRUE), (26, 26, FALSE), (26, 35, TRUE), (26, 41, FALSE), (26, 49, TRUE),
 (27, 8, FALSE), (27, 13, TRUE), (27, 21, FALSE), (27, 41, TRUE), (27, 49, FALSE),
-(28, 10, TRUE), (28, 18, FALSE), (28, 30, TRUE), (28, 43, FALSE), (28, 45, TRUE),
+(28, 7, TRUE), (28, 25, FALSE), (28, 40, TRUE), (28, 47, FALSE), (28, 15, TRUE), -- UPDATED for Chemistry major
 (29, 6, TRUE), (29, 17, FALSE), (29, 38, TRUE), (29, 44, FALSE), (29, 48, TRUE),
 (30, 1, FALSE), (30, 16, TRUE), (30, 22, FALSE), (30, 31, TRUE), (30, 34, FALSE);
 
@@ -613,69 +616,6 @@ INSERT INTO createsPos (employerId, coopPositionId) VALUES
 (38, 10), (38, 13), (38, 30), (38, 46), (38, 50),
 (39, 14), (40, 20), (41, 26), (42, 28), (43, 35),
 (44, 24), (37, 36), (38, 39), (39, 44), (40, 42);
-
--- Applications table (60 rows - weak entity)
-INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
-(1, '2025-01-15 10:30:00', 'Submitted', 'Resume content for Emma Johnson...', 3.7, 'Cover letter expressing interest in software development...', 1),
-(2, '2025-01-16 14:20:00', 'Under Review', 'Resume content for Emma Johnson...', 3.7, 'Cover letter for data analyst position...', 2),
-(3, '2025-01-18 09:45:00', 'Submitted', 'Resume content for Liam Williams...', 3.5, 'Cover letter highlighting business experience...', 5),
-(4, '2025-01-20 16:15:00', 'Draft', 'Resume content for Sophia Brown...', 3.8, NULL, 8),
-(5, '2025-01-22 11:30:00', 'Submitted', 'Resume content for Noah Davis...', 3.9, 'Cover letter for data science role...', 11),
-(6, '2025-01-25 08:45:00', 'Under Review', 'Resume content for Olivia Miller...', 3.4, 'Marketing position cover letter...', 3),
-(7, '2025-01-28 13:20:00', 'Submitted', 'Resume content for Mason Wilson...', 3.6, 'Cybersecurity interest cover letter...', 4),
-(8, '2025-01-30 10:00:00', 'Rejected', 'Resume content for Ava Moore...', 3.7, 'Biotech research application...', 7),
-(9, '2025-02-01 15:30:00', 'Draft', 'Resume content for Ethan Taylor...', 3.8, NULL, 23),
-(10, '2025-02-03 12:45:00', 'Submitted', 'Resume content for Isabella Anderson...', 3.3, 'HR analytics interest...', 42),
-(11, '2025-02-05 09:15:00', 'Under Review', 'Resume content for James Thomas...', 3.5, 'Manufacturing engineering application...', 18),
-(12, '2025-02-07 14:00:00', 'Submitted', 'Resume content for Mia Jackson...', 3.9, 'Full stack development interest...', 16),
-(13, '2025-02-08 11:20:00', 'Draft', 'Resume content for Lucas White...', 3.4, NULL, 10),
-(14, '2025-02-10 16:45:00', 'Submitted', 'Resume content for Charlotte Harris...', 3.6, 'Environmental focus application...', 21),
-(15, '2025-02-12 08:30:00', 'Under Review', 'Resume content for Benjamin Martin...', 3.7, 'Systems administration interest...', 26),
-(16, '2025-02-14 13:15:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.5, 'Chemical engineering application...', 45),
-(17, '2025-02-16 10:45:00', 'Draft', 'Resume content for Henry Rodriguez...', 3.2, NULL, 22),
-(18, '2025-02-18 15:20:00', 'Submitted', 'Resume content for Harper Lewis...', 3.8, 'UX design passion letter...', 6),
-(19, '2025-02-20 12:00:00', 'Under Review', 'Resume content for Alexander Lee...', 3.6, 'DevOps interest application...', 9),
-(20, '2025-02-22 09:30:00', 'Submitted', 'Resume content for Evelyn Walker...', 3.4, 'International business focus...', 50),
-(21, '2025-01-17 14:30:00', 'Submitted', 'Resume content for Sebastian Hall...', 3.8, 'ML engineering application...', 11),
-(22, '2025-01-19 11:15:00', 'Under Review', 'Resume content for Aria Allen...', 3.3, 'Marketing coordinator interest...', 19),
-(23, '2025-01-21 16:00:00', 'Draft', 'Resume content for Owen Young...', 3.1, NULL, 31),
-(24, '2025-01-23 13:45:00', 'Submitted', 'Resume content for Luna King...', 3.7, 'Finance analyst application...', 27),
-(25, '2025-01-26 10:20:00', 'Under Review', 'Resume content for Grayson Wright...', 3.5, 'Security analyst interest...', 32),
-(26, '2025-01-29 15:10:00', 'Submitted', 'Resume content for Chloe Lopez...', 3.6, 'Bioengineering research focus...', 25),
-(27, '2025-02-02 08:50:00', 'Draft', 'Resume content for Carter Hill...', 3.4, NULL, 35),
-(28, '2025-02-04 12:30:00', 'Submitted', 'Resume content for Zoey Scott...', 3.7, 'Environmental engineering passion...', 49),
-(29, '2025-02-06 14:40:00', 'Under Review', 'Resume content for Luke Green...', 3.3, 'Mechanical engineering application...', 43),
-(30, '2025-02-09 11:55:00', 'Submitted', 'Resume content for Lily Adams...', 3.9, 'Product design interest...', 48),
-(31, '2025-02-11 16:25:00', 'Draft', 'Resume content for Jack Baker...', 3.5, NULL, 34),
-(32, '2025-01-24 09:40:00', 'Submitted', 'Resume content for Emma Johnson...', 3.7, 'Backend development interest...', 22),
-(33, '2025-01-27 14:55:00', 'Under Review', 'Resume content for Liam Williams...', 3.5, 'Business intelligence focus...', 23),
-(34, '2025-01-31 10:35:00', 'Submitted', 'Resume content for Sophia Brown...', 3.8, 'Infrastructure engineering...', 49),
-(35, '2025-02-13 13:20:00', 'Draft', 'Resume content for Noah Davis...', 3.9, NULL, 29),
-(36, '2025-02-15 08:15:00', 'Submitted', 'Resume content for Olivia Miller...', 3.4, 'Customer success application...', 46),
-(37, '2025-02-17 15:45:00', 'Under Review', 'Resume content for Mason Wilson...', 3.6, 'Network engineering interest...', 41),
-(38, '2025-02-19 12:10:00', 'Submitted', 'Resume content for Ava Moore...', 3.7, 'Research assistant focus...', 25),
-(39, '2025-02-21 09:25:00', 'Draft', 'Resume content for Ethan Taylor...', 3.8, NULL, 39),
-(40, '2025-01-14 16:30:00', 'Submitted', 'Resume content for Isabella Anderson...', 3.3, 'Content creation interest...', 44),
-(41, '2025-01-16 11:45:00', 'Under Review', 'Resume content for James Thomas...', 3.5, 'Automation engineering...', 45),
-(42, '2025-01-18 14:20:00', 'Submitted', 'Resume content for Mia Jackson...', 3.9, 'Android development passion...', 34),
-(43, '2025-01-20 10:05:00', 'Draft', 'Resume content for Lucas White...', 3.4, NULL, 33),
-(44, '2025-01-22 15:35:00', 'Submitted', 'Resume content for Charlotte Harris...', 3.6, 'Computer vision interest...', 47),
-(45, '2025-01-25 12:50:00', 'Under Review', 'Resume content for Benjamin Martin...', 3.7, 'Database administration...', 35),
-(46, '2025-01-28 08:40:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.5, 'Manufacturing process focus...', 43),
-(47, '2025-01-30 13:25:00', 'Draft', 'Resume content for Henry Rodriguez...', 3.2, NULL, 1),
-(48, '2025-02-01 16:15:00', 'Submitted', 'Resume content for Harper Lewis...', 3.8, 'Technical writing interest...', 38),
-(49, '2025-02-03 11:00:00', 'Under Review', 'Resume content for Alexander Lee...', 3.6, 'IoT development passion...', 37),
-(50, '2025-02-05 14:45:00', 'Submitted', 'Resume content for Evelyn Walker...', 3.4, 'Business development focus...', 50),
-(51, '2025-02-07 09:30:00', 'Draft', 'Resume content for Sebastian Hall...', 3.8, NULL, 40),
-(52, '2025-02-10 12:15:00', 'Submitted', 'Resume content for Aria Allen...', 3.3, 'Sales analytics application...', 36),
-(53, '2025-02-12 15:50:00', 'Under Review', 'Resume content for Owen Young...', 3.1, 'Web development interest...', 31),
-(54, '2025-02-14 10:25:00', 'Submitted', 'Resume content for Luna King...', 3.7, 'Project coordination focus...', 30),
-(55, '2025-02-16 13:40:00', 'Draft', 'Resume content for Grayson Wright...', 3.5, NULL, 4),
-(56, '2025-02-18 08:55:00', 'Submitted', 'Resume content for Chloe Lopez...', 3.6, 'Healthcare data analysis...', 15),
-(57, '2025-02-20 14:10:00', 'Under Review', 'Resume content for Carter Hill...', 3.4, 'QA engineering interest...', 17),
-(58, '2025-02-22 11:35:00', 'Submitted', 'Resume content for Zoey Scott...', 3.7, 'Cloud engineering passion...', 20),
-(59, '2025-01-13 16:20:00', 'Draft', 'Resume content for Luke Green...', 3.3, NULL, 28),
-(60, '2025-01-15 12:45:00', 'Submitted', 'Resume content for Lily Adams...', 3.9, 'Game development interest...', 14);
 
 -- Applies To App relationships (60 rows - bridge table)
 INSERT INTO appliesToApp (applicationId, studentId) VALUES
