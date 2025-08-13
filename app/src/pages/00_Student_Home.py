@@ -12,6 +12,9 @@ SideBarLinks()
 
 logger.info("Loading Student Home page")
 
+# API Configuration
+API_BASE_URL = "http://localhost:4000"  # Update with your Flask app URL
+
 st.markdown("""
 <style>
     .main-header {
@@ -105,150 +108,272 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-header">Student Dashboard</h1>', unsafe_allow_html=True)
+# Charlie Stout's userId
+CHARLIE_USER_ID = 1
 
-if 'first_name' in st.session_state:
-    st.markdown(f'<p class="welcome-message">Welcome back, {st.session_state["first_name"]}! 🎓</p>', unsafe_allow_html=True)
+# Function to fetch user data from API
+@st.cache_data
+def fetch_user_data(user_id):
+    try:
+        response = requests.get(f"{API_BASE_URL}/users/{user_id}")
+        if response.status_code == 200:
+            return response.json()[0]  # Get first record
+        else:
+            st.error("Failed to fetch user data from API")
+            return None
+    except Exception as e:
+        st.error(f"Error connecting to API: {str(e)}")
+        # Return fallback data if API is not available
+        return {
+            'userId': 1,
+            'firstName': 'Charlie',
+            'lastName': 'Stout',
+            'email': 'c.stout@student.edu',
+            'phone': '555-0101',
+            'major': 'Computer Science',
+            'minor': 'Mathematics',
+            'college': 'NEU',
+            'gradYear': '2026',
+            'grade': 'Junior',
+            'companyProfileId': None,
+            'industry': None
+        }
 
-col1, col2 = st.columns([2, 1])
+# Function to update user data via API
+def update_user_data(user_data):
+    try:
+        response = requests.put(f"{API_BASE_URL}/users", json=user_data)
+        if response.status_code == 200:
+            return True, "Profile updated successfully!"
+        else:
+            return False, f"Failed to update profile: {response.status_code}"
+    except Exception as e:
+        return False, f"Error connecting to API: {str(e)}"
 
-with col1:
-    st.markdown("""
-    <div class="profile-card">
-        <div class="section-title">📋 Your Profile</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    with st.form("profile_form"):
-        st.markdown("### Personal Information")
-        
-        col_left, col_right = st.columns(2)
-        
-        with col_left:
-            first_name = st.text_input("First Name", value="Alex")
-            last_name = st.text_input("Last Name", value="Johnson")
-            email = st.text_input("Email", value="alex.johnson@northeastern.edu")
-            phone = st.text_input("Phone", value="(555) 123-4567")
-            
-        with col_right:
-            major = st.selectbox("Major", ["Computer Science", "Engineering", "Business", "Data Science", "Information Systems"])
-            minor = st.selectbox("Minor", ["None", "Mathematics", "Business", "Psychology", "Statistics"])
-            college = st.selectbox("College", ["Khoury College", "College of Engineering", "D'Amore-McKim School of Business"])
-            grad_year = st.selectbox("Graduation Year", ["2024", "2025", "2026", "2027"])
-            
-        grade = st.selectbox("Current Grade", ["Sophomore", "Junior", "Senior"])
-        
-        st.markdown("### Demographics")
-        
-        demo_col1, demo_col2 = st.columns(2)
-        
-        with demo_col1:
-            gender = st.selectbox("Gender", ["Prefer not to say", "Male", "Female", "Non-binary", "Other"])
-            race = st.selectbox("Race/Ethnicity", ["Prefer not to say", "Asian", "Black/African American", "Hispanic/Latino", "White", "Native American", "Pacific Islander", "Mixed"])
-            
-        with demo_col2:
-            nationality = st.selectbox("Nationality", ["American", "International", "Prefer not to say"])
-            sexuality = st.selectbox("Sexual Orientation", ["Prefer not to say", "Heterosexual", "LGBTQ+"])
-            
-        disability = st.selectbox("Disability Status", ["Prefer not to say", "None", "Yes"])
-        
-        submitted = st.form_submit_button("Update Profile", type="primary", use_container_width=True)
-        
-        if submitted:
-            user_data = {
-                "userId": 1,  # This would come from session/auth in real app
-                "firstName": first_name,
-                "lastName": last_name,
-                "email": email,
-                "phone": phone,
-                "major": major,
-                "minor": minor,
-                "college": college,
-                "gradYear": grad_year,
-                "grade": grade,
-                "gender": gender,
-                "race": race,
-                "nationality": nationality,
-                "sexuality": sexuality,
-                "disability": disability
-            }
-            
-            try:
-                # In a real app, you'd make this API call:
-                # response = requests.put('http://localhost:5000/users', json=user_data)
-                # if response.status_code == 200:
-                st.success("✅ Profile updated successfully!")
-                # else:
-                #     st.error("❌ Failed to update profile")
-            except Exception as e:
-                st.error(f"❌ Error updating profile: {str(e)}")
+# Fetch user data
+user_data = fetch_user_data(CHARLIE_USER_ID)
 
-with col2:
-    st.markdown("""
-    <div class="quick-stats">
-        <div class="section-title">📊 Quick Stats</div>
-        <div class="stat-item">
-            <div class="stat-number">5</div>
-            <div class="stat-label">Applications Submitted</div>
+if user_data:
+    st.markdown('<h1 class="main-header">Student Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown(f'<p class="welcome-message">Welcome back, {user_data["firstName"]}! 🎓</p>', unsafe_allow_html=True)
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        st.markdown("""
+        <div class="profile-card">
+            <div class="section-title">📋 Your Profile</div>
         </div>
-        <div class="stat-item">
-            <div class="stat-number">2</div>
-            <div class="stat-label">Interviews Scheduled</div>
+        """, unsafe_allow_html=True)
+        
+        with st.form("profile_form"):
+            st.markdown("### Personal Information")
+            
+            col_left, col_right = st.columns(2)
+            
+            with col_left:
+                first_name = st.text_input("First Name", value=user_data.get("firstName", ""))
+                last_name = st.text_input("Last Name", value=user_data.get("lastName", ""))
+                email = st.text_input("Email", value=user_data.get("email", ""))
+                phone = st.text_input("Phone", value=user_data.get("phone", ""))
+                
+            with col_right:
+                major_options = ["Computer Science", "Engineering", "Business", "Data Science", "Information Systems"]
+                major_index = 0
+                if user_data.get("major") in major_options:
+                    major_index = major_options.index(user_data.get("major"))
+                major = st.selectbox("Major", major_options, index=major_index)
+                
+                minor_options = ["Mathematics", "None", "Business", "Psychology", "Statistics"]
+                minor_index = 0
+                if user_data.get("minor") in minor_options:
+                    minor_index = minor_options.index(user_data.get("minor"))
+                minor = st.selectbox("Minor", minor_options, index=minor_index)
+                
+                college_options = ["Khoury College of Computer Sciences", "Bouve College of Health Sciences", "College of Science", "College of Engineering", "College of Arts, Media, and Design", "D'Amore-McKim school of Business", "College of Social Science and Humanities"]
+                college_index = 0
+                if user_data.get("college") in college_options:
+                    college_index = college_options.index(user_data.get("college"))
+                college = st.selectbox("College", college_options, index=college_index)
+                
+                grad_year_options = ["2026", "2024", "2025", "2027"]
+                grad_year_index = 0
+                if user_data.get("gradYear") in grad_year_options:
+                    grad_year_index = grad_year_options.index(user_data.get("gradYear"))
+                grad_year = st.selectbox("Graduation Year", grad_year_options, index=grad_year_index)
+                
+            grade_options = ["Junior", "Sophomore", "Senior"]
+            grade_index = 0
+            if user_data.get("grade") in grade_options:
+                grade_index = grade_options.index(user_data.get("grade"))
+            grade = st.selectbox("Current Grade", grade_options, index=grade_index)
+            
+            st.markdown("### Demographics")
+            
+            demo_col1, demo_col2 = st.columns(2)
+            
+            with demo_col1:
+                gender = st.selectbox("Gender", ["Male", "Female", "Non-binary", "Prefer not to say", "Other"], index=0)
+                race = st.selectbox("Race/Ethnicity", ["White", "Asian", "Black/African American", "Hispanic/Latino", "Native American", "Pacific Islander", "Mixed", "Prefer not to say"], index=0)
+                
+            with demo_col2:
+                nationality = st.selectbox("Nationality", ["American", "International", "Prefer not to say"], index=0)
+                sexuality = st.selectbox("Sexual Orientation", ["Heterosexual", "LGBTQ+", "Prefer not to say"], index=0)
+                
+            disability = st.selectbox("Disability Status", ["None", "ADHD", "Anxiety", "Dyslexia", "Depression", "Autism", "Prefer not to say"], index=0)
+            
+            submitted = st.form_submit_button("Update Profile", type="primary", use_container_width=True)
+            
+            if submitted:
+                update_data = {
+                    "userId": CHARLIE_USER_ID,
+                    "firstName": first_name,
+                    "lastName": last_name,
+                    "email": email,
+                    "phone": phone,
+                    "major": major,
+                    "minor": minor if minor != "None" else None,
+                    "college": college,
+                    "gradYear": grad_year,
+                    "grade": grade,
+                    "gender": gender,
+                    "race": race,
+                    "nationality": nationality,
+                    "sexuality": sexuality,
+                    "disability": disability if disability != "None" else None
+                }
+                
+                success, message = update_user_data(update_data)
+                if success:
+                    st.success(f"✅ {message}")
+                    st.cache_data.clear()  # Clear cache to refresh data
+                    st.rerun()  # Refresh the page to show updated data
+                else:
+                    st.error(f"❌ {message}")
+
+    with col2:
+        st.markdown("""
+        <div class="quick-stats">
+            <div class="section-title">📊 Quick Stats</div>
+            <div class="stat-item">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Applications Submitted</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Under Review</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Previous Co-op</div>
+            </div>
         </div>
-        <div class="stat-item">
-            <div class="stat-number">1</div>
-            <div class="stat-label">Offers Received</div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div class="info-section">
+            <div class="section-title">🎯 Quick Actions</div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
+        """, unsafe_allow_html=True)
+        
+        if st.button("📝 View My Applications", use_container_width=True):
+            st.switch_page('pages/01_Student_Applications.py')
+            
+        if st.button("🔍 Browse Co-op Positions", use_container_width=True):
+            st.switch_page('pages/02_Student_Browse_Positions.py')
+            
+        if st.button("📈 View Analytics", use_container_width=True):
+            st.switch_page('pages/03_Student_Analytics.py')
+            
+        if st.button("💼 Company Reviews", use_container_width=True):
+            st.switch_page('pages/04_Student_Company_Reviews.py')
+
     st.markdown("""
     <div class="info-section">
-        <div class="section-title">🎯 Quick Actions</div>
+        <div class="section-title">📈 Application Status Overview</div>
+        <p style="color: #64748b;">Track your co-op application progress and get insights on your placement journey.</p>
     </div>
     """, unsafe_allow_html=True)
-    
-    if st.button("📝 View My Applications", use_container_width=True):
-        st.switch_page('pages/01_Student_Applications.py')
+
+    status_col1, status_col2, status_col3, status_col4 = st.columns(4)
+
+    with status_col1:
+        st.metric(label="📝 Submitted", value="2", delta="Recent activity")
         
-    if st.button("🔍 Browse Co-op Positions", use_container_width=True):
-        st.switch_page('pages/02_Student_Browse_Positions.py')
+    with status_col2:
+        st.metric(label="👁️ Under Review", value="1", delta="Software Dev")
         
-    if st.button("📈 View Analytics", use_container_width=True):
-        st.switch_page('pages/03_Student_Analytics.py')
+    with status_col3:
+        st.metric(label="✅ Previous Experience", value="1", delta="QA Co-op")
         
-    if st.button("💼 Company Reviews", use_container_width=True):
-        st.switch_page('pages/04_Student_Company_Reviews.py')
+    with status_col4:
+        st.metric(label="⭐ GPA", value="3.7", delta="Strong")
 
-st.markdown("""
-<div class="info-section">
-    <div class="section-title">📈 Application Status Overview</div>
-    <p style="color: #64748b;">Track your co-op application progress and get insights on your placement journey.</p>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="info-section">
+        <div class="section-title">🏢 Recent Application Activity</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-status_col1, status_col2, status_col3, status_col4 = st.columns(4)
+    col_app1, col_app2 = st.columns(2)
 
-with status_col1:
-    st.metric(label="📝 Draft", value="1", delta="New")
-    
-with status_col2:
-    st.metric(label="📤 Submitted", value="3", delta="2 this week")
-    
-with status_col3:
-    st.metric(label="👁️ Under Review", value="2", delta="-1")
-    
-with status_col4:
-    st.metric(label="✅ Accepted", value="1", delta="🎉")
+    with col_app1:
+        st.markdown("""
+        **Software Developer Intern** - TechNova Inc  
+        📅 Applied: Jan 15, 2025  
+        📍 Boston, MA | 💰 $22.50/hr  
+        🔍 Status: **Under Review**  
+        📋 GPA Submitted: 3.7
+        """)
 
-st.markdown("""
-<div class="info-section">
-    <div class="section-title">💡 Tips & Recommendations</div>
-    <ul style="color: #64748b;">
-        <li>🎯 <strong>Complete your profile:</strong> Make sure all sections are filled out to improve your application visibility</li>
-        <li>📊 <strong>Industry insights:</strong> Check out salary trends for your major in the analytics section</li>
-        <li>⏰ <strong>Application deadlines:</strong> You have 3 upcoming deadlines this week</li>
-        <li>🌟 <strong>Company reviews:</strong> Read reviews from fellow students about their co-op experiences</li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
+    with col_app2:
+        st.markdown("""
+        **Backend Developer Intern** - TechNova Inc  
+        📅 Applied: Jan 24, 2025  
+        📍 Portland, OR | 💰 $24.00/hr  
+        🔍 Status: **Submitted**  
+        📋 GPA Submitted: 3.7
+        """)
+
+    st.markdown("""
+    <div class="info-section">
+        <div class="section-title">🛠️ Your Skills Profile</div>
+        <p style="color: #64748b;">Based on your major and experience</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    skill_col1, skill_col2, skill_col3 = st.columns(3)
+
+    with skill_col1:
+        st.markdown("**Programming Languages**")
+        st.progress(0.8, text="Python (Advanced)")
+        st.progress(0.9, text="JavaScript (Expert)")
+        st.progress(0.6, text="Java (Intermediate)")
+
+    with skill_col2:
+        st.markdown("**Web Development**")
+        st.progress(0.8, text="React (Advanced)")
+        st.progress(0.6, text="Node.js (Intermediate)")
+        st.progress(0.8, text="Git (Advanced)")
+
+    with skill_col3:
+        st.markdown("**Database & Tools**")
+        st.progress(0.8, text="SQL (Advanced)")
+        st.progress(0.8, text="Communication (Advanced)")
+        st.progress(0.9, text="Teamwork (Expert)")
+
+    st.markdown("""
+    <div class="info-section">
+        <div class="section-title">💡 Personalized Recommendations</div>
+        <ul style="color: #64748b;">
+            <li>🎯 <strong>Great match:</strong> You have strong skills in Python and JavaScript - perfect for the positions you're applying to</li>
+            <li>📊 <strong>Competitive advantage:</strong> Your 3.7 GPA exceeds the requirements for most positions</li>
+            <li>⏰ <strong>Upcoming deadlines:</strong> 3 positions closing soon that match your CS background</li>
+            <li>🌟 <strong>Past success:</strong> Your QA Co-op experience at TechNova will help with future applications</li>
+            <li>📈 <strong>Industry insight:</strong> CS majors in Technology earn an average of $24.50/hr in co-ops</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+else:
+    st.error("Unable to load user data. Please try again later.")

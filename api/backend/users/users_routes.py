@@ -7,6 +7,23 @@ from backend.db_connection import db
 
 users = Blueprint('users', __name__)
 
+# Get student profiles 
+@users.route('/users/<userID>', methods=['GET'])
+def get_user(userID):
+    query = '''
+        SELECT *
+        FROM users
+        WHERE userId = %s
+    '''.format(userID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
 # Update student profiles to include additional info
 @users.route('/users', methods=['PUT'])
 def update_users():
