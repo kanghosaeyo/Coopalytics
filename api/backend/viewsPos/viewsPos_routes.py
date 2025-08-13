@@ -8,7 +8,7 @@ from backend.db_connection import db
 # New Blueprint for applications
 views_position = Blueprint('views_position', __name__)
 
-
+# student flags positions they like/do not like 
 @views_position.route('/views_position', methods=['POST'])
 def set_job_preference():
     the_data = request.json
@@ -35,3 +35,26 @@ def set_job_preference():
     response.status_code = 200
     return response
 
+
+# Student views deadlines for positions
+@views_position.route('/views_position/<studentID>/deadlines', methods=['GET'])
+def get_deadlines(studentID):
+    current_app.logger.info('GET /views_position/deadlines route')
+
+    query = '''
+        SELECT cp.title,
+            cp.deadline
+        FROM viewsPos vp
+            JOIN coopPositions cp ON vp.coopPositionId = cp.coopPositionId
+        WHERE vp.studentId = {0} AND vp.preference = TRUE;
+    '''.format(studentID)
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+    
+
+    
