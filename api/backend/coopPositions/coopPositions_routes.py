@@ -196,7 +196,6 @@ def delete_unapproved_position(pos_id):
         return the_response
 
     except Exception as e:
-        # Likely blocked by foreign key references (e.g., applications)
         the_response = make_response(jsonify({
             "ok": False,
             "error": "cannot delete due to related records"
