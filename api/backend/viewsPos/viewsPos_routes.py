@@ -57,7 +57,7 @@ def get_deadlines(studentID):
     return the_response
     
 
-# Admin views preference metrics of postings (0 or 1)
+# Admin views preference metrics 
 @views_position.route('/viewspos/<int:preference>', methods=['GET'])
 def get_preference_metrics(preference):
     current_app.logger.info('GET /viewspos/%s route', preference)
