@@ -25,3 +25,35 @@ def get_industry_average_pay():
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+
+# Student view positions with desired skills that match their skills
+@coopPositions.route('/<int:studentID>/coopPositions/desiredSkills', methods=['GET'])
+def get_desired_skills(studentID):
+    current_app.logger.info('GET /coopPositions/desiredSkills route')
+
+    query = '''
+        SELECT cp.coopPositionId,
+            cp.title,
+            cp.location,
+            cp.description
+        FROM coopPositions cp
+            LEFT JOIN viewsPos vp ON cp.coopPositionId = vp.coopPositionId
+            JOIN users u ON u.userId = {0}
+        WHERE (vp.preference IS NULL OR vp.preference = TRUE)
+            AND cp.desiredSkillsId IN (SELECT skillId
+                                        FROM skillDetails
+                                        WHERE studentId = {0})
+            AND (cp.desiredGPA IS NULL OR cp.desiredGPA <= u.grade);
+    '''.format(studentID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
+# students view positions with required skills that match their skills 
