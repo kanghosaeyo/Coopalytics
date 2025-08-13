@@ -145,3 +145,26 @@ def get_employer_job_counts():
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Admin approves a co-op position 
+@coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
+def approve_position(pos_id):
+    current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
+
+    query = '''
+        UPDATE coopPositions
+        SET flagged = FALSE
+        WHERE coopPositionId = %s AND flagged = TRUE
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (pos_id,))
+    if cursor.rowcount == 0:
+        the_response = make_response(jsonify({"ok": False, "error": "not found or already approved"}))
+        the_response.status_code = 409
+        return the_response
+
+    db.get_db().commit()
+    the_response = make_response(jsonify({"ok": True, "positionId": pos_id, "status": "approved"}))
+    the_response.status_code = 200
+    return the_response
