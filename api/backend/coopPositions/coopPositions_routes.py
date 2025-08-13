@@ -146,7 +146,7 @@ def get_employer_job_counts():
     the_response.status_code = 200
     return the_response
 
-# Admin approves a co-op position (sets flagged = FALSE)
+# Admin approves a co-op position 
 @coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
     current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
