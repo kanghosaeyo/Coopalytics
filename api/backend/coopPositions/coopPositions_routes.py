@@ -116,3 +116,32 @@ def get_pending_positions():
     the_response.status_code = 200
     return the_response
 
+# Admin views number of co-ops posted by each employer
+@coopPositions.route('/coopPositions/employerJobCounts', methods=['GET'])
+def get_employer_job_counts():
+    current_app.logger.info('GET /coopPositions/employerJobCounts route')
+
+    query = '''
+        SELECT
+            u.userId AS employerId,
+            u.firstName,
+            u.lastName,
+            cn AS companyName,
+            COUNT(cr.coopPositionId) AS numJobs
+        FROM users u
+        JOIN companyProfiles com
+          ON cn.companyProfileId = u.companyProfileId
+        LEFT JOIN createsPos cr
+          ON cr.employerId = u.userId
+        WHERE u.companyProfileId IS NOT NULL 
+        GROUP BY u.userId, u.firstName, u.lastName, com.name
+        ORDER BY numJobs DESC, u.lastName ASC, u.firstName ASC;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
