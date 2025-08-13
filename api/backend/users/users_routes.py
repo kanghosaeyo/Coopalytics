@@ -4,25 +4,175 @@ from flask import jsonify
 from flask import make_response
 from flask import current_app
 from backend.db_connection import db
+import logging
+
+logger = logging.getLogger(__name__)
 
 users = Blueprint('users', __name__)
 
-# Get student profiles 
+# Get student profiles with demographics
 @users.route('/users/<userID>', methods=['GET'])
 def get_user(userID):
     query = '''
-        SELECT *
-        FROM users
-        WHERE userId = %s
-    '''.format(userID)
+        SELECT u.*, d.gender, d.race, d.nationality, d.sexuality, d.disability
+        FROM users u
+        LEFT JOIN demographics d ON u.userId = d.demographicId
+        WHERE u.userId = %s
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (userID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Get student skills with proficiency levels
+@users.route('/users/<userID>/skills', methods=['GET'])
+def get_user_skills(userID):
+    current_app.logger.info(f'GET /users/{userID}/skills route')
+
+    query = '''
+        SELECT s.skillId, s.name, s.category, sd.proficiencyLevel
+        FROM skills s
+        JOIN skillDetails sd ON s.skillId = sd.skillId
+        WHERE sd.studentId = %s
+        ORDER BY s.category, s.name
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (userID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Get recent applications for dashboard (limit 5)
+@users.route('/users/<userID>/recent-applications', methods=['GET'])
+def get_user_recent_applications(userID):
+    current_app.logger.info(f'GET /users/{userID}/recent-applications route')
+
+    query = '''
+        SELECT a.applicationId,
+               a.status,
+               a.dateTimeApplied,
+               a.gpa,
+               cp.title AS positionTitle,
+               cp.location,
+               cp.hourlyPay,
+               cp.deadline,
+               com.name AS companyName
+        FROM applications a
+        JOIN appliesToApp ata ON a.applicationId = ata.applicationId
+        JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+        JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+        JOIN users emp ON crp.employerId = emp.userId
+        JOIN companyProfiles com ON emp.companyProfileId = com.companyProfileId
+        WHERE ata.studentId = %s
+        ORDER BY a.dateTimeApplied DESC
+        LIMIT 5
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (userID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Get all available skills
+@users.route('/skills', methods=['GET'])
+def get_all_skills():
+    query = '''
+        SELECT skillId, name, category
+        FROM skills
+        ORDER BY category, name
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-    
+
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Update user skills (modify proficiency levels and remove skills)
+@users.route('/users/<userID>/skills', methods=['PUT'])
+def update_user_skills(userID):
+    try:
+        data = request.get_json()
+        updated_skills = data.get('updated_skills', [])
+        removed_skills = data.get('removed_skills', [])
+
+        cursor = db.get_db().cursor()
+
+        # Update existing skills proficiency levels
+        for skill in updated_skills:
+            update_query = '''
+                UPDATE skillDetails
+                SET proficiencyLevel = %s
+                WHERE studentId = %s AND skillId = %s
+            '''
+            cursor.execute(update_query, (skill['proficiencyLevel'], userID, skill['skillId']))
+
+        # Remove skills marked for deletion
+        if removed_skills:
+            placeholders = ','.join(['%s'] * len(removed_skills))
+            delete_query = f'''
+                DELETE FROM skillDetails
+                WHERE studentId = %s AND skillId IN ({placeholders})
+            '''
+            cursor.execute(delete_query, [userID] + removed_skills)
+
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": "Skills updated successfully"}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error updating user skills: {e}")
+        the_response = make_response(jsonify({"error": "Failed to update skills"}))
+        the_response.status_code = 500
+        return the_response
+
+# Add new skills to user profile
+@users.route('/users/<userID>/skills', methods=['POST'])
+def add_user_skills(userID):
+    try:
+        data = request.get_json()
+        new_skills = data.get('skills', [])
+
+        if not new_skills:
+            the_response = make_response(jsonify({"error": "No skills provided"}))
+            the_response.status_code = 400
+            return the_response
+
+        cursor = db.get_db().cursor()
+
+        # Add new skills to skillDetails table
+        for skill in new_skills:
+            insert_query = '''
+                INSERT INTO skillDetails (skillId, studentId, proficiencyLevel)
+                VALUES (%s, %s, %s)
+            '''
+            cursor.execute(insert_query, (skill['skillId'], userID, skill['proficiencyLevel']))
+
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": f"Added {len(new_skills)} skills successfully"}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error adding user skills: {e}")
+        the_response = make_response(jsonify({"error": "Failed to add skills"}))
+        the_response.status_code = 500
+        return the_response
 
 # Update student profiles to include additional info
 @users.route('/users', methods=['PUT'])
@@ -65,7 +215,7 @@ def update_users():
         WHERE u.userId = %s;'''
     data = (first_name, last_name, email, phone, major, minor, college, grad_year, grade, gender, race, nationality, sexuality, disability, user_id)
     cursor = db.get_db().cursor()
-    r = cursor.execute(query, data)
+    cursor.execute(query, data)
     db.get_db().commit()
     return 'user updated!'
 
