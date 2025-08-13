@@ -10,10 +10,27 @@ CREATE TABLE skills (
 
 CREATE TABLE companyProfiles (
     companyProfileId INT PRIMARY KEY,
-    name             VARCHAR(20) NOT NULL,
+    name             VARCHAR(50) NOT NULL,
     bio              LONGTEXT,
-    industry         VARCHAR(20) NOT NULL,
-    websiteLink      VARCHAR(50)
+    industry         VARCHAR(30) NOT NULL,
+    websiteLink      VARCHAR(100)
+);
+
+CREATE TABLE users (
+    userId           INT PRIMARY KEY,
+    firstName        VARCHAR(30) NOT NULL,
+    lastName         VARCHAR(30) NOT NULL,
+    email            VARCHAR(100) NOT NULL,
+    phone            VARCHAR(20),
+    major            VARCHAR(50),
+    minor            VARCHAR(50),
+    college          VARCHAR(100),
+    gradYear         VARCHAR(10),
+    grade            VARCHAR(20),
+    companyProfileId INT,
+    industry         VARCHAR(30),
+
+    FOREIGN KEY (companyProfileId) REFERENCES companyProfiles (companyProfileId) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE demographics (
@@ -22,26 +39,9 @@ CREATE TABLE demographics (
     race          VARCHAR(20),
     nationality   VARCHAR(20),
     sexuality     VARCHAR(20),
-    disability    VARCHAR(20)
+    disability    VARCHAR(20),
 
     FOREIGN KEY (demographicId) REFERENCES users (userId) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE users (
-    userId           INT PRIMARY KEY,
-    firstName        VARCHAR(20) NOT NULL,
-    lastName         VARCHAR(20) NOT NULL,
-    email            VARCHAR(20) NOT NULL,
-    phone            VARCHAR(20),
-    major            VARCHAR(20),
-    minor            VARCHAR(20),
-    college          VARCHAR(20),
-    gradYear         VARCHAR(20),
-    grade            VARCHAR(10),
-    companyProfileId INT,
-    industry         VARCHAR(20),
-
-    FOREIGN KEY (companyProfileId) REFERENCES companyProfiles (companyProfileId) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE coopPositions (
