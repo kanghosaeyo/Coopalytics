@@ -10,8 +10,8 @@ applications = Blueprint('applications', __name__)
 
 
 # Student viewing their own application statuses
-@applications.route('/student/<userID>/applications', methods=['GET'])
-def get_student_applications(userID):
+@applications.route('/student/<studentID>/applications', methods=['GET'])
+def get_student_applications(studentID):
     current_app.logger.info('GET /student/<userID>/applications route')
     
     query = '''
@@ -32,7 +32,7 @@ def get_student_applications(userID):
                  JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
         WHERE u.userId = {0}
         ORDER BY a.dateApplied DESC, cp.deadline ASC
-    '''.format(userID)
+    '''.format(studentID)
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -43,7 +43,7 @@ def get_student_applications(userID):
     return the_response
 
 # student sees how many positions they have applied to
-@applications.route('/student/<studentID>/applications', methods=['GET'])
+@applications.route('/student/<studentID>/applications/summary', methods=['GET'])
 def get_student_applications(studentID):
     current_app.logger.info('GET /student/<studentID>/applications route')
     
