@@ -221,3 +221,22 @@ def set_position_flag(pos_id, value):
     the_response = make_response(jsonify({'message': 'flag updated!'}))
     the_response.status_code = 200
     return the_response
+
+# Admin removes a flag from a position
+@coopPositions.route('/coopPositions/<int:pos_id>/unflag', methods=['PUT'])
+def unflag_position(pos_id):
+    current_app.logger.info('PUT /coopPositions/%s/unflag route', pos_id)
+
+    query = '''
+        UPDATE coopPositions
+        SET flag = FALSE
+        WHERE coopPositionId = %s;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (pos_id,))
+    db.get_db().commit()
+
+    the_response = make_response(jsonify({'message': 'flag removed!'}))
+    the_response.status_code = 200
+    return the_response
