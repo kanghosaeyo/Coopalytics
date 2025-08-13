@@ -100,6 +100,8 @@ def view_users():
     first_name = user_info['firstName']
     last_name = user_info['lastName']
     name = skill_info['name']
+    grad_year = user_info['gradYear']
+    major = user_info['major']
 
     query = '''
         SELECT u.userId, u.firstName, u.lastName
@@ -112,7 +114,7 @@ def view_users():
         OR s.name = %s
         AND u.gradYear = %s
         AND u.major = %s;'''
-    data = (first_name, last_name, name, name, name)
+    data = (user_id, first_name, last_name, name, name, name, grad_year, major)
     cursor = db.get_db().cursor()
     r = cursor.execute(query, data)
     db.get_db().commit()
