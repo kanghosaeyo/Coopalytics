@@ -224,7 +224,7 @@ def update_users():
 def create_user():
     current_app.logger.info('POST /users route')
 
-    b = request.json or {}
+    b = request.json
     user_id = b['userId']
     first_name = b['firstName']
     last_name = b['lastName']
