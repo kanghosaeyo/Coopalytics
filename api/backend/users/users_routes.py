@@ -103,3 +103,23 @@ def create_user():
     cur.execute(query, data)
     db.get_db().commit()
     return 'user created!', 201
+
+# Admin deletes a user
+@users.route('/users', methods=['DELETE'])
+def delete_user():
+    current_app.logger.info('DELETE /users route')
+
+    user_id = request.args.get('userId', type=int)
+
+    query = '''
+        DELETE FROM users
+        WHERE userId = %s;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (user_id,))
+    db.get_db().commit()
+
+    the_response = make_response(jsonify({'message': 'user deleted!'}))
+    the_response.status_code = 200
+    return the_response
