@@ -57,4 +57,35 @@ def get_deadlines(studentID):
     return the_response
     
 
-    
+# Admin views preference metrics of postings (0 or 1)
+@views_position.route('/viewspos/<int:preference>', methods=['GET'])
+def get_preference_metrics(preference):
+    current_app.logger.info('GET /viewspos/%s route', preference)
+
+    query = '''
+        SELECT
+            cp.coopPositionId,
+            cp.title,
+            com.name AS companyName,
+            COUNT(vp.studentId) AS prefCount
+        FROM coopPositions cp
+        LEFT JOIN createsPos cr
+          ON cr.coopPositionId = cp.coopPositionId
+        LEFT JOIN users u
+          ON u.userId = cr.employerId
+        LEFT JOIN companyProfiles com
+          ON com.companyProfileId = u.companyProfileId
+        LEFT JOIN viewsPos vp
+          ON vp.coopPositionId = cp.coopPositionId
+         AND vp.preference = %s
+        GROUP BY cp.coopPositionId, cp.title, com.name
+        ORDER BY prefCount DESC, cp.title ASC;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (preference,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
