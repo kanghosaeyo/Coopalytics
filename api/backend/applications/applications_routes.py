@@ -101,3 +101,38 @@ def get_advisor_student_applications(advisorID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Employer views all applications of a posting
+@applications.route('/applicatinos', methods=['GET'])
+def get_applications(coopPositionId):
+       current_app.logger.info('GET /applications')
+       current_app.logger.info('GET /applications')
+       application_info = request.json
+       coop_position_info = request.json
+       datetime_applied = application_info['dateTimeApplied']
+       status = application_info['status']
+       resume = application_info['resume']
+       gpa = application_info['gpa']
+       cover_letter = application_info['coverLetter']
+       coop_position_id = application_info['coopPositionId']
+       application_id = application_info['applicationId']
+       position_id = coop_position_info['coopPositionId']
+       
+       
+       query = '''
+    SELECT a.dateTimeApplied, a.status, a.resume, a.gpa, a.coverLetter,
+      a.coopPositionId, a.applicationId, COUNT(a.applicationId)
+    FROM applications a 
+    JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+    WHERE a.coopPositionId = {0}
+    GROUP BY a.status;
+    '''.format(coopPositionId)
+       data = (datetime_applied, status, resume, gpa, cover_letter, coop_position_id,
+               application_id, position_id)
+       cursor = db.get_db().cursor()
+       cursor.execute(query)
+       theData = cursor.fetchall()
+       
+       the_response = make_response(jsonify(theData))
+       the_response.status_code = 200
+       return the_response
