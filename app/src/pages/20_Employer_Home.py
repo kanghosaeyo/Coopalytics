@@ -12,7 +12,7 @@ SideBarLinks()
 st.title('Employer Home Page')
 
 # Phoebe Hwang's userId from your database
-CHARLIE_USER_ID = 4
+PHOEBE_USER_ID = 4
 API_BASE_URL = "http://web-api:4000"
 
 def fetch_applications_for_position(position_id):
