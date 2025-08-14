@@ -50,7 +50,7 @@ def create_app():
     app.register_blueprint(views_position, url_prefix='/vp')
     app.register_blueprint(applications, url_prefix='/app')
     app.register_blueprint(advisoradvisee, url_prefix='/aa')
-    app.register_blueprint(demographics, url_prefix='/dei')
+    #app.register_blueprint(demographics, url_prefix='/dei')
 
     # Don't forget to return the app object
     return app
