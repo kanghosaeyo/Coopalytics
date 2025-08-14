@@ -29,16 +29,22 @@ def get_company_profile(companyProfileId):
 @companyProfiles.route('/companyProfiles/rating', methods=['GET'])
 def get_company_profiles_by_rating():
     query = '''
-    SELECT com.name AS companyName,
-           AVG(wp.companyRating) AS avgCompanyRating
-    FROM workedAtPos wp
-    JOIN coopPositions cp ON wp.coopPositionId = cp.coopPositionId
-    JOIN createsPos cr ON cp.coopPositionId = cr.coopPositionId
-    JOIN users u ON cr.employerId = u.userId
-    JOIN companyProfiles com ON u.companyProfileId = com.companyProfileId
-    GROUP BY com.name
-    ORDER BY avgCompanyRating DESC;
+        SELECT *
+        FROM companyProfiles
+        ORDER BY rating DESC;
     '''
+    
+    # SELECT com.name AS companyName,
+    #        AVG(wp.companyRating) AS avgCompanyRating
+    # FROM workedAtPos wp
+    # JOIN coopPositions cp ON wp.coopPositionId = cp.coopPositionId
+    # JOIN createsPos cr ON cp.coopPositionId = cr.coopPositionId
+    # JOIN users u ON cr.employerId = u.userId
+    # JOIN companyProfiles com ON u.companyProfileId = com.companyProfileId
+    # GROUP BY com.name
+    # ORDER BY avgCompanyRating DESC;
+
+    
     cursor = db.get_db().cursor()
     cursor.execute(query)
     columns = [col[0] for col in cursor.description]

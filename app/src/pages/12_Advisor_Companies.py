@@ -11,21 +11,28 @@ SideBarLinks()
 
 st.title('Company Partnerships')
 
-# Fetch companies sorted by rating from backend
-API_URL = "http://web-api:4000/cprof/companyProfiles/rating"  # Update if your backend runs elsewhere
+# Fetch companies from backend
+API_URL = "http://web-api:4000/companyProfiles/rating"  # Update if your backend runs elsewhere
 
 try:
-    response = requests.get(API_URL)
+    response = requests.get("http://web-api:4000/companyProfiles/rating")
     response.raise_for_status()
     companies = response.json()
 except Exception as e:
     st.error(f"Failed to fetch companies: {e}")
     companies = []
 
-# Display companies in a table
+# Display companies
 if companies:
-    st.subheader("Top Rated Companies")
-    st.dataframe(companies)
+    st.subheader("companies list not empty")
+    for company in companies:
+        st.write(
+            f"- {company.get('companyName', 'Unknown Company')}"
+            f"(Avg. Rating: {company.get('avgCompanyRating', 'N/A')})"
+        )
 else:
     st.info("No company data available.")
+
+
+
 
