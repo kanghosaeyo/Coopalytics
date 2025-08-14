@@ -8,7 +8,7 @@ from backend.db_connection import db
 companyProfiles = Blueprint('companyProfiles', __name__)
 
 # Student/Advisor views a company profile
-@companyProfiles.route('/companyProfiles/<companyProfileId>', methods=['GET'])
+@companyProfiles.route('/users/<companyProfileId>/company-profiles', methods=['GET'])
 def get_company_profile(companyProfileId):
     query = '''
         SELECT *
