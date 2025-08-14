@@ -28,6 +28,23 @@ def get_user(userID):
     the_response.status_code = 200
     return the_response
 
+# Get employer profiles
+@users.route('/users/<userID>', methods=['GET'])
+def get_user(userID):
+    query = '''
+        SELECT u.*
+        FROM users u
+        WHERE u.userId = %s
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (userID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
 # Get student skills with proficiency levels
 @users.route('/users/<userID>/skills', methods=['GET'])
 def get_user_skills(userID):
