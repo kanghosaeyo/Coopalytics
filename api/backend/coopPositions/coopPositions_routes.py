@@ -152,7 +152,7 @@ def get_pending_positions():
     return the_response
 
 # Admin views number of co-ops posted by each employer
-@coopPositions.route('/coopPositions/employerJobCounts', methods=['GET'])
+@coopPositions.route('/employerJobCounts', methods=['GET'])
 def get_employer_job_counts():
     current_app.logger.info('GET /coopPositions/employerJobCounts route')
 

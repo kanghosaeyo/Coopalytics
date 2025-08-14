@@ -6,4 +6,6 @@ import streamlit as st
 from modules.nav import SideBarLinks
 import requests
 
+SideBarLinks()
+
 st.title("System Admin Home Page")
