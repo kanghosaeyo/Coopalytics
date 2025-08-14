@@ -21,28 +21,6 @@ This page displays company partnerships sorted by their average student ratings.
 Companies with higher ratings appear first, showing detailed statistics including min/max ratings and total ratings.
 """)
 
-# # Add refresh button
-# col1, col2 = st.columns([1, 4])
-# with col1:
-#     if st.button("🔄 Refresh Data"):
-#         st.rerun()
-# with col2:
-#     st.markdown("*Click refresh to get the latest company data*")
-
-# # Test API connection
-# if st.button("🧪 Test API Connection"):
-#     try:
-#         test_response = requests.get(f"{API_BASE_URL}/cprof/companyProfiles", timeout=5)
-#         if test_response.status_code == 200:
-#             st.success("✅ API connection successful!")
-#             st.info(f"Response status: {test_response.status_code}")
-#         else:
-#             st.error(f"❌ API responded with status: {test_response.status_code}")
-#     except Exception as e:
-#         st.error(f"❌ API connection failed: {str(e)}")
-
-# st.divider()
-
 def fetch_company_ratings():
     """Fetch company profiles sorted by rating from the API"""
     try:
@@ -85,24 +63,6 @@ def display_company_ratings():
     with st.spinner("Fetching company data..."):
         rated_companies = fetch_company_ratings()
         all_companies = fetch_all_companies()
-    
-#     if not rated_companies and not all_companies:
-#         st.warning("No company data available or unable to connect to API.")
-#         st.info("Please ensure the backend API is running and accessible.")
-#         return
-    
-#     # Debug: Show raw data for troubleshooting
-#     if st.checkbox("🔍 Show Debug Info"):
-#         st.subheader("Debug Information")
-#         st.write("**Rated Companies Data:**")
-#         st.json(rated_companies)
-#         st.write("**All Companies Data:**")
-#         st.json(all_companies)
-#         st.write("**Rated Companies:**")
-#         st.write([comp.get('companyName', 'N/A') for comp in rated_companies])
-#         st.write("**Unrated Companies:**")
-#         st.write([comp.get('name', 'N/A') for comp in unrated_companies])
-#         st.divider()
     
     # Display summary statistics
     if rated_companies:
