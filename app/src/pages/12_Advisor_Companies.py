@@ -11,46 +11,44 @@ SideBarLinks()
 
 # API endpoint configuration
 API_BASE_URL = "http://web-api:4000"
-RATING_ENDPOINT = f"{API_BASE_URL}/cprof/companyProfiles/rating"
+RATING_ENDPOINT = f"{API_BASE_URL}/wap/workedatpos/company-ratings"
 ALL_COMPANIES_ENDPOINT = f"{API_BASE_URL}/cprof/companyProfiles"
 
 st.title('Company Partnerships')
 
 st.markdown("""
 This page displays company partnerships sorted by their average student ratings.
-Companies with higher ratings appear first, followed by companies without ratings yet.
+Companies with higher ratings appear first, showing detailed statistics including min/max ratings and total ratings.
 """)
 
-# Add refresh button
-col1, col2 = st.columns([1, 4])
-with col1:
-    if st.button("🔄 Refresh Data"):
-        st.rerun()
-with col2:
-    st.markdown("*Click refresh to get the latest company data*")
+# # Add refresh button
+# col1, col2 = st.columns([1, 4])
+# with col1:
+#     if st.button("🔄 Refresh Data"):
+#         st.rerun()
+# with col2:
+#     st.markdown("*Click refresh to get the latest company data*")
 
-# Test API connection
-if st.button("🧪 Test API Connection"):
-    try:
-        test_response = requests.get(f"{API_BASE_URL}/cprof/companyProfiles", timeout=5)
-        if test_response.status_code == 200:
-            st.success("✅ API connection successful!")
-            st.info(f"Response status: {test_response.status_code}")
-        else:
-            st.error(f"❌ API responded with status: {test_response.status_code}")
-    except Exception as e:
-        st.error(f"❌ API connection failed: {str(e)}")
+# # Test API connection
+# if st.button("🧪 Test API Connection"):
+#     try:
+#         test_response = requests.get(f"{API_BASE_URL}/cprof/companyProfiles", timeout=5)
+#         if test_response.status_code == 200:
+#             st.success("✅ API connection successful!")
+#             st.info(f"Response status: {test_response.status_code}")
+#         else:
+#             st.error(f"❌ API responded with status: {test_response.status_code}")
+#     except Exception as e:
+#         st.error(f"❌ API connection failed: {str(e)}")
 
-st.divider()
+# st.divider()
 
 def fetch_company_ratings():
     """Fetch company profiles sorted by rating from the API"""
     try:
-        st.info(f"Fetching from: {RATING_ENDPOINT}")
         response = requests.get(RATING_ENDPOINT, timeout=10)
         if response.status_code == 200:
             data = response.json()
-            st.success(f"Successfully fetched {len(data)} rated companies")
             return data
         else:
             st.error(f"Failed to fetch rating data: {response.status_code}")
@@ -66,11 +64,9 @@ def fetch_company_ratings():
 def fetch_all_companies():
     """Fetch all company profiles from the API"""
     try:
-        st.info(f"Fetching from: {ALL_COMPANIES_ENDPOINT}")
         response = requests.get(ALL_COMPANIES_ENDPOINT, timeout=10)
         if response.status_code == 200:
             data = response.json()
-            st.success(f"Successfully fetched {len(data)} total companies")
             return data
         else:
             st.error(f"Failed to fetch company data: {response.status_code}")
@@ -90,19 +86,23 @@ def display_company_ratings():
         rated_companies = fetch_company_ratings()
         all_companies = fetch_all_companies()
     
-    if not rated_companies and not all_companies:
-        st.warning("No company data available or unable to connect to API.")
-        st.info("Please ensure the backend API is running and accessible.")
-        return
+#     if not rated_companies and not all_companies:
+#         st.warning("No company data available or unable to connect to API.")
+#         st.info("Please ensure the backend API is running and accessible.")
+#         return
     
-    # Debug: Show raw data for troubleshooting
-    if st.checkbox("🔍 Show Debug Info"):
-        st.subheader("Debug Information")
-        st.write("**Rated Companies Data:**")
-        st.json(rated_companies)
-        st.write("**All Companies Data:**")
-        st.json(all_companies)
-        st.divider()
+#     # Debug: Show raw data for troubleshooting
+#     if st.checkbox("🔍 Show Debug Info"):
+#         st.subheader("Debug Information")
+#         st.write("**Rated Companies Data:**")
+#         st.json(rated_companies)
+#         st.write("**All Companies Data:**")
+#         st.json(all_companies)
+#         st.write("**Rated Companies:**")
+#         st.write([comp.get('companyName', 'N/A') for comp in rated_companies])
+#         st.write("**Unrated Companies:**")
+#         st.write([comp.get('name', 'N/A') for comp in unrated_companies])
+#         st.divider()
     
     # Display summary statistics
     if rated_companies:
@@ -111,7 +111,7 @@ def display_company_ratings():
         # Ensure ratings are converted to float and handle any None values
         ratings = []
         for comp in rated_companies:
-            rating = comp.get('avgCompanyRating')
+            rating = comp.get('avgRating')
             if rating is not None:
                 try:
                     ratings.append(float(rating))
@@ -120,7 +120,7 @@ def display_company_ratings():
         
         if ratings:
             avg_rating = sum(ratings) / len(ratings)
-            top_company = max(rated_companies, key=lambda x: float(x.get('avgCompanyRating', 0)) if x.get('avgCompanyRating') is not None else 0)
+            top_company = max(rated_companies, key=lambda x: float(x.get('avgRating', 0)) if x.get('avgRating') is not None else 0)
         else:
             avg_rating = 0
             top_company = rated_companies[0] if rated_companies else None
@@ -138,50 +138,47 @@ def display_company_ratings():
     
     # Add filtering options
     if rated_companies:
-        industries = list(set(comp.get('companyIndustry', 'Unknown') for comp in rated_companies))
-        industries.sort()
-        
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            selected_industry = st.selectbox("Filter by Industry", ["All Industries"] + industries)
-        
-        # Filter companies by industry if selected
-        if selected_industry != "All Industries":
-            filtered_companies = [comp for comp in rated_companies if comp.get('companyIndustry') == selected_industry]
-            st.info(f"Showing {len(filtered_companies)} companies in {selected_industry}")
-        else:
-            filtered_companies = rated_companies
+        # Since workedatpos endpoint doesn't have industry, we'll skip industry filtering
+        filtered_companies = rated_companies
     else:
         filtered_companies = []
     
     # Display companies with ratings
     if filtered_companies:
-        st.subheader("🏆 Companies with Student Ratings")
-        st.markdown("*Sorted by average rating (highest first)*")
+        st.subheader("🏆 Highest Performing Companies")
+        st.markdown("*Sorted by average rating by past coops (highest to lowest)*")
         
         # Create a DataFrame-like display using Streamlit
-        col1, col2, col3, col4, col5 = st.columns([3, 1, 1, 1, 2])
+        col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 3, 2, 1, 1, 1, 1])
         
         with col1:
-            st.write("**Company Name**")
+            st.write("**Company ID**")
         with col2:
-            st.write("**Avg Rating**")
+            st.write("**Company Name**")
         with col3:
-            st.write("**Count**")
-        with col4:
             st.write("**Industry**")
+        with col4:
+            st.write("**Avg Rating**")
         with col5:
-            st.write("**Website**")
+            st.write("**# of Ratings**")
+        with col6:
+            st.write("**Min**")
+        with col7:
+            st.write("**Max**")
         
         st.divider()
         
         for company in filtered_companies:
-            col1, col2, col3, col4, col5 = st.columns([3, 1, 1, 1, 2])
+            col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 3, 2, 1, 1, 1, 1])
             
             with col1:
-                st.write(f"**{company.get('companyName', 'N/A')}**")
+                st.write(company.get('companyProfileId', 'N/A'))
             with col2:
-                avg_rating = company.get('avgCompanyRating', 0)
+                st.write(f"**{company.get('companyName', 'N/A')}**")
+            with col3:
+                st.write(company.get('companyIndustry', 'N/A'))
+            with col4:
+                avg_rating = company.get('avgRating', 0)
                 if avg_rating is not None:
                     try:
                         avg_rating = float(avg_rating)
@@ -196,71 +193,29 @@ def display_company_ratings():
                         st.write("Invalid rating")
                 else:
                     st.write("No ratings")
-            with col3:
-                rating_count = company.get('ratingCount', 0)
-                st.write(f"{rating_count}")
-            with col4:
-                industry = company.get('companyIndustry', 'N/A')
-                st.write(industry)
             with col5:
-                website = company.get('companyWebsite', 'N/A')
-                if website and website != 'N/A':
-                    st.write(f"[{website}](https://{website})")
+                total_ratings = company.get('totalRatings', 0)
+                st.write(f"{total_ratings}")
+            with col6:
+                min_rating = company.get('minRating', 'N/A')
+                if min_rating is not None:
+                    st.write(f"{min_rating:.1f}")
+                else:
+                    st.write("N/A")
+            with col7:
+                max_rating = company.get('maxRating', 'N/A')
+                if max_rating is not None:
+                    st.write(f"{max_rating:.1f}")
                 else:
                     st.write("N/A")
             
             st.divider()
-    
-    # Display companies without ratings
-    if all_companies:
-        # Find companies without ratings
-        rated_company_names = {comp.get('companyName') for comp in rated_companies}
-        unrated_companies = [comp for comp in all_companies if comp.get('name') not in rated_company_names]
-        
-        if unrated_companies:
-            st.subheader("📋 Companies Awaiting Student Feedback")
-            st.markdown("*Companies that haven't received ratings yet*")
             
-            col1, col2, col3 = st.columns([3, 2, 2])
-            
-            with col1:
-                st.write("**Company Name**")
-            with col2:
-                st.write("**Industry**")
-            with col3:
-                st.write("**Website**")
-            
-            st.divider()
-            
-            for company in unrated_companies:
-                col1, col2, col3 = st.columns([3, 2, 2])
-                
-                with col1:
-                    st.write(company.get('name', 'N/A'))
-                with col2:
-                    st.write(company.get('industry', 'N/A'))
-                with col3:
-                    website = company.get('websiteLink', 'N/A')
-                    if website and website != 'N/A':
-                        st.write(f"[{website}](https://{website})")
-                    else:
-                        st.write("N/A")
-                
-                st.divider()
-
 # Main content
 try:
     display_company_ratings()
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
     logger.error(f"Error in display_company_ratings: {str(e)}")
-
-# Add some additional information
-st.markdown("---")
-st.markdown("""
-**Note:** This data is based on student feedback from completed co-op experiences.
-Companies are sorted by their average rating to help identify the most successful partnerships.
-Companies without ratings may be new partners or haven't had students complete co-ops yet.
-""")
 
 
