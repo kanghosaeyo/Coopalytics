@@ -72,7 +72,7 @@ def EmployerHomeNav():
 
 def EmployerPostingsNav():
     st.sidebar.page_link(
-        "pages/21_Employer_Postings.py", label="Manage Co-op Postings", icon="📄"
+        "pages/21_Employer_Postings.py", label="Manage Job Postings", icon="📄"
     )
 
 
