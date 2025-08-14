@@ -1,6 +1,5 @@
 import os, requests, pandas as pd, streamlit as st
 from modules.nav import SideBarLinks
-
 st.set_page_config(page_title="Admin • Coopalytics", layout="wide")
 SideBarLinks()
 st.title("System Admin Home Page")
