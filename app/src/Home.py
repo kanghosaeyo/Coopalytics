@@ -128,7 +128,8 @@ with col2:
                 key="student_login"):
         st.session_state['authenticated'] = True
         st.session_state['role'] = 'student'
-        st.session_state['first_name'] = 'Alex'
+        st.session_state['first_name'] = 'Charlie'
+        st.session_state['user_id'] = 1
         logger.info("Logging in as Student Persona")
         st.switch_page('pages/00_Student_Home.py')
 
@@ -153,7 +154,7 @@ with col2:
         st.session_state['role'] = 'advisor'
         st.session_state['first_name'] = 'Dr. Sarah'
         logger.info("Logging in as Academic Advisor Persona")
-        st.switch_page('pages/01_Advisor_Home.py')
+        st.switch_page('pages/10_Advisor_Home.py')
 
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -176,7 +177,7 @@ with col2:
         st.session_state['role'] = 'employer'
         st.session_state['first_name'] = 'Jennifer'
         logger.info("Logging in as Employer Persona")
-        st.switch_page('pages/02_Employer_Home.py')
+        st.switch_page('pages/20_Employer_Home.py')
 
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -199,7 +200,7 @@ with col2:
         st.session_state['role'] = 'administrator'
         st.session_state['first_name'] = 'SysAdmin'
         logger.info("Logging in as System Administrator Persona")
-        st.switch_page('pages/03_Admin_Home.py')
+        st.switch_page('pages/30_Admin_Home.py')
 
 # Footer section
 st.markdown("<br><br>", unsafe_allow_html=True)

@@ -30,9 +30,9 @@ def get_student_applications(studentID):
                  JOIN applications a ON ata.applicationId = a.applicationId
                  JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
                  JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
-        WHERE u.userId = {0}
+        WHERE u.userId = %s
         ORDER BY a.dateApplied DESC, cp.deadline ASC
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -52,10 +52,10 @@ def get_numb_apps(studentID):
             COUNT(*) AS ApplicationCount
         FROM applications a
             JOIN appliesToApp ata ON a.applicationId = ata.applicationId
-        WHERE ata.studentId = {0}
+        WHERE ata.studentId = %s
         GROUP BY a.status
 
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -101,3 +101,55 @@ def get_advisor_student_applications(advisorID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Employer views all applications of a posting
+@applications.route('/applications/<int:coopPositionId>', methods=['GET'])
+def get_applications(coopPositionId):
+    current_app.logger.info('GET /applications/%s', coopPositionId)
+
+    query = '''
+        SELECT a.dateTimeApplied, a.status, a.resume, a.gpa, a.coverLetter,
+               a.coopPositionId, a.applicationId
+        FROM applications a
+        JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+        WHERE a.coopPositionId = %s
+        ORDER BY a.dateTimeApplied DESC;
+    '''
+    cursor = db.get_db().cursor(dictionary=True)
+    cursor.execute(query, (coopPositionId,))
+    theData = cursor.fetchall()
+
+    return make_response(jsonify(theData), 200)
+
+# Student applies to a position
+@applications.route('/users/appliesToApp/applications', methods=['POST'])
+def create_application():
+     current_app.logger.info('GET /applications')
+     application_info = request.json
+     datetime_applied = application_info['dateTimeApplied']
+     status = application_info['status']
+     resume = application_info['resume']
+     gpa = application_info['gpa']
+     cover_letter = application_info['coverLetter']
+     coop_position_id = application_info['coopPositionId']
+     application_id = application_info['applicationId']
+
+
+     query = '''
+INSERT INTO applications
+VALUES (dateTimeApplied = %s,
+        status = %s,
+        resume = %s,
+        gpa = %s,
+        coverLetter = %s,
+        coopPositionId = %s,
+        applicationId = %s);
+        '''
+     data = (datetime_applied, status, resume, gpa, cover_letter,
+             coop_position_id, application_id)
+     
+     cursor = db.get_db().cursor()
+     r = cursor.execute(query, data)
+     db.get_db().commit()
+     return 'application submitted!'
+

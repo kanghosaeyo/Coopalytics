@@ -39,13 +39,13 @@ def get_desired_skills(studentID):
             cp.description
         FROM coopPositions cp
             LEFT JOIN viewsPos vp ON cp.coopPositionId = vp.coopPositionId
-            JOIN users u ON u.userId = {0}
+            JOIN users u ON u.userId = %s
         WHERE (vp.preference IS NULL OR vp.preference = TRUE)
             AND cp.desiredSkillsId IN (SELECT skillId
                                         FROM skillDetails
-                                        WHERE studentId = {0})
+                                        WHERE studentId = %s)
             AND (cp.desiredGPA IS NULL OR cp.desiredGPA <= u.grade)
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -67,12 +67,12 @@ def get_required_skills(studentID):
             cp.description
         FROM coopPositions cp
             LEFT JOIN viewsPos vp ON cp.coopPositionId = vp.coopPositionId
-            JOIN users u ON u.userId = {0}
+            JOIN users u ON u.userId = %s
         WHERE (vp.preference IS NULL OR vp.preference = TRUE)
             AND cp.requiredSkillsId IN (SELECT skillId
                                         FROM skillDetails
-                                        WHERE studentId = {0})
-    '''.format(studentID)
+                                        WHERE studentId = %s)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -81,6 +81,42 @@ def get_required_skills(studentID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+
+# Employer posts co-op position
+@coopPositions.route('/createsPos/coopPosition', methods=['POST'])
+def create_position():
+    current_app.logger.info('POST /createsPos/coopPosition')
+    pos_info = request.json
+
+    query = '''
+        INSERT INTO coopPositions
+            (coopPositionId, title, location, description, hourlyPay, requiredSkillsId,
+             desiredSkillsId, desiredGPA, deadline, startDate, endDate, flagged, industry)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+    '''
+    data = (
+        pos_info['coopPositionId'],
+        pos_info['title'],
+        pos_info['location'],
+        pos_info['description'],
+        pos_info['hourlyPay'],
+        pos_info.get('requiredSkillsId'),
+        pos_info.get('desiredSkillsId'),
+        pos_info.get('desiredGPA'),
+        pos_info.get('deadline'),
+        pos_info['startDate'],
+        pos_info['endDate'],
+        pos_info.get('flagged', False),
+        pos_info['industry']
+    )
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, data)
+    db.get_db().commit()
+    return make_response(jsonify({"message": "Position created!"}), 201)
+
+
 
 # Admin reviews positions before they go live 
 @coopPositions.route('/coopPositions/pending', methods=['GET'])
@@ -240,3 +276,4 @@ def unflag_position(pos_id):
     the_response = make_response(jsonify({'message': 'flag removed!'}))
     the_response.status_code = 200
     return the_response
+
