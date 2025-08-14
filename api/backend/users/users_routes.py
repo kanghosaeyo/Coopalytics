@@ -197,28 +197,6 @@ def get_advisor_students(advisorID):
     the_response.status_code = 200
     return the_response
 
-# Get advisor statistics
-@users.route('/advisors/<advisorID>/statistics', methods=['GET'])
-def get_advisor_statistics(advisorID):
-    query = '''
-        SELECT
-            COUNT(*) as total_advisees,
-            COUNT(CASE WHEN u.gradYear = '2025' THEN 1 END) as graduating_2025,
-            COUNT(DISTINCT u.college) as different_colleges,
-            COUNT(DISTINCT u.major) as different_majors
-        FROM users u
-        JOIN advisor_advisee aa ON u.userId = aa.studentId
-        WHERE aa.advisorId = %s
-    '''
-
-    cursor = db.get_db().cursor()
-    cursor.execute(query, (advisorID,))
-    theData = cursor.fetchall()
-
-    the_response = make_response(jsonify(theData))
-    the_response.status_code = 200
-    return the_response
-
 # Update student flag status for advisor
 @users.route('/advisors/<advisorID>/students/<studentID>/flag', methods=['PUT'])
 def update_student_flag(advisorID, studentID):
