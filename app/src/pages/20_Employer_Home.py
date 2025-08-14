@@ -138,14 +138,14 @@ if user_data:
         col1 = st.columns(1)[0]
             
         with col1:
-            company_name = st.text_input("Company Name", value=user_data.get("name", ""))
-            bio = st.text_input("Who Are We", value=user_data.get("bio", ""))
-            industry = st.text_input("Industry", value=user_data.get("industry", ""))
-            website_link = st.text_input("Phone", value=user_data.get("websiteLink", ""))
-        submitted = st.form_submit_button("Update Profile", type="primary", use_container_width=True)
+            company_name = st.text_input("Company Name", value=company_data.get("name", ""))
+            bio = st.text_input("Who Are We", value=company_data.get("bio", ""))
+            industry = st.text_input("Industry", value=company_data.get("industry", ""))
+            website_link = st.text_input("Phone", value=company_data.get("websiteLink", ""))
+        submitted = st.form_submit_button("Update Company Profile", type="primary", use_container_width=True)
             
         if submitted:
-            update_data = {
+            update_company_data = {
                 "name": company_name,
                 "bio": bio,
                 "industry": industry,
@@ -163,13 +163,12 @@ if user_data:
         personal_col1 = st.columns(1)[0]
 
         with personal_col1:
-            st.subheader("Personal Information")
             first_name = st.text_input("First Name", value=user_data.get("firstName", ""))
             last_name = st.text_input("Last Name", value=user_data.get("lastName", ""))
             email = st.text_input("Email", value=user_data.get("email", ""))
             phone = st.text_input("Phone", value=user_data.get("phone", ""))
             
-        submitted = st.form_submit_button("Update Profile", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("Update Personal Profile", type="secondary", use_container_width=True)
             
         if submitted:
             update_data = {
