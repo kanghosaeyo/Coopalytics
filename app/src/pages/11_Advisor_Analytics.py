@@ -30,8 +30,11 @@ def fetch_advisor_data(user_id):
         logger.info(f"Fetching advisor data from API: status_code={response.status_code}")
         if response.status_code == 200:
             data = response.json()
-            return data[0] if data else None
-        return None
+            logger.info(f"Received advisor data: {data}")
+            return data[0] if data and len(data) > 0 else None
+        else:
+            logger.warning(f"API returned status {response.status_code}")
+            return None
     except Exception as e:
         logger.error(f"Error fetching advisor data: {e}")
         # Fallback data if API is not available
@@ -89,6 +92,7 @@ def fetch_placement_analytics(advisor_id):
         logger.info(f"Fetching placement analytics from API: status_code={response.status_code}")
         if response.status_code == 200:
             api_data = response.json()
+            logger.info(f"Received placement data: {len(api_data) if api_data else 0} records")
             if api_data:  # If API returns data, use it
                 logger.info(f"Successfully fetched {len(api_data)} placement records from API")
                 return api_data
@@ -97,7 +101,7 @@ def fetch_placement_analytics(advisor_id):
                 return fallback_data
         else:
             # API returned error status, use fallback data
-            logger.info(f"API returned status {response.status_code}, using fallback sample data")
+            logger.warning(f"API returned status {response.status_code}, using fallback sample data")
             return fallback_data
     except Exception as e:
         logger.error(f"Error fetching placement analytics: {e}")
