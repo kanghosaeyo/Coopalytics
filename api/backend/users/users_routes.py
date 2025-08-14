@@ -221,37 +221,33 @@ def update_users():
 
 
 # Employer filters student profiles
-@users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
-def filter_users():
-    current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
-    user_info = request.json
-    skill_info = request.json
-    user_id = user_info['userId']
-    first_name = user_info['firstName']
-    last_name = user_info['lastName']
-    name = skill_info['name']
-    grad_year = user_info['gradYear']
-    major = user_info['major']
+@users.route('/applications/appliesToApp/<int:studentId>/users', methods=['GET'])
+def filter_users(studentId):
+    current_app.logger.info('GET /applications/appliesToApp/%s/users', studentId)
+    args = request.args  # GET request filter params
+
+    skill1 = args.get('skill1')
+    skill2 = args.get('skill2')
+    skill3 = args.get('skill3')
+    grad_year = args.get('gradYear')
+    major = args.get('major')
 
     query = '''
-        SELECT u.userId, u.firstName, u.lastName
-        FROM users u JOIN skillDetails sd
-        ON u.userId = sd.studentId
-        JOIN skills s
-        ON sd.skillId = s.skillId
-        WHERE s.name = %s
-        OR s.name = %s
-        OR s.name = %s
-        AND u.gradYear = %s
-        AND u.major = %s;'''
-    data = (user_id, first_name, last_name, name, name, name, grad_year, major)
-    cursor = db.get_db().cursor()
-    r = cursor.execute(query, data)
-    db.get_db().commit()
+        SELECT DISTINCT u.userId, u.firstName, u.lastName, u.gradYear, u.major
+        FROM users u
+        JOIN skillDetails sd ON u.userId = sd.studentId
+        JOIN skills s ON sd.skillId = s.skillId
+        WHERE (s.name = %s OR s.name = %s OR s.name = %s)
+          AND u.gradYear = %s
+          AND u.major = %s;
+    '''
+    data = (skill1, skill2, skill3, grad_year, major)
 
+    cursor = db.get_db().cursor(dictionary=True)
+    cursor.execute(query, data)
     theData = cursor.fetchall()
-   
-    the_response = make_response(jsonify(theData))
+
+    return make_response(jsonify(theData), 200)
 
 # Admin creates a user (student/employer/advisor)
 @users.route('/users', methods=['POST'])

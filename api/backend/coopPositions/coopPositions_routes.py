@@ -86,47 +86,36 @@ def get_required_skills(studentID):
 # Employer posts co-op position
 @coopPositions.route('/createsPos/coopPosition', methods=['POST'])
 def create_position():
-    current_app.logger.info('GET /createsPos/coopPosition')
+    current_app.logger.info('POST /createsPos/coopPosition')
     pos_info = request.json
-    coop_position_id = pos_info['coopPositionId']
-    title = pos_info['title']
-    location = pos_info['locatoin']
-    description = pos_info['description']
-    hourly_pay = pos_info['hourlyPay']
-    required_skills = pos_info['requiredSkills']
-    desired_skills = pos_info['desiredSkills']
-    desired_gpa = pos_info['desiredGPA']
-    deadline = pos_info['deadline']
-    start_date = pos_info['startDate']
-    end_date = pos_info['endDate']
-    flag = pos_info['flag']
-    industry = pos_info['industry']
 
     query = '''
         INSERT INTO coopPositions
-        VALUES (coopPositionId = %s,
-        title = %s,
-        location = %s,
-        description = %s,
-        hourlyPay = %s,
-        requiredSkills = %s,
-        desiredSkills = %s,
-        desiredGPA = %s,
-        deadline = %s,
-        startDate = %s,
-        endDate = %s,
-        flag = %s,
-        industry = %s,;
-
+            (coopPositionId, title, location, description, hourlyPay, requiredSkillsId,
+             desiredSkillsId, desiredGPA, deadline, startDate, endDate, flagged, industry)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     '''
-    data = (coop_position_id, title, location, description, hourly_pay,
-            required_skills, desired_skills, desired_gpa, deadline,
-            start_date, end_date, flag, industry)
+    data = (
+        pos_info['coopPositionId'],
+        pos_info['title'],
+        pos_info['location'],
+        pos_info['description'],
+        pos_info['hourlyPay'],
+        pos_info.get('requiredSkillsId'),
+        pos_info.get('desiredSkillsId'),
+        pos_info.get('desiredGPA'),
+        pos_info.get('deadline'),
+        pos_info['startDate'],
+        pos_info['endDate'],
+        pos_info.get('flagged', False),
+        pos_info['industry']
+    )
 
     cursor = db.get_db().cursor()
-    r = cursor.execute(query, data)
+    cursor.execute(query, data)
     db.get_db().commit()
-    return 'position created!'
+    return make_response(jsonify({"message": "Position created!"}), 201)
+
 
 
 # Admin reviews positions before they go live 
