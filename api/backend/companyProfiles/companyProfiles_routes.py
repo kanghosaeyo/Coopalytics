@@ -25,7 +25,7 @@ def get_company_profile(companyProfileId):
     return the_response
 
 # Employer creates a company profile
-@companyProfiles.route('/companyProfiles', methods=['POST'])
+@companyProfiles.route('/companyProfiles/create/<companyProfileId>', methods=['POST'])
 def createCompanyProfile(companyProfileId):
     
     the_data = request.json
@@ -46,7 +46,32 @@ def createCompanyProfile(companyProfileId):
     cursor.execute(query)
     db.get_db().commit()
     
-    response = make_response("Successfully created company profile")
+    response = make_response("Created company profile")
     response.status_code = 200
     return response
 
+# Employer updates/edits company information
+@companyProfiles.route('/companyProfiles/update/<companyProfileId>', methods=['PUT'])
+def updateCompanyProfile(companyProfileId):
+    current_app.logger.info('PUT /companyProfiles/update/<companyProfileId> route')
+    
+    company_info = request.json
+    companyId = company_info['id']
+    companyName = company_info['name']
+    companyBio = company_info['bio']
+    companyIndustry = company_info['industry']
+    companyWebsite = company_info['website_link']
+    
+    query = '''
+        UPDATE companyProfiles
+        SET name = %s,
+            bio = %s,
+            industry = %s,
+            websiteLink = %s
+        WHERE companyProfileId = %s
+    '''
+    data = (companyName, companyBio, companyIndustry, companyWebsite, companyId)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
+    return 'Updated company profile!'
