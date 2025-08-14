@@ -44,7 +44,7 @@ def create_app():
     app.logger.info('current_app(): registering blueprints with Flask app object.')   
     # app.register_blueprint(users, url_prefix='/u')
     app.register_blueprint(users)
-    app.register_blueprint(coopPositions, url_prefix='/cpos')
+    app.register_blueprint(coopPositions, url_prefix='/api/coopPositions')
     app.register_blueprint(companyProfiles, url_prefix='/cprof')
     app.register_blueprint(workedatpos, url_prefix='/wap')
     app.register_blueprint(views_position, url_prefix='/vp')
