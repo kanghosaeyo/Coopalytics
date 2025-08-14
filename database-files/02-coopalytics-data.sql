@@ -283,6 +283,15 @@ INSERT INTO createsPos (employerId, coopPositionId) VALUES
 (40, 31), (40, 32), (40, 33), (40, 34), (40, 35), (40, 36), (40, 37), (40, 38), (40, 39), (40, 40),
 (41, 41), (41, 42), (41, 43), (41, 44), (41, 45), (41, 46), (41, 47), (41, 48), (41, 49), (41, 50);
 
+-- 7. Advisor-Advisee relationships (bridge table - references users)
+INSERT INTO advisor_advisee (advisorId, studentId) VALUES
+-- Sarah Martinez (advisor 31) advises students 1-10
+(31, 1), (31, 2), (31, 3), (31, 4), (31, 5), (31, 6), (31, 7), (31, 8), (31, 9), (31, 10),
+-- Michael Chen (advisor 32) advises students 11-20
+(32, 11), (32, 12), (32, 13), (32, 14), (32, 15), (32, 16), (32, 17), (32, 18), (32, 19), (32, 20),
+-- Jennifer Kim (advisor 33) advises students 21-30
+(33, 21), (33, 22), (33, 23), (33, 24), (33, 25), (33, 26), (33, 27), (33, 28), (33, 29), (33, 30);
+
 -- 8. Applies To App relationships (bridge table - references applications and users)
 INSERT INTO appliesToApp (applicationId, studentId) VALUES
 (1, 1), (2, 1), (3, 2), (4, 2), (5, 3), (6, 3), (7, 4), (8, 4), (9, 5), (10, 5);

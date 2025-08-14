@@ -58,7 +58,7 @@ def get_numb_apps(studentID):
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (studentID,))
     theData = cursor.fetchall()
     
     the_response = make_response(jsonify(theData))
