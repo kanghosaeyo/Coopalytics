@@ -9,7 +9,7 @@ from backend.db_connection import db
 views_position = Blueprint('views_position', __name__)
 
 # student flags positions they like/do not like 
-@views_position.route('/views_position', methods=['POST'])
+@views_position.route('/views_position/position', methods=['POST'])
 def set_job_preference():
     the_data = request.json
     current_app.logger.info(the_data)
@@ -20,14 +20,14 @@ def set_job_preference():
     
     query = f'''
         INSERT INTO viewsPos (studentId, coopPositionId, preference)
-        VALUES ({student_id}, {coop_position_id}, {int(preference)})
+        VALUES (%s, %s, %s)
         ON DUPLICATE KEY UPDATE preference = VALUES(preference)
     '''
     current_app.logger.info(query)
     
     # Execute query and commit
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (student_id, coop_position_id, int(preference)))
     db.get_db().commit()
     
     # Return success response
@@ -37,7 +37,7 @@ def set_job_preference():
 
 
 # Student views deadlines for positions
-@views_position.route('/views_position/<studentID>/deadlines', methods=['GET'])
+@views_position.route('/views_position/<int:studentID>/deadlines', methods=['GET'])
 def get_deadlines(studentID):
     current_app.logger.info('GET /views_position/deadlines route')
 
@@ -50,12 +50,47 @@ def get_deadlines(studentID):
     '''
     
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (studentID,))
     theData = cursor.fetchall()
     
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Student views positions based on preference
+@views_position.route('/viewpos/<int:studentID>', methods=['GET'])
+def get_positions_by_preference(studentID):
+    current_app.logger.info(f'GET /viewpos/{studentID}')
+
+    pref_param = request.args.get('preference')
+
+    # Validate preference query param and build SQL condition
+    preference_clause = ''
+    if pref_param is not None:
+        if pref_param.lower() in ['true', '1']:
+            preference_clause = 'AND vp.preference = TRUE'
+        elif pref_param.lower() in ['false', '0']:
+            preference_clause = 'AND vp.preference = FALSE'
+        else:
+            return jsonify({"error": "Invalid preference value"}), 400
+
+    query = f'''
+        SELECT cp.*
+        FROM viewsPos vp
+        JOIN coopPositions cp ON cp.coopPositionId = vp.coopPositionId
+        WHERE vp.studentId = %s
+        {preference_clause}
+    '''
+
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (studentID,))
+        data = cursor.fetchall()
+        return jsonify(data), 200
+    except Exception as e:
+        current_app.logger.error(f"Error fetching positions by preference: {e}")
+        return jsonify({"error": "Server error"}), 500
+
     
 
 # Admin views preference metrics 

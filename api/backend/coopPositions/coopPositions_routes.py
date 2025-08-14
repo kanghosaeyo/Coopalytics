@@ -7,6 +7,24 @@ from backend.db_connection import db
 
 coopPositions = Blueprint('coopPositions', __name__)
 
+#Student views a co-op position
+@coopPositions.route('/positions', methods = ['GET'])
+def get_position_info():
+    current_app.logger.info('GET /positions route')
+    query = '''
+        SELECT cp.*
+        FROM coopPositions cp
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 # Student/Advisor views the average pay for each industry
 @coopPositions.route('/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
@@ -48,7 +66,7 @@ def get_desired_skills(studentID):
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (studentID, studentID))
     theData = cursor.fetchall()
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
@@ -75,7 +93,7 @@ def get_required_skills(studentID):
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (studentID, studentID))
     theData = cursor.fetchall()
     
     the_response = make_response(jsonify(theData))
