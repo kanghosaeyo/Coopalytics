@@ -18,8 +18,31 @@ def get_company_profile(companyProfileId):
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchall()
+    columns = [col[0] for col in cursor.description]
+    theData = [dict(zip(columns, row)) for row in cursor.fetchall()]
     
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Advisor views all company profiles sorted by their rating
+@companyProfiles.route('/companyProfiles/rating', methods=['GET'])
+def get_company_profiles_by_rating():
+    query = '''
+    SELECT com.name AS companyName,
+           AVG(wp.companyRating) AS avgCompanyRating
+    FROM workedAtPos wp
+    JOIN coopPositions cp ON wp.coopPositionId = cp.coopPositionId
+    JOIN createsPos cr ON cp.coopPositionId = cr.coopPositionId
+    JOIN users u ON cr.employerId = u.userId
+    JOIN companyProfiles com ON u.companyProfileId = com.companyProfileId
+    GROUP BY com.name
+    ORDER BY avgCompanyRating DESC;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    columns = [col[0] for col in cursor.description]
+    theData = [dict(zip(columns, row)) for row in cursor.fetchall()]
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
