@@ -17,6 +17,9 @@ API_BASE_URL = "http://web-api:4000"
 
 # 🔍 Get the user_id from session state
 charlie_user_id = st.session_state.get("user_id", None)
+# debugging
+logger.info(f"Session user_id: {charlie_user_id}")
+st.write(f"Debug: user_id = {charlie_user_id}")
 
 if charlie_user_id is None:
     st.error("User not logged in. Please return to home and log in.")
@@ -26,9 +29,13 @@ if charlie_user_id is None:
 def fetch_user_data(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/users/{user_id}")
+        logger.info(f"Fetching user data from API: status_code={response.status_code}")
         if response.status_code == 200:
             data = response.json()
+            logger.info(f"User data received: {data}")
             return data
+        else:
+            logger.error(f"Failed to fetch user data, status code: {response.status_code}, response: {response.text}")
         return None
     except Exception as e:
         logger.error(f"Error fetching user data: {e}")
