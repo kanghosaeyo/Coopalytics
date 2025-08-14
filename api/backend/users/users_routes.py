@@ -382,7 +382,7 @@ def employee_filter_student():
           AND u.gradYear = %s
           AND u.major = %s;
     '''
-    data = (skill1, skill2, skill3, grad_year, major)
+    data = (user_id, first_name, last_name, name, name, name, grad_year, major)
 
     cursor = db.get_db().cursor(dictionary=True)
     cursor.execute(query, data)
