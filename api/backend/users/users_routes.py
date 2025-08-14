@@ -222,7 +222,7 @@ def update_users():
 
 # Employer views student profile
 @users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
-def view_users():
+def employer_view_student():
     current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
     user_info = request.json
     application_info = request.json
@@ -260,7 +260,7 @@ def view_users():
 
 # Employer filters student profiles
 @users.route('/applications/appliesToApp/<studentId>/users', methods=['GET'])
-def view_users():
+def employee_filter_student():
     current_app.logger.info('GET /applications/appliesToApp/<studentId>/users')
     user_info = request.json
     skill_info = request.json

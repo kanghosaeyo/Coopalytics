@@ -35,3 +35,22 @@ def get_students_with_low_applications(advisorID):
     the_response.status_code = 200
     return the_response
 
+# Admin reassigns students to different advisors as needed
+@advisoradvisee.route('/admin/<studentId>/<advisorId>', 
+                      methods = ['PUT'])
+def reassignAdvisor():
+    current_app.logger.info('PUT /admin/<studentId>/<advisorId> route')
+    advisorId = request.json
+    studentId = request.json
+    
+    query = '''
+    UPDATE advisor_advisee
+            SET advisorId = %s
+            WHERE studentId = %s;
+            '''
+    data=(advisorId, studentId)
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, data)
+    db.get_db().commit()
+    return 'advisor reassigned successfully'
+    
