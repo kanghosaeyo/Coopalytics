@@ -3,7 +3,7 @@ import os, requests, pandas as pd, streamlit as st
 st.title("System Admin Home Page")
 st.write("Hi")
 
-API_BASE = os.getenv("API_BASE", "http://api:4000/api")  # in Docker: http://api:4000/api
+API_BASE = os.getenv("API_BASE", "http://localhost:4000/api") # in Docker: http://api:4000/api
 
 st.header("Pending Co-op Positions (First 5)")
 
