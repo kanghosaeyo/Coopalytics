@@ -8,7 +8,7 @@ from backend.db_connection import db
 coopPositions = Blueprint('coopPositions', __name__)
 
 # Student/Advisor views the average pay for each industry
-@coopPositions.route('/coopPositions/industryAveragePay', methods=['GET'])
+@coopPositions.route('/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
     query = '''
         SELECT cp.industry, AVG(cp.hourlyPay) AS industryAvgHourlyPay
@@ -16,7 +16,7 @@ def get_industry_average_pay():
         GROUP BY cp.industry;
         '''
     
-    current_app.logger.info('GET /coopPositions/industryAveragePay route')
+    current_app.logger.info('GET /industryAveragePay route')
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -28,9 +28,9 @@ def get_industry_average_pay():
 
 
 # Student view positions with desired skills that match their skills
-@coopPositions.route('/<int:studentID>/coopPositions/desiredSkills', methods=['GET'])
+@coopPositions.route('/<int:studentID>/desiredSkills', methods=['GET'])
 def get_desired_skills(studentID):
-    current_app.logger.info('GET /coopPositions/desiredSkills route')
+    current_app.logger.info('GET /desiredSkills route')
 
     query = '''
         SELECT cp.coopPositionId,
@@ -56,9 +56,9 @@ def get_desired_skills(studentID):
 
 
 # students view positions with required skills that match their skills 
-@coopPositions.route('/<int:studentID>/coopPositions/requiredSkills', methods=['GET'])
+@coopPositions.route('/<int:studentID>/requiredSkills', methods=['GET'])
 def get_required_skills(studentID):
-    current_app.logger.info('GET /coopPositions/requiredSkills route')
+    current_app.logger.info('GET /requiredSkills route')
 
     query = '''
         SELECT cp.coopPositionId,
@@ -119,9 +119,9 @@ def create_position():
 
 
 # Admin reviews positions before they go live 
-@coopPositions.route('/coopPositions/pending', methods=['GET'])
+@coopPositions.route('/pending', methods=['GET'])
 def get_pending_positions():
-    current_app.logger.info('GET /coopPositions/pending route')
+    current_app.logger.info('GET /pending route')
 
     query = '''
         SELECT
@@ -152,9 +152,9 @@ def get_pending_positions():
     return the_response
 
 # Admin views number of co-ops posted by each employer
-@coopPositions.route('/coopPositions/employerJobCounts', methods=['GET'])
+@coopPositions.route('/employerJobCounts', methods=['GET'])
 def get_employer_job_counts():
-    current_app.logger.info('GET /coopPositions/employerJobCounts route')
+    current_app.logger.info('GET /employerJobCounts route')
 
     query = '''
         SELECT
@@ -182,9 +182,9 @@ def get_employer_job_counts():
     return the_response
 
 # Admin approves a co-op position 
-@coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
+@coopPositions.route('/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
-    current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
+    current_app.logger.info('PUT /%s/approve route', pos_id)
 
     query = '''
         UPDATE coopPositions
@@ -205,9 +205,9 @@ def approve_position(pos_id):
     return the_response
 
 # Admin deletes an unapproved/invalid posting 
-@coopPositions.route('/coopPositions/<int:pos_id>', methods=['DELETE'])
+@coopPositions.route('/<int:pos_id>', methods=['DELETE'])
 def delete_unapproved_position(pos_id):
-    current_app.logger.info('DELETE /coopPositions/%s route', pos_id)
+    current_app.logger.info('DELETE /%s route', pos_id)
 
     query = '''
         DELETE FROM coopPositions
@@ -240,9 +240,9 @@ def delete_unapproved_position(pos_id):
         return the_response
     
 # Admin flags a position 
-@coopPositions.route('/coopPositions/<int:pos_id>/flag/<int:value>', methods=['PUT'])
+@coopPositions.route('/<int:pos_id>/flag/<int:value>', methods=['PUT'])
 def set_position_flag(pos_id, value):
-    current_app.logger.info('PUT /coopPositions/%s/flag/%s route', pos_id, value)
+    current_app.logger.info('PUT /%s/flag/%s route', pos_id, value)
 
     query = '''
         UPDATE coopPositions
@@ -259,9 +259,9 @@ def set_position_flag(pos_id, value):
     return the_response
 
 # Admin removes a flag from a position
-@coopPositions.route('/coopPositions/<int:pos_id>/unflag', methods=['PUT'])
+@coopPositions.route('/<int:pos_id>/unflag', methods=['PUT'])
 def unflag_position(pos_id):
-    current_app.logger.info('PUT /coopPositions/%s/unflag route', pos_id)
+    current_app.logger.info('PUT /%s/unflag route', pos_id)
 
     query = '''
         UPDATE coopPositions
@@ -274,6 +274,31 @@ def unflag_position(pos_id):
     db.get_db().commit()
 
     the_response = make_response(jsonify({'message': 'flag removed!'}))
+    the_response.status_code = 200
+    return the_response
+
+@coopPositions.route('/allPositions', methods=['GET'])
+def get_all_positions():
+    current_app.logger.info('GET /allPositions route')
+    query = '''
+        SELECT
+            coopPositionId,
+            title,
+            location,
+            description,
+            hourlyPay,
+            desiredGPA,
+            deadline,
+            startDate,
+            endDate,
+            industry
+        FROM coopPositions
+        ORDER BY deadline ASC, coopPositionId DESC
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
 
