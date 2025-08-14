@@ -224,6 +224,86 @@ def update_student_flag(advisorID, studentID):
         the_response.status_code = 500
         return the_response
 
+# Get placement analytics data for advisor
+@users.route('/advisors/<advisorID>/analytics/placement-data', methods=['GET'])
+def get_advisor_placement_analytics(advisorID):
+    try:
+        query = '''
+            SELECT
+                u.firstName,
+                u.lastName,
+                u.gradYear,
+                u.major,
+                u.college,
+                a.gpa,
+                a.status,
+                cp.title as positionTitle,
+                cp.hourlyPay as salary,
+                COALESCE(comp.name, 'Unknown Company') as companyName,
+                cp.industry
+            FROM users u
+            JOIN advisor_advisee aa ON u.userId = aa.studentId
+            JOIN appliesToApp ata ON u.userId = ata.studentId
+            JOIN applications a ON ata.applicationId = a.applicationId
+            JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+            LEFT JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+            LEFT JOIN users emp ON crp.employerId = emp.userId
+            LEFT JOIN companyProfiles comp ON emp.companyProfileId = comp.companyProfileId
+            WHERE aa.advisorId = %s
+                AND a.status IN ('Accepted', 'Rejected')
+                AND cp.hourlyPay IS NOT NULL
+                AND a.gpa IS NOT NULL
+
+            UNION ALL
+
+            SELECT
+                u.firstName,
+                u.lastName,
+                u.gradYear,
+                u.major,
+                u.college,
+                COALESCE(avg_gpa.gpa, 3.5) as gpa,
+                'Completed' as status,
+                cp.title as positionTitle,
+                cp.hourlyPay as salary,
+                COALESCE(comp.name, 'Unknown Company') as companyName,
+                cp.industry
+            FROM users u
+            JOIN advisor_advisee aa ON u.userId = aa.studentId
+            JOIN workedAtPos wap ON u.userId = wap.studentId
+            JOIN coopPositions cp ON wap.coopPositionId = cp.coopPositionId
+            LEFT JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+            LEFT JOIN users emp ON crp.employerId = emp.userId
+            LEFT JOIN companyProfiles comp ON emp.companyProfileId = comp.companyProfileId
+            LEFT JOIN (
+                SELECT ata.studentId, AVG(a.gpa) as gpa
+                FROM appliesToApp ata
+                JOIN applications a ON ata.applicationId = a.applicationId
+                WHERE a.gpa IS NOT NULL
+                GROUP BY ata.studentId
+            ) avg_gpa ON u.userId = avg_gpa.studentId
+            WHERE aa.advisorId = %s
+                AND cp.hourlyPay IS NOT NULL
+
+            ORDER BY lastName, firstName
+        '''
+
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (advisorID, advisorID))
+        theData = cursor.fetchall()
+
+        the_response = make_response(jsonify(theData))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error fetching placement analytics: {e}")
+        the_response = make_response(jsonify({"error": "Failed to fetch placement analytics"}))
+        the_response.status_code = 500
+        return the_response
+
+
+
 # Update advisor profile (separate from student profile updates)
 @users.route('/advisors/<advisorID>/profile', methods=['PUT'])
 def update_advisor_profile(advisorID):
