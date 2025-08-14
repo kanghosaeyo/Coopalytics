@@ -11,10 +11,10 @@ SideBarLinks()
 
 logger.info("Loading Student Home page")
 
-# Charlie Stout's userId from your database
+# Charlie Stout's userId from database
 API_BASE_URL = "http://web-api:4000"
 
-# 🔍 Get the user_id from session state
+# Get the user_id from session state
 charlie_user_id = st.session_state.get("user_id", None)
 
 if charlie_user_id is None:
