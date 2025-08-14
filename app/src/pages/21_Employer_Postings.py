@@ -9,4 +9,4 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('Employer Postings')
+st.title('Co-op Postings')
