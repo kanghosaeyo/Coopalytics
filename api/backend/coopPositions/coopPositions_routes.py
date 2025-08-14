@@ -119,7 +119,7 @@ def create_position():
 
 
 # Admin reviews positions before they go live 
-@coopPositions.route('/coopPositions/pending', methods=['GET'])
+@coopPositions.route('/pending', methods=['GET'])
 def get_pending_positions():
     current_app.logger.info('GET /coopPositions/pending route')
 
