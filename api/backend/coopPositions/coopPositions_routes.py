@@ -8,7 +8,7 @@ from backend.db_connection import db
 coopPositions = Blueprint('coopPositions', __name__)
 
 # Student/Advisor views the average pay for each industry
-@coopPositions.route('/coopPositions/industryAveragePay', methods=['GET'])
+@coopPositions.route('/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
     query = '''
         SELECT cp.industry, AVG(cp.hourlyPay) AS industryAvgHourlyPay
@@ -182,7 +182,7 @@ def get_employer_job_counts():
     return the_response
 
 # Admin approves a co-op position 
-@coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
+@coopPositions.route('/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
     current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
 
