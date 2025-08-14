@@ -119,6 +119,17 @@ def update_advisor_data(advisor_id, advisor_data):
         logger.error(f"Error updating advisor data: {e}")
         return False
 
+# Function to update student flag status
+def update_student_flag(advisor_id, student_id, flagged):
+    try:
+        response = requests.put(f"{API_BASE_URL}/advisors/{advisor_id}/students/{student_id}/flag",
+                               json={"flagged": flagged})
+        logger.info(f"Updating student flag: status_code={response.status_code}")
+        return response.status_code == 200
+    except Exception as e:
+        logger.error(f"Error updating student flag: {e}")
+        return False
+
 # Fetch data
 advisor_data = fetch_advisor_data(advisor_user_id)
 advisor_students = fetch_advisor_students(advisor_user_id)
@@ -240,30 +251,104 @@ if advisor_data:
 
             # Display students in cards
             for i, student in enumerate(filtered_students):
-                with st.container():
-                    col1, col2, col3 = st.columns([2, 2, 1])
+                # Check if student is flagged
+                is_flagged = student.get('flagged', False)
 
-                    with col1:
-                        st.markdown(f"**{student.get('firstName', '')} {student.get('lastName', '')}**")
-                        st.write(f"📧 {student.get('email', '')}")
-                        st.write(f"📱 {student.get('phone', '')}")
+                # Create container with conditional styling for flagged students
+                if is_flagged:
+                    with st.container():
+                        st.markdown("""
+                        <div style="border: 2px solid #ff6b6b; border-radius: 10px; padding: 15px; background-color: #fff5f5;">
+                        """, unsafe_allow_html=True)
 
-                    with col2:
-                        st.write(f"🎓 **Major:** {student.get('major', '')}")
-                        if student.get('minor'):
-                            st.write(f"📚 **Minor:** {student.get('minor', '')}")
-                        st.write(f"🏫 **College:** {student.get('college', '')}")
-                        st.write(f"📅 **Graduation:** {student.get('gradYear', '')} ({student.get('grade', '')})")
+                        col1, col2, col3, col4 = st.columns([2, 2, 1.5, 0.5])
 
-                    with col3:
-                        # Fetch application stats for this student
-                        app_stats = fetch_student_application_stats(student.get('userId'))
-                        total_apps = sum(item.get('ApplicationCount', 0) for item in app_stats)
+                        with col1:
+                            st.markdown(f"**🚩 {student.get('firstName', '')} {student.get('lastName', '')}**")
+                            st.write(f"📧 {student.get('email', '')}")
+                            st.write(f"📱 {student.get('phone', '')}")
 
-                        st.metric("Applications", total_apps)
+                        with col2:
+                            st.write(f"🎓 **Major:** {student.get('major', '')}")
+                            if student.get('minor'):
+                                st.write(f"📚 **Minor:** {student.get('minor', '')}")
+                            st.write(f"🏫 **College:** {student.get('college', '')}")
+                            st.write(f"📅 **Graduation:** {student.get('gradYear', '')} ({student.get('grade', '')})")
 
-                        if st.button(f"View Details", key=f"view_{student.get('userId')}", use_container_width=True):
-                            st.info(f"Detailed view for {student.get('firstName', '')} {student.get('lastName', '')} - Feature coming soon!")
+                        with col3:
+                            # Fetch detailed application stats for this student
+                            app_stats = fetch_student_application_stats(student.get('userId'))
+
+                            # Create status counts
+                            status_counts = {item['status']: item['ApplicationCount'] for item in app_stats}
+                            under_review = status_counts.get('Under Review', 0)
+                            submitted = status_counts.get('Submitted', 0)
+                            rejected = status_counts.get('Rejected', 0)
+
+                            # Display detailed metrics in a compact layout
+                            st.markdown("**Application Status:**")
+                            metric_col1, metric_col2, metric_col3 = st.columns(3)
+                            with metric_col1:
+                                st.metric("📋 Review", under_review)
+                            with metric_col2:
+                                st.metric("📤 Submit", submitted)
+                            with metric_col3:
+                                st.metric("❌ Reject", rejected)
+
+                        with col4:
+                            # Flag toggle
+                            if st.button("🚩 Unflag", key=f"unflag_{student.get('userId')}", use_container_width=True):
+                                if update_student_flag(advisor_user_id, student.get('userId'), False):
+                                    st.success("Student unflagged!")
+                                    st.rerun()
+                                else:
+                                    st.error("Failed to unflag student")
+
+                        st.markdown("</div>", unsafe_allow_html=True)
+                else:
+                    with st.container():
+                        col1, col2, col3, col4 = st.columns([2, 2, 1.5, 0.5])
+
+                        with col1:
+                            st.markdown(f"**{student.get('firstName', '')} {student.get('lastName', '')}**")
+                            st.write(f"📧 {student.get('email', '')}")
+                            st.write(f"📱 {student.get('phone', '')}")
+
+                        with col2:
+                            st.write(f"🎓 **Major:** {student.get('major', '')}")
+                            if student.get('minor'):
+                                st.write(f"📚 **Minor:** {student.get('minor', '')}")
+                            st.write(f"🏫 **College:** {student.get('college', '')}")
+                            st.write(f"📅 **Graduation:** {student.get('gradYear', '')} ({student.get('grade', '')})")
+
+                        with col3:
+                            # Fetch detailed application stats for this student
+                            app_stats = fetch_student_application_stats(student.get('userId'))
+
+                            # Create status counts
+                            status_counts = {item['status']: item['ApplicationCount'] for item in app_stats}
+                            under_review = status_counts.get('Under Review', 0)
+                            submitted = status_counts.get('Submitted', 0)
+                            rejected = status_counts.get('Rejected', 0)
+
+                            # Display detailed metrics in a compact layout
+                            st.markdown("**Application Status:**")
+                            metric_col1, metric_col2, metric_col3 = st.columns(3)
+                            with metric_col1:
+                                st.metric("📋 Review", under_review)
+                            with metric_col2:
+                                st.metric("📤 Submit", submitted)
+                            with metric_col3:
+                                st.metric("❌ Reject", rejected)
+
+                        with col4:
+                            # Flag toggle
+                            if st.button("🏳️ Flag", key=f"flag_{student.get('userId')}", use_container_width=True):
+                                if update_student_flag(advisor_user_id, student.get('userId'), True):
+                                    st.success("Student flagged!")
+                                    st.rerun()
+                                else:
+                                    st.error("Failed to flag student")
 
                 st.markdown("---")
 
