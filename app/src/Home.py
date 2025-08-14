@@ -128,7 +128,8 @@ with col2:
                 key="student_login"):
         st.session_state['authenticated'] = True
         st.session_state['role'] = 'student'
-        st.session_state['first_name'] = 'Alex'
+        st.session_state['first_name'] = 'Charlie'
+        st.session_state['user_id'] = 1
         logger.info("Logging in as Student Persona")
         st.switch_page('pages/00_Student_Home.py')
 

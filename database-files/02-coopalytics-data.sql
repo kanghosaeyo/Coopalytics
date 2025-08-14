@@ -83,7 +83,7 @@ INSERT INTO companyProfiles (companyProfileId, name, bio, industry, websiteLink)
 
 -- 3. Users table (48 rows - references companyProfiles)
 INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, college, gradYear, grade, companyProfileId, industry) VALUES
--- Students (userId 1-30)
+-- Students (userId 1-30) 
 (1, 'Charlie', 'Stout', 'c.stout@student.edu', '555-0101', 'Computer Science', 'Mathematics', 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
 (2, 'Liam', 'Williams', 'l.williams@student.edu', '555-0102', 'Business', 'Economics', 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
 (3, 'Sophia', 'Brown', 's.brown@student.edu', '555-0103', 'Mechanical Engineering', 'Physics', 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
@@ -286,3 +286,4 @@ INSERT INTO createsPos (employerId, coopPositionId) VALUES
 -- 8. Applies To App relationships (bridge table - references applications and users)
 INSERT INTO appliesToApp (applicationId, studentId) VALUES
 (1, 1), (2, 1), (3, 2), (4, 2), (5, 3), (6, 3), (7, 4), (8, 4), (9, 5), (10, 5);
+

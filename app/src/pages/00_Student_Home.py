@@ -12,16 +12,23 @@ SideBarLinks()
 logger.info("Loading Student Home page")
 
 # Charlie Stout's userId from your database
-CHARLIE_USER_ID = 1
+#CHARLIE_USER_ID = 1
 API_BASE_URL = "http://web-api:4000"
+
+# 🔍 Get the user_id from session state
+charlie_user_id = st.session_state.get("user_id", None)
+
+if charlie_user_id is None:
+    st.error("User not logged in. Please return to home and log in.")
+    st.stop()
 
 # Function to fetch user data from API
 def fetch_user_data(user_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/u/users/{user_id}")
+        response = requests.get(f"{API_BASE_URL}/users/{user_id}")
         if response.status_code == 200:
             data = response.json()
-            return data[0] if data else None
+            return data
         return None
     except Exception as e:
         logger.error(f"Error fetching user data: {e}")
@@ -36,13 +43,18 @@ def fetch_user_data(user_id):
             'minor': 'Mathematics',
             'college': 'Khoury College of Computer Sciences',
             'gradYear': '2026',
-            'grade': 'Junior'
+            'grade': 'Junior',
+            'gender': None,
+            'race': None,
+            'nationality': None,
+            'sexuality': None,
+            'disability': None
         }
 
 # Function to fetch user skills from API
 def fetch_user_skills(user_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/u/users/{user_id}/skills")
+        response = requests.get(f"{API_BASE_URL}/users/{user_id}/skills")
         if response.status_code == 200:
             return response.json()
         return []
@@ -64,7 +76,7 @@ def fetch_application_summary(user_id):
 # Function to fetch recent applications from API
 def fetch_recent_applications(user_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/u/users/{user_id}/recent-applications")
+        response = requests.get(f"{API_BASE_URL}/users/{user_id}/recent-applications")
         if response.status_code == 200:
             return response.json()
         return []
@@ -75,7 +87,7 @@ def fetch_recent_applications(user_id):
 # Function to update user data via API
 def update_user_data(user_data):
     try:
-        response = requests.put(f"{API_BASE_URL}/u/users", json=user_data)
+        response = requests.put(f"{API_BASE_URL}/users", json=user_data)
         return response.status_code == 200
     except Exception as e:
         logger.error(f"Error updating user data: {e}")
@@ -99,7 +111,7 @@ def update_user_skills(user_id, updated_skills, removed_skills):
             "updated_skills": list(updated_skills.values()),
             "removed_skills": removed_skills
         }
-        response = requests.put(f"{API_BASE_URL}/u/users/{user_id}/skills", json=update_data)
+        response = requests.put(f"{API_BASE_URL}/users/{user_id}/skills", json=update_data)
         return response.status_code == 200
     except Exception as e:
         logger.error(f"Error updating user skills: {e}")
@@ -108,17 +120,17 @@ def update_user_skills(user_id, updated_skills, removed_skills):
 # Function to add new skills to user profile
 def add_user_skills(user_id, new_skills):
     try:
-        response = requests.post(f"{API_BASE_URL}/u/users/{user_id}/skills", json={"skills": new_skills})
+        response = requests.post(f"{API_BASE_URL}/users/{user_id}/skills", json={"skills": new_skills})
         return response.status_code == 200
     except Exception as e:
         logger.error(f"Error adding user skills: {e}")
         return False
 
 # Fetch user data and related information
-user_data = fetch_user_data(CHARLIE_USER_ID)
-user_skills = fetch_user_skills(CHARLIE_USER_ID)
-app_summary = fetch_application_summary(CHARLIE_USER_ID)
-recent_applications = fetch_recent_applications(CHARLIE_USER_ID)
+user_data = fetch_user_data(charlie_user_id)
+user_skills = fetch_user_skills(charlie_user_id)
+app_summary = fetch_application_summary(charlie_user_id)
+recent_applications = fetch_recent_applications(charlie_user_id)
 
 if user_data:
     # Header
@@ -221,7 +233,7 @@ if user_data:
             
             if submitted:
                 update_data = {
-                    "userId": CHARLIE_USER_ID,
+                    "userId": charlie_user_id,
                     "firstName": first_name,
                     "lastName": last_name,
                     "email": email,
@@ -309,7 +321,8 @@ if user_data:
                         proficiency_text = {1: "Beginner", 2: "Basic", 3: "Intermediate", 4: "Advanced", 5: "Expert"}
                         level_text = proficiency_text.get(proficiency, "Unknown")
 
-                        st.progress(progress_value, text=f"{skill['name']} ({level_text})")
+                        st.write(f"{skill['name']} ({level_text})")
+                        st.progress(progress_value)
         else:
             st.info("No skills data available. Please contact your advisor to update your skills profile.")
 
@@ -372,7 +385,7 @@ if user_data:
                     # Filter out skills marked for removal
                     final_skills = {k: v for k, v in updated_skills.items() if k not in skills_to_remove}
 
-                    if update_user_skills(CHARLIE_USER_ID, final_skills, skills_to_remove):
+                    if update_user_skills(charlie_user_id, final_skills, skills_to_remove):
                         st.success("✅ Skills updated successfully!")
                         st.rerun()
                     else:
@@ -429,7 +442,7 @@ if user_data:
                     add_skills_submitted = st.form_submit_button("➕ Add Selected Skills", type="secondary", use_container_width=True)
 
                     if add_skills_submitted and selected_skills:
-                        if add_user_skills(CHARLIE_USER_ID, selected_skills):
+                        if add_user_skills(charlie_user_id, selected_skills):
                             st.success(f"✅ Added {len(selected_skills)} new skills!")
                             st.rerun()
                         else:
