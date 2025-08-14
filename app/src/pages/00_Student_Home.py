@@ -12,14 +12,10 @@ SideBarLinks()
 logger.info("Loading Student Home page")
 
 # Charlie Stout's userId from your database
-#CHARLIE_USER_ID = 1
 API_BASE_URL = "http://web-api:4000"
 
 # 🔍 Get the user_id from session state
 charlie_user_id = st.session_state.get("user_id", None)
-# debugging
-logger.info(f"Session user_id: {charlie_user_id}")
-st.write(f"Debug: user_id = {charlie_user_id}")
 
 if charlie_user_id is None:
     st.error("User not logged in. Please return to home and log in.")
@@ -103,7 +99,7 @@ def update_user_data(user_data):
 # Function to fetch all available skills from API
 def fetch_all_skills():
     try:
-        response = requests.get(f"{API_BASE_URL}/u/skills")
+        response = requests.get(f"{API_BASE_URL}/skills")
         if response.status_code == 200:
             return response.json()
         return []
@@ -135,6 +131,9 @@ def add_user_skills(user_id, new_skills):
 
 # Fetch user data and related information
 user_data = fetch_user_data(charlie_user_id)
+if isinstance(user_data, list) and len(user_data) > 0:
+    user_data = user_data[0]
+
 user_skills = fetch_user_skills(charlie_user_id)
 app_summary = fetch_application_summary(charlie_user_id)
 recent_applications = fetch_recent_applications(charlie_user_id)
