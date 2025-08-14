@@ -174,6 +174,108 @@ def add_user_skills(userID):
         the_response.status_code = 500
         return the_response
 
+# Get advisor's assigned students
+@users.route('/advisors/<advisorID>/students', methods=['GET'])
+def get_advisor_students(advisorID):
+    query = '''
+        SELECT u.userId, u.firstName, u.lastName, u.email, u.phone,
+               u.major, u.minor, u.college, u.gradYear, u.grade,
+               d.gender, d.race, d.nationality, d.sexuality, d.disability
+        FROM users u
+        LEFT JOIN demographics d ON u.userId = d.demographicId
+        JOIN advisor_advisee aa ON u.userId = aa.studentId
+        WHERE aa.advisorId = %s
+        ORDER BY u.lastName, u.firstName
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (advisorID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Get advisor statistics
+@users.route('/advisors/<advisorID>/statistics', methods=['GET'])
+def get_advisor_statistics(advisorID):
+    query = '''
+        SELECT
+            COUNT(*) as total_advisees,
+            COUNT(CASE WHEN u.gradYear = '2025' THEN 1 END) as graduating_2025,
+            COUNT(DISTINCT u.college) as different_colleges,
+            COUNT(DISTINCT u.major) as different_majors
+        FROM users u
+        JOIN advisor_advisee aa ON u.userId = aa.studentId
+        WHERE aa.advisorId = %s
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (advisorID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Update advisor profile (separate from student profile updates)
+@users.route('/advisors/<advisorID>/profile', methods=['PUT'])
+def update_advisor_profile(advisorID):
+    try:
+        current_app.logger.info(f'PUT /advisors/{advisorID}/profile route')
+        advisor_info = request.json
+
+        first_name = advisor_info.get('firstName')
+        last_name = advisor_info.get('lastName')
+        email = advisor_info.get('email')
+        phone = advisor_info.get('phone')
+        gender = advisor_info.get('gender')
+        race = advisor_info.get('race')
+        nationality = advisor_info.get('nationality')
+        sexuality = advisor_info.get('sexuality')
+        disability = advisor_info.get('disability')
+
+        # Update users table (basic info)
+        user_query = '''
+            UPDATE users
+            SET firstName = %s,
+                lastName = %s,
+                email = %s,
+                phone = %s
+            WHERE userId = %s
+        '''
+
+        # Update demographics table
+        demo_query = '''
+            UPDATE demographics
+            SET gender = %s,
+                race = %s,
+                nationality = %s,
+                sexuality = %s,
+                disability = %s
+            WHERE demographicId = %s
+        '''
+
+        cursor = db.get_db().cursor()
+
+        # Execute user update
+        cursor.execute(user_query, (first_name, last_name, email, phone, advisorID))
+
+        # Execute demographics update
+        cursor.execute(demo_query, (gender, race, nationality, sexuality, disability, advisorID))
+
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": "Advisor profile updated successfully"}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error updating advisor profile: {e}")
+        the_response = make_response(jsonify({"error": "Failed to update advisor profile"}))
+        the_response.status_code = 500
+        return the_response
+
 # Update student profiles to include additional info
 @users.route('/users', methods=['PUT'])
 def update_users():
