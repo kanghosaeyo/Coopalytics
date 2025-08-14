@@ -32,13 +32,16 @@ filter_option = st.selectbox(
 # Function to fetch and display positions
 def fetch_positions():
     if filter_option == "All":
-        url = f"{API_BASE_URL}/coopPositions/positions"
+        url = f"{API_BASE_URL}/cpos/positions"  # ✔ this is from coopPositions blueprint
+
     elif filter_option == "Liked":
-        url = f"{API_BASE_URL}/viewpos/{charlie_user_id}?preference=true"
+        url = f"{API_BASE_URL}/vp/viewpos/{charlie_user_id}?preference=true"  # ✔ matches blueprint + route
+
     elif filter_option == "Disliked":
-        url = f"{API_BASE_URL}/viewpos/{charlie_user_id}?preference=false"
+        url = f"{API_BASE_URL}/vp/viewpos/{charlie_user_id}?preference=false"
+
     elif filter_option == "Matches Desired Skills":
-        url = f"{API_BASE_URL}/coopPositions/{charlie_user_id}/desiredSkills"
+        url = f"{API_BASE_URL}/cpos/{charlie_user_id}/desiredSkills"
     else:
         st.warning("Unknown filter selected.")
         return []
@@ -66,15 +69,20 @@ for pos in positions:
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("👍 Like", key=f"like_{pos['coopPositionId']}"):
-                requests.post(f"{API_BASE_URL}/views_position", json={
+                response = requests.post(f"{API_BASE_URL}/vp/position", json={
                     "studentId": charlie_user_id,
                     "coopPositionId": pos["coopPositionId"],
                     "preference": True
                 })
-                st.success("Marked as liked.")
+                if response.status_code == 200:
+                    st.success("Marked as liked.")
+                    st.rerun()
+                else:
+                    st.error("Failed to save preference.")
+
         with col2:
             if st.button("👎 Dislike", key=f"dislike_{pos['coopPositionId']}"):
-                requests.post(f"{API_BASE_URL}/views_position/position", json={
+                requests.post(f"{API_BASE_URL}/vp/position", json={
                     "studentId": charlie_user_id,
                     "coopPositionId": pos["coopPositionId"],
                     "preference": False
