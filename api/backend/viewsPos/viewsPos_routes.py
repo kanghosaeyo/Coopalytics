@@ -46,8 +46,9 @@ def get_deadlines(studentID):
             cp.deadline
         FROM viewsPos vp
             JOIN coopPositions cp ON vp.coopPositionId = cp.coopPositionId
-        WHERE vp.studentId = {0} AND vp.preference = TRUE;
-    '''.format(studentID)
+        WHERE vp.studentId = %s AND vp.preference = TRUE;
+    '''
+    
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()

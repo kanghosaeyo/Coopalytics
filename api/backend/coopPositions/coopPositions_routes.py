@@ -39,13 +39,13 @@ def get_desired_skills(studentID):
             cp.description
         FROM coopPositions cp
             LEFT JOIN viewsPos vp ON cp.coopPositionId = vp.coopPositionId
-            JOIN users u ON u.userId = {0}
+            JOIN users u ON u.userId = %s
         WHERE (vp.preference IS NULL OR vp.preference = TRUE)
             AND cp.desiredSkillsId IN (SELECT skillId
                                         FROM skillDetails
-                                        WHERE studentId = {0})
+                                        WHERE studentId = %s)
             AND (cp.desiredGPA IS NULL OR cp.desiredGPA <= u.grade)
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -67,12 +67,12 @@ def get_required_skills(studentID):
             cp.description
         FROM coopPositions cp
             LEFT JOIN viewsPos vp ON cp.coopPositionId = vp.coopPositionId
-            JOIN users u ON u.userId = {0}
+            JOIN users u ON u.userId = %s
         WHERE (vp.preference IS NULL OR vp.preference = TRUE)
             AND cp.requiredSkillsId IN (SELECT skillId
                                         FROM skillDetails
-                                        WHERE studentId = {0})
-    '''.format(studentID)
+                                        WHERE studentId = %s)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)

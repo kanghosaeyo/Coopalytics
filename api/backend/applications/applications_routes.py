@@ -30,9 +30,9 @@ def get_student_applications(studentID):
                  JOIN applications a ON ata.applicationId = a.applicationId
                  JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
                  JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
-        WHERE u.userId = {0}
+        WHERE u.userId = %s
         ORDER BY a.dateApplied DESC, cp.deadline ASC
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -52,10 +52,10 @@ def get_numb_apps(studentID):
             COUNT(*) AS ApplicationCount
         FROM applications a
             JOIN appliesToApp ata ON a.applicationId = ata.applicationId
-        WHERE ata.studentId = {0}
+        WHERE ata.studentId = %s
         GROUP BY a.status
 
-    '''.format(studentID)
+    '''
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
