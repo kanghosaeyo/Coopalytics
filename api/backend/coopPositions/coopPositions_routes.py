@@ -103,7 +103,7 @@ def get_pending_positions():
         LEFT JOIN createsPos cr  ON cr.coopPositionId = cp.coopPositionId
         LEFT JOIN users u        ON u.userId = cr.employerId
         LEFT JOIN companyProfiles com ON com.companyProfileId = u.companyProfileId
-        WHERE cp.flagged = FALSE
+        WHERE cp.flag = FALSE
         ORDER BY cp.deadline IS NULL, cp.deadline ASC, cp.coopPositionId DESC
     '''
 
@@ -125,13 +125,13 @@ def get_employer_job_counts():
             u.userId AS employerId,
             u.firstName,
             u.lastName,
-            cn AS companyName,
+            com.name AS companyName,
             COUNT(cr.coopPositionId) AS numJobs
         FROM users u
         JOIN companyProfiles com
-          ON cn.companyProfileId = u.companyProfileId
+            ON com.companyProfileId = u.companyProfileId
         LEFT JOIN createsPos cr
-          ON cr.employerId = u.userId
+            ON cr.employerId = u.userId
         WHERE u.companyProfileId IS NOT NULL 
         GROUP BY u.userId, u.firstName, u.lastName, com.name
         ORDER BY numJobs DESC, u.lastName ASC, u.firstName ASC;
@@ -152,8 +152,8 @@ def approve_position(pos_id):
 
     query = '''
         UPDATE coopPositions
-        SET flagged = FALSE
-        WHERE coopPositionId = %s AND flagged = TRUE
+        SET flag = FALSE
+        WHERE coopPositionId = %s AND flag = TRUE
     '''
 
     cursor = db.get_db().cursor()
@@ -176,7 +176,7 @@ def delete_unapproved_position(pos_id):
     query = '''
         DELETE FROM coopPositions
         WHERE coopPositionId = %s
-          AND flagged = TRUE
+          AND flag = TRUE
     '''
 
     cursor = db.get_db().cursor()
