@@ -180,7 +180,8 @@ def get_advisor_students(advisorID):
     query = '''
         SELECT u.userId, u.firstName, u.lastName, u.email, u.phone,
                u.major, u.minor, u.college, u.gradYear, u.grade,
-               d.gender, d.race, d.nationality, d.sexuality, d.disability
+               d.gender, d.race, d.nationality, d.sexuality, d.disability,
+               aa.flag as flagged
         FROM users u
         LEFT JOIN demographics d ON u.userId = d.demographicId
         JOIN advisor_advisee aa ON u.userId = aa.studentId
@@ -217,6 +218,33 @@ def get_advisor_statistics(advisorID):
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Update student flag status for advisor
+@users.route('/advisors/<advisorID>/students/<studentID>/flag', methods=['PUT'])
+def update_student_flag(advisorID, studentID):
+    try:
+        data = request.get_json()
+        flagged = data.get('flagged', False)
+
+        query = '''
+            UPDATE advisor_advisee
+            SET flag = %s
+            WHERE advisorId = %s AND studentId = %s
+        '''
+
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (flagged, advisorID, studentID))
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": "Student flag updated successfully", "flagged": flagged}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error updating student flag: {e}")
+        the_response = make_response(jsonify({"error": "Failed to update student flag"}))
+        the_response.status_code = 500
+        return the_response
 
 # Update advisor profile (separate from student profile updates)
 @users.route('/advisors/<advisorID>/profile', methods=['PUT'])
