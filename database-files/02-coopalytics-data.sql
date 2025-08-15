@@ -509,3 +509,8 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 -- Luna King (userId=23) - advanced finance role
 (23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
