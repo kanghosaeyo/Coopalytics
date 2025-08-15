@@ -121,7 +121,7 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (34, 'David', 'Johnson', 'd.johnson@neu.edu', '555-0304', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
 (35, 'Lisa', 'Thompson', 'l.thompson@neu.edu', '555-0305', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
 (36, 'Robert', 'Wilson', 'r.wilson@neu.edu', '555-0306', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
--- Employers (userId 37-44)
+-- Employers (userId 37-54)
 (37, 'Phoebe', 'Hwang', 'p.hwang@technova.com', '555-0401', NULL, NULL, NULL, NULL, NULL, 1, 'Technology'),
 (38, 'Marcus', 'Roberts', 'm.roberts@dataflow.com', '555-0402', NULL, NULL, NULL, NULL, NULL, 2, 'Technology'),
 (39, 'Elena', 'Thompson', 'e.thompson@greenenergy.com', '555-0403', NULL, NULL, NULL, NULL, NULL, 3, 'Energy'),
@@ -130,11 +130,21 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (42, 'Daniel', 'Clark', 'd.clark@autoinnovate.com', '555-0406', NULL, NULL, NULL, NULL, NULL, 6, 'Automotive'),
 (43, 'Amanda', 'Lewis', 'a.lewis@cloudsecure.com', '555-0407', NULL, NULL, NULL, NULL, NULL, 7, 'Technology'),
 (44, 'Christopher', 'Walker', 'c.walker@bioresearch.com', '555-0408', NULL, NULL, NULL, NULL, NULL, 8, 'Healthcare'),
--- Admins (userId 45-48)
-(45, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(46, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(47, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(48, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
+(45, 'Natalie', 'Wells', 'natalie.wells@cloudfirst.com', '555-0409', NULL, NULL, NULL, NULL, NULL, 8, 'Technology'),  
+(46, 'Derek', 'Foster', 'derek.foster@energyflow.com', '555-0410', NULL, NULL, NULL, NULL, NULL, 13, 'Energy'),    
+(47, 'Vanessa', 'Li', 'vanessa.li@greenloop.net', '555-0411', NULL, NULL, NULL, NULL, NULL, 35, 'Technology'),         
+(48, 'Carlos', 'Nguyen', 'carlos.nguyen@quantive.co', '555-0412', NULL, NULL, NULL, NULL, NULL, 12, 'Finance'),      
+(49, 'Priya', 'Mehta', 'priya.mehta@verdanthub.org', '555-0413', NULL, NULL, NULL, NULL, NULL, 21, 'Technology'),      
+(50, 'Samuel', 'Bryant', 'samuel.bryant@tridentlabs.tech', '555-0414', NULL, NULL, NULL, NULL, NULL, 31, 'Technology'),
+(51, 'Isabelle', 'Drake', 'isabelle.drake@devvibe.ai', '555-0415', NULL, NULL, NULL, NULL, NULL, 15, 'Technology'), 
+(52, 'Liam', 'Patel', 'liam.patel@xentrix.io', '555-0416', NULL, NULL, NULL, NULL, NULL, 22, 'Finance'),            
+(53, 'Olivia', 'Kim', 'olivia.kim@aerovate.com', '555-0417', NULL, NULL, NULL, NULL, NULL, 27, 'Technology'),          
+(54, 'Marcus', 'Holt', 'marcus.holt@clearbyte.net', '555-0418', NULL, NULL, NULL, NULL, NULL, 34, 'Technology'),
+-- Admins (userId 55-58)
+(55, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(56, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(57, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(58, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
 
 -- 4. Demographics table (48 rows - references users)
 INSERT INTO demographics (demographicId, gender, race, nationality, sexuality, disability) VALUES
@@ -355,16 +365,40 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 
 -- 7. Skill Details table (sample rows for testing - references skills and users)
 INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
--- Student 1 (Charlie Stout) - Computer Science major
-(1, 1, 4), (2, 1, 3), (3, 1, 5), (4, 1, 4), (5, 1, 3), (6, 1, 4), (10, 1, 5), (17, 1, 4), (19, 1, 4), (20, 1, 5),
--- Student 2 (Liam Williams) - Business major
-(13, 2, 5), (14, 2, 4), (15, 2, 4), (16, 2, 3), (17, 2, 5), (18, 2, 4), (19, 2, 4), (20, 2, 5),
--- Student 3 (Sophia Brown) - Engineering major
-(21, 3, 4), (13, 3, 4), (15, 3, 5), (19, 3, 4), (20, 3, 5), (17, 3, 3), (12, 3, 3),
--- Student 4 (Noah Davis) - Data Science major
-(1, 4, 5), (11, 4, 5), (12, 4, 5), (37, 4, 4), (38, 4, 4), (6, 4, 4), (17, 4, 4), (19, 4, 5), (20, 4, 5),
--- Student 5 (Olivia Miller) - Marketing major
-(13, 5, 4), (14, 5, 5), (17, 5, 5), (18, 5, 4), (19, 5, 4), (20, 5, 5), (12, 5, 3);
+(1, 1, 4), (2, 1, 3), (3, 1, 5), (4, 1, 4), (5, 1, 3),
+(6, 2, 4), (7, 2, 3), (8, 2, 5), (9, 2, 4), (10, 2, 3),
+(11, 3, 4), (12, 3, 3), (13, 3, 5), (14, 3, 4), (15, 3, 3),
+(16, 4, 4), (17, 4, 3), (18, 4, 5), (19, 4, 4), (20, 4, 3),
+(21, 5, 4), (22, 5, 3), (23, 5, 5), (24, 5, 4), (25, 5, 3),
+(26, 6, 4), (27, 6, 3), (28, 6, 5), (29, 6, 4), (30, 6, 3),
+(31, 7, 4), (32, 7, 3), (33, 7, 5), (34, 7, 4), (35, 7, 3),
+(36, 8, 4), (37, 8, 3), (38, 8, 5), (39, 8, 4), (40, 8, 3),
+(1, 9, 5), (2, 9, 4), (3, 9, 3), (4, 9, 5), (5, 9, 4),
+(6, 10, 3), (7, 10, 5), (8, 10, 4), (9, 10, 3), (10, 10, 5),
+(11, 11, 4), (12, 11, 3), (13, 11, 5), (14, 11, 4), (15, 11, 3),
+(16, 12, 5), (17, 12, 4), (18, 12, 3), (19, 12, 5), (20, 12, 4),
+(21, 13, 3), (22, 13, 5), (23, 13, 4), (24, 13, 3), (25, 13, 5),
+(26, 14, 4), (27, 14, 3), (28, 14, 5), (29, 14, 4), (30, 14, 3),
+(31, 15, 5), (32, 15, 4), (33, 15, 3), (34, 15, 5), (35, 15, 4),
+(36, 16, 3), (37, 16, 5), (38, 16, 4), (39, 16, 3), (40, 16, 5),
+(1, 17, 4), (2, 17, 3), (3, 17, 5), (4, 17, 4), (5, 17, 3),
+(6, 18, 5), (7, 18, 4), (8, 18, 3), (9, 18, 5), (10, 18, 4),
+(11, 19, 3), (12, 19, 5), (13, 19, 4), (14, 19, 3), (15, 19, 5),
+(16, 20, 4), (17, 20, 3), (18, 20, 5), (19, 20, 4), (20, 20, 3),
+(21, 21, 5), (22, 21, 4), (23, 21, 3), (24, 21, 5), (25, 21, 4),
+(26, 22, 3), (27, 22, 5), (28, 22, 4), (29, 22, 3), (30, 22, 5),
+(31, 23, 4), (32, 23, 3), (33, 23, 5), (34, 23, 4), (35, 23, 3),
+(36, 24, 5), (37, 24, 4), (38, 24, 3), (39, 24, 5), (40, 24, 4),
+(1, 25, 3), (2, 25, 5), (3, 25, 4), (4, 25, 3), (5, 25, 5),
+(6, 26, 4), (7, 26, 3), (8, 26, 5), (9, 26, 4), (10, 26, 3),
+(11, 27, 5), (12, 27, 4), (13, 27, 3), (14, 27, 5), (15, 27, 4),
+(16, 28, 3), (17, 28, 5), (18, 28, 4), (19, 28, 3), (20, 28, 5),
+(21, 29, 4), (22, 29, 3), (23, 29, 5), (24, 29, 4), (25, 29, 3),
+(26, 30, 5), (27, 30, 4), (28, 30, 3), (29, 30, 5), (30, 30, 4);
+
+
+
+
 
 -- 7. Creates Position relationships (bridge table - references users and coopPositions)
 INSERT INTO createsPos (employerId, coopPositionId) VALUES
