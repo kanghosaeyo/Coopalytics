@@ -507,8 +507,7 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 (20, 47, '2024-06-01', '2024-11-30', NULL), -- Computer Vision co-op (current/recent)
 
 -- Luna King (userId=23) - advanced finance role
-<<<<<<< HEAD
 (23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
-=======
-(23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
->>>>>>> ana_antic
+
+
+# this is maybe fixed
