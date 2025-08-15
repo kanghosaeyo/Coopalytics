@@ -593,20 +593,21 @@ def count_students():
         query = '''
             SELECT COUNT(*) as student_count
             FROM users
-            WHERE major IS NOT NULL AND major != ''
+            WHERE major IS NOT NULL AND major != '' AND companyProfileId IS NULL;
         '''
         
         cursor = db.get_db().cursor()
         cursor.execute(query)
         result = cursor.fetchone()
         
-        the_response = make_response(jsonify({"student_count": result[0]}))
+        the_response = make_response(jsonify({"student_count": result['student_count']}))
         the_response.status_code = 200
         return the_response
         
     except Exception as e:
+        current_app.logger.error(f"Error counting students: {e}")
         logger.error(f"Error counting students: {e}")
-        the_response = make_response(jsonify({"error": "Failed to count students"}))
+        the_response = make_response(jsonify({"error": f"Failed to count students: {str(e)}"}))
         the_response.status_code = 500
         return the_response
 
@@ -618,20 +619,21 @@ def count_advisors():
     try:
         query = '''
             SELECT COUNT(DISTINCT aa.advisorId) as advisor_count
-            FROM advisor_advisee aa
+            FROM advisor_advisee aa;
         '''
         
         cursor = db.get_db().cursor()
         cursor.execute(query)
         result = cursor.fetchone()
         
-        the_response = make_response(jsonify({"advisor_count": result[0]}))
+        the_response = make_response(jsonify({"advisor_count": result['advisor_count']}))
         the_response.status_code = 200
         return the_response
         
     except Exception as e:
+        current_app.logger.error(f"Error counting advisors: {e}")
         logger.error(f"Error counting advisors: {e}")
-        the_response = make_response(jsonify({"error": "Failed to count advisors"}))
+        the_response = make_response(jsonify({"error": f"Failed to count advisors: {str(e)}"}))
         the_response.status_code = 500
         return the_response
 
@@ -644,20 +646,21 @@ def count_employers():
         query = '''
             SELECT COUNT(*) as employer_count
             FROM users
-            WHERE companyProfileId IS NOT NULL
+            WHERE companyProfileId IS NOT NULL;
         '''
         
         cursor = db.get_db().cursor()
         cursor.execute(query)
         result = cursor.fetchone()
         
-        the_response = make_response(jsonify({"employer_count": result[0]}))
+        the_response = make_response(jsonify({"employer_count": result['employer_count']}))
         the_response.status_code = 200
         return the_response
         
     except Exception as e:
+        current_app.logger.error(f"Error counting employers: {e}")
         logger.error(f"Error counting employers: {e}")
-        the_response = make_response(jsonify({"error": "Failed to count employers"}))
+        the_response = make_response(jsonify({"error": f"Failed to count employers: {str(e)}"}))
         the_response.status_code = 500
         return the_response
 
@@ -671,7 +674,7 @@ def count_all_users():
         student_query = '''
             SELECT COUNT(*) as student_count
             FROM users
-            WHERE major IS NOT NULL AND major != ''
+            WHERE major IS NOT NULL AND major != '' AND companyProfileId IS NULL
         '''
         
         # Count advisors
@@ -691,13 +694,13 @@ def count_all_users():
         
         # Execute all queries
         cursor.execute(student_query)
-        student_count = cursor.fetchone()[0]
+        student_count = cursor.fetchone()['student_count']
         
         cursor.execute(advisor_query)
-        advisor_count = cursor.fetchone()[0]
+        advisor_count = cursor.fetchone()['advisor_count']
         
         cursor.execute(employer_query)
-        employer_count = cursor.fetchone()[0]
+        employer_count = cursor.fetchone()['employer_count']
         
         counts = {
             "student_count": student_count,
@@ -711,7 +714,8 @@ def count_all_users():
         return the_response
         
     except Exception as e:
+        current_app.logger.error(f"Error counting all users: {e}")
         logger.error(f"Error counting all users: {e}")
-        the_response = make_response(jsonify({"error": "Failed to count users"}))
+        the_response = make_response(jsonify({"error": f"Failed to count users: {str(e)}"}))
         the_response.status_code = 500
         return the_response
