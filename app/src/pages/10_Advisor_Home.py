@@ -101,9 +101,14 @@ def fetch_advisor_students(advisor_id):
 # Function to fetch student application statistics
 def fetch_student_application_stats(student_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/app/student/{student_id}/applications/summary")
+        response = requests.get(f"{API_BASE_URL}/student/{student_id}/applications/summary")
+        logger.info(f"Fetching student application stats from API: status_code={response.status_code}")
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            logger.info(f"Student application stats received: {data}")
+            return data
+        else:
+            logger.warning(f"Failed to fetch student application stats, status code: {response.status_code}")
         return []
     except Exception as e:
         logger.error(f"Error fetching student application stats: {e}")
@@ -280,7 +285,7 @@ if advisor_data:
                             app_stats = fetch_student_application_stats(student.get('userId'))
 
                             # Create status counts
-                            status_counts = {item['status']: item['ApplicationCount'] for item in app_stats}
+                            status_counts = {item.get('status', ''): item.get('ApplicationCount', 0) for item in app_stats} if app_stats else {}
                             under_review = status_counts.get('Under Review', 0)
                             submitted = status_counts.get('Submitted', 0)
                             rejected = status_counts.get('Rejected', 0)
@@ -326,7 +331,7 @@ if advisor_data:
                             app_stats = fetch_student_application_stats(student.get('userId'))
 
                             # Create status counts
-                            status_counts = {item['status']: item['ApplicationCount'] for item in app_stats}
+                            status_counts = {item.get('status', ''): item.get('ApplicationCount', 0) for item in app_stats} if app_stats else {}
                             under_review = status_counts.get('Under Review', 0)
                             submitted = status_counts.get('Submitted', 0)
                             rejected = status_counts.get('Rejected', 0)

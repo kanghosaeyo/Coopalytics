@@ -68,9 +68,14 @@ def fetch_user_skills(user_id):
 # Function to fetch application summary from API
 def fetch_application_summary(user_id):
     try:
-        response = requests.get(f"{API_BASE_URL}/app/student/{user_id}/applications/summary")
+        response = requests.get(f"{API_BASE_URL}/student/{user_id}/applications/summary")
+        logger.info(f"Fetching application summary from API: status_code={response.status_code}")
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            logger.info(f"Application summary data received: {data}")
+            return data
+        else:
+            logger.warning(f"Failed to fetch application summary, status code: {response.status_code}")
         return []
     except Exception as e:
         logger.error(f"Error fetching application summary: {e}")
@@ -267,9 +272,9 @@ if user_data:
         st.header("📊 Quick Stats")
 
         # Calculate metrics from real data
-        total_applications = sum(item['ApplicationCount'] for item in app_summary)
-        under_review = next((item['ApplicationCount'] for item in app_summary if item['status'] == 'Under Review'), 0)
-        submitted = next((item['ApplicationCount'] for item in app_summary if item['status'] == 'Submitted'), 0)
+        total_applications = sum(item.get('ApplicationCount', 0) for item in app_summary) if app_summary else 0
+        under_review = next((item.get('ApplicationCount', 0) for item in app_summary if item.get('status') == 'Under Review'), 0)
+        submitted = next((item.get('ApplicationCount', 0) for item in app_summary if item.get('status') == 'Submitted'), 0)
 
         # Get GPA from most recent application
         latest_gpa = "N/A"
