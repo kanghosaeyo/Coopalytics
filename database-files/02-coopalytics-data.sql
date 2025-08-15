@@ -509,6 +509,7 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 -- Luna King (userId=23) - advanced finance role
 (23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
 
+<<<<<<< HEAD
 -- 9. Worked At Position relationships with company ratings (bridge table - references users and coopPositions)
 INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
 -- Students who completed co-ops with ratings
@@ -543,3 +544,10 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 (29, 6, '2024-06-01', '2024-12-01', 3),  -- Lily Adams at TechNova Inc
 (30, 1, '2024-06-01', '2024-12-01', 4); -- Jack Baker at TechNova Inc
 
+=======
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
+>>>>>>> ana_antic
