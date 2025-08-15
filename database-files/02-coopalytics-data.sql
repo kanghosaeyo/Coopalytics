@@ -381,7 +381,30 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 (109, '2025-03-21 11:00:00', 'Rejected', 'Resume content for Chloe Lopez...', 3.8, 'Biotech rejection...', 7),
 -- Olivia Miller (Marketing major, GPA 3.4, has Excel, PowerPoint, Communication, etc.)
 (9, '2025-02-01 15:30:00', 'Draft', 'Resume content for Olivia Miller...', 3.4, NULL, 3),
-(10, '2025-02-03 12:45:00', 'Submitted', 'Resume content for Olivia Miller...', 3.4, 'Digital marketing interest...', 19);
+(10, '2025-02-03 12:45:00', 'Submitted', 'Resume content for Olivia Miller...', 3.4, 'Digital marketing interest...', 19),
+
+-- more data
+(110, '2025-03-22 09:15:00', 'Submitted', 'Resume content for Ethan Taylor...', 3.5, 'Finance intern application...', 27),
+(111, '2025-03-22 11:00:00', 'Under Review', 'Resume content for Ethan Taylor...', 3.5, 'Interest in financial analysis...', 30),
+(112, '2025-03-23 10:30:00', 'Submitted', 'Resume content for Ava Moore...', 3.8, 'Biomedical engineering role...', 35),
+(113, '2025-03-24 14:00:00', 'Submitted', 'Resume content for Ava Moore...', 3.8, NULL, 37),
+(114, '2025-03-25 09:00:00', 'Accepted', 'Resume content for Mason Wilson...', 3.6, 'Cybersecurity internship acceptance...', 32),
+(115, '2025-03-26 13:45:00', 'Rejected', 'Resume content for Mason Wilson...', 3.6, 'Security analyst rejection...', 41),
+(116, '2025-03-27 08:20:00', 'Submitted', 'Resume content for Mia Jackson...', 3.8, 'Software developer application...', 39),
+(117, '2025-03-28 12:00:00', 'Under Review', 'Resume content for Mia Jackson...', 3.8, 'Blockchain research interest...', 39),
+(118, '2025-03-29 09:30:00', 'Submitted', 'Resume content for Lucas White...', 3.6, 'Business analyst role...', 10),
+(119, '2025-03-30 10:15:00', 'Rejected', 'Resume content for Lucas White...', 3.6, 'Rejected application note...', 24),
+(120, '2025-03-31 11:00:00', 'Submitted', 'Resume content for Charlotte Harris...', 3.7, 'Environmental internship...', 8),
+(121, '2025-04-01 14:30:00', 'Accepted', 'Resume content for Benjamin Martin...', 3.5, 'Systems admin acceptance...', 26),
+(122, '2025-04-02 10:00:00', 'Submitted', 'Resume content for Amelia Garcia...', 3.9, 'Physics research assistant...', 25),
+(123, '2025-04-03 13:00:00', 'Under Review', 'Resume content for Henry Rodriguez...', 3.3, 'QA engineering interest...', 17),
+(124, '2025-04-04 09:45:00', 'Submitted', 'Resume content for Harper Lewis...', 3.8, 'UX design internship...', 6),
+(125, '2025-04-05 15:20:00', 'Accepted', 'Resume content for Alexander Lee...', 3.7, 'Robotics internship acceptance...', 18),
+(126, '2025-04-06 08:10:00', 'Rejected', 'Resume content for Evelyn Walker...', 3.6, 'Marketing role rejection...', 3),
+(127, '2025-04-07 10:40:00', 'Submitted', 'Resume content for Sebastian Hall...', 3.9, 'Data science internship...', 2),
+(128, '2025-04-08 12:00:00', 'Under Review', 'Resume content for Aria Allen...', 3.4, 'Marketing assistant role...', 19),
+(129, '2025-04-09 14:30:00', 'Submitted', 'Resume content for Owen Young...', 3.5, 'Frontend developer...', 24),
+(130, '2025-04-10 16:00:00', 'Accepted', 'Resume content for Luna King...', 3.7, 'Finance intern acceptance...', 27);
 
 -- 7. Skill Details table (sample rows for testing - references skills and users)
 INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
@@ -453,7 +476,9 @@ INSERT INTO appliesToApp (applicationId, studentId) VALUES
 (77, 11), (78, 11), (79, 11), (80, 12), (81, 12), (82, 13), (83, 13), (84, 14), (85, 14),
 (86, 15), (87, 15), (88, 16), (89, 16), (90, 17), (91, 17), (92, 18), (93, 18), (94, 19), (95, 19),
 (96, 20), (97, 20), (98, 20), (99, 21), (100, 21), (101, 22), (102, 22), (103, 23), (104, 23), (105, 23),
-(106, 24), (107, 24), (108, 25), (109, 25);
+(106, 24), (107, 24), (108, 25), (109, 25),
+(110, 8), (111, 8), (112, 7), (113, 7), (114, 6), (115, 6), (116, 11), (117, 11), (118, 12), (119, 12),
+(120, 13), (121, 14), (122, 15), (123, 16), (124, 17), (125, 18), (126, 19), (127, 20), (128, 21), (129, 22), (130, 23);
 
 -- 9. Past Co-op Experience (workedAtPos table - completed co-op positions)
 INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
