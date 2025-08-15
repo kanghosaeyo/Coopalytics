@@ -7,6 +7,24 @@ from backend.db_connection import db
 
 coopPositions = Blueprint('coopPositions', __name__)
 
+#Student views a co-op position
+@coopPositions.route('/coopPositions', methods = ['GET'])
+def get_position_info():
+    current_app.logger.info('GET /coopPositions/industryAveragePay route')
+    query = '''
+        SELECT cp(*)
+        FROM coopPositions cp
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 # Student/Advisor views the average pay for each industry
 @coopPositions.route('/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
@@ -88,6 +106,19 @@ def get_required_skills(studentID):
 def create_position():
     current_app.logger.info('POST /createsPos/coopPosition')
     pos_info = request.json
+    coop_position_id = pos_info['coopPositionId'],
+    title = pos_info['title'],
+    location = pos_info['location'],
+    description = pos_info['description'],
+    hourly_pay = pos_info['hourlyPay'],
+    required_skills = pos_info.get('requiredSkillsId'),
+    desired_skills = pos_info.get('desiredSkillsId'),
+    desired_gpa = pos_info.get('desiredGPA'),
+    deadline = pos_info.get('deadline'),
+    start_date = pos_info['startDate'],
+    end_date = pos_info['endDate'],
+    flag = pos_info.get('flagged', False),
+    industry = pos_info['industry']
 
     query = '''
         INSERT INTO coopPositions
@@ -95,21 +126,9 @@ def create_position():
              desiredSkillsId, desiredGPA, deadline, startDate, endDate, flagged, industry)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     '''
-    data = (
-        pos_info['coopPositionId'],
-        pos_info['title'],
-        pos_info['location'],
-        pos_info['description'],
-        pos_info['hourlyPay'],
-        pos_info.get('requiredSkillsId'),
-        pos_info.get('desiredSkillsId'),
-        pos_info.get('desiredGPA'),
-        pos_info.get('deadline'),
-        pos_info['startDate'],
-        pos_info['endDate'],
-        pos_info.get('flagged', False),
-        pos_info['industry']
-    )
+    data = (coop_position_id, title, location, description, hourly_pay,
+            required_skills, desired_skills, desired_gpa, deadline,start_date,
+            end_date, flag, industry)
 
     cursor = db.get_db().cursor()
     cursor.execute(query, data)

@@ -30,7 +30,7 @@ def create_app():
 
     # these are for the DB object to be able to connect to MySQL. 
     app.config['MYSQL_DATABASE_USER'] = os.getenv('DB_USER').strip()
-    app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD').strip()
+    app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD')
     app.config['MYSQL_DATABASE_HOST'] = os.getenv('DB_HOST').strip()
     app.config['MYSQL_DATABASE_PORT'] = int(os.getenv('DB_PORT').strip())
     app.config['MYSQL_DATABASE_DB'] = os.getenv('DB_NAME').strip()
@@ -44,7 +44,7 @@ def create_app():
     app.logger.info('current_app(): registering blueprints with Flask app object.')   
     # app.register_blueprint(users, url_prefix='/u')
     app.register_blueprint(users)
-    app.register_blueprint(coopPositions, url_prefix='/api/coopPositions')
+    app.register_blueprint(coopPositions)
     app.register_blueprint(companyProfiles, url_prefix='/cprof')
     app.register_blueprint(workedatpos, url_prefix='/wap')
     app.register_blueprint(views_position, url_prefix='/vp')

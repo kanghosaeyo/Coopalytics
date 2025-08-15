@@ -2,9 +2,9 @@ import os, requests, pandas as pd, streamlit as st
 from modules.nav import SideBarLinks
 
 # ---- Config ----
-BASE_API  = os.getenv("BASE_API", "http://web-api:4000")
-COOP_API  = f"{BASE_API}/api/coopPositions"
-TIMEOUT   = 10
+BASE_API = os.getenv("BASE_API", "http://web-api:4000")
+COOP_API = f"{BASE_API}/coopPositions"
+TIMEOUT = 10
 
 st.set_page_config(page_title="Employer Accounts • Coopalytics", layout="wide")
 SideBarLinks()
@@ -12,7 +12,8 @@ st.title("🏢 Employer Accounts")
 
 # ---- Helpers ----
 def get_json(url):
-    r = requests.get(url, timeout=TIMEOUT); r.raise_for_status(); return r.json()
+  r = requests.get(url, timeout=TIMEOUT); r.raise_for_status(); return r.json()
+
 
 # ---- Load data ----
 try:
@@ -23,9 +24,9 @@ except Exception as e:
 
 # ---- Top stats ----
 col1, col2, col3 = st.columns(3)
-total_employers   = counts_df["employerId"].nunique() if not counts_df.empty else 0
-active_employers  = counts_df[counts_df["numJobs"] > 0]["employerId"].nunique() if not counts_df.empty else 0
-zero_job_employers= total_employers - active_employers
+total_employers  = counts_df["employerId"].nunique() if not counts_df.empty else 0
+active_employers = counts_df[counts_df["numJobs"] > 0]["employerId"].nunique() if not counts_df.empty else 0
+zero_job_employers = total_employers - active_employers
 
 col1.metric("Total Employers", total_employers)
 col2.metric("Active (≥1 job)", active_employers)
@@ -35,10 +36,10 @@ st.divider()
 
 # ---- Filters / search ----
 with st.container():
-    fcol1, fcol2, fcol3 = st.columns([2,1,1])
-    query = fcol1.text_input("Search employers (name/company)", value="")
-    min_jobs = fcol2.number_input("Min jobs", min_value=0, value=0, step=1)
-    sort_by = fcol3.selectbox("Sort by", ["numJobs ↓","numJobs ↑","lastName A→Z","company A→Z"], index=0)
+   fcol1, fcol2, fcol3 = st.columns([2,1,1])
+   query = fcol1.text_input("Search employers (name/company)", value="")
+   min_jobs = fcol2.number_input("Min jobs", min_value=0, value=0, step=1)
+   sort_by = fcol3.selectbox("Sort by", ["numJobs ↓","numJobs ↑","lastName A→Z","company A→Z"], index=0)
 
 view = counts_df.copy()
 if not view.empty:

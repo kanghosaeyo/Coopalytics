@@ -258,6 +258,97 @@ INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, c
 -- Noah Davis (Data Science major, GPA 3.9, has Python, ML, Data Analysis, etc.)
 (7, '2025-01-28 13:20:00', 'Submitted', 'Resume content for Noah Davis...', 3.9, 'Machine learning interest cover letter...', 11),
 (8, '2025-01-30 10:00:00', 'Rejected', 'Resume content for Noah Davis...', 3.9, 'Data engineering application...', 29),
+-- Additional placement data for analytics
+(61, '2025-02-01 09:00:00', 'Accepted', 'Resume content for Charlie Stout...', 3.7, 'Software engineer acceptance...', 1),
+(62, '2025-02-02 10:00:00', 'Rejected', 'Resume content for Liam Williams...', 3.5, 'Business analyst rejection...', 5),
+(63, '2025-02-03 11:00:00', 'Accepted', 'Resume content for Sophia Brown...', 3.8, 'Engineering acceptance...', 18),
+(64, '2025-02-04 12:00:00', 'Accepted', 'Resume content for Noah Davis...', 3.9, 'Data scientist acceptance...', 11),
+(65, '2025-02-05 13:00:00', 'Rejected', 'Resume content for Olivia Miller...', 3.4, 'Marketing rejection...', 6),
+(66, '2025-02-06 14:00:00', 'Accepted', 'Resume content for Emma Davis...', 3.6, 'Finance acceptance...', 10),
+
+-- Additional comprehensive application data for expanded analytics
+-- Mason Wilson (userId=6) - Cybersecurity applications
+(67, '2025-02-07 09:00:00', 'Accepted', 'Resume content for Mason Wilson...', 3.6, 'Cybersecurity acceptance...', 32),
+(68, '2025-02-08 10:00:00', 'Rejected', 'Resume content for Mason Wilson...', 3.6, 'Security analyst rejection...', 41),
+
+-- Ava Moore (userId=7) - Biomedical Engineering applications
+(69, '2025-02-09 11:00:00', 'Accepted', 'Resume content for Ava Moore...', 3.8, 'Research acceptance...', 25),
+(70, '2025-02-10 12:00:00', 'Rejected', 'Resume content for Ava Moore...', 3.8, 'Healthcare rejection...', 15),
+
+-- Ethan Taylor (userId=8) - Finance applications
+(71, '2025-02-11 13:00:00', 'Accepted', 'Resume content for Ethan Taylor...', 3.5, 'Finance acceptance...', 27),
+(72, '2025-02-12 14:00:00', 'Rejected', 'Resume content for Ethan Taylor...', 3.5, 'Investment rejection...', 23),
+
+-- Isabella Anderson (userId=9) - Psychology/HR applications
+(73, '2025-02-13 15:00:00', 'Accepted', 'Resume content for Isabella Anderson...', 3.4, 'HR analytics acceptance...', 42),
+(74, '2025-02-14 16:00:00', 'Rejected', 'Resume content for Isabella Anderson...', 3.4, 'People analytics rejection...', 33),
+
+-- James Thomas (userId=10) - Mechanical Engineering applications
+(75, '2025-02-15 17:00:00', 'Accepted', 'Resume content for James Thomas...', 3.9, 'Manufacturing acceptance...', 43),
+(76, '2025-02-16 18:00:00', 'Rejected', 'Resume content for James Thomas...', 3.9, 'Robotics rejection...', 18),
+
+-- Mia Jackson (userId=11) - CS Senior applications
+(77, '2025-02-17 09:00:00', 'Accepted', 'Resume content for Mia Jackson...', 3.8, 'Software developer acceptance...', 1),
+(78, '2025-02-18 10:00:00', 'Rejected', 'Resume content for Mia Jackson...', 3.8, 'Full stack rejection...', 16),
+(79, '2025-02-19 11:00:00', 'Accepted', 'Resume content for Mia Jackson...', 3.8, 'Blockchain acceptance...', 39),
+
+-- Lucas White (userId=12) - Business with Data Science minor
+(80, '2025-02-20 12:00:00', 'Accepted', 'Resume content for Lucas White...', 3.6, 'Business analyst acceptance...', 10),
+(81, '2025-02-21 13:00:00', 'Rejected', 'Resume content for Lucas White...', 3.6, 'Data analyst rejection...', 2),
+
+-- Charlotte Harris (userId=13) - Environmental Engineering
+(82, '2025-02-22 14:00:00', 'Accepted', 'Resume content for Charlotte Harris...', 3.7, 'Environmental acceptance...', 8),
+(83, '2025-02-23 15:00:00', 'Rejected', 'Resume content for Charlotte Harris...', 3.7, 'Sustainability rejection...', 33),
+
+-- Benjamin Martin (userId=14) - Information Systems Senior
+(84, '2025-02-24 16:00:00', 'Accepted', 'Resume content for Benjamin Martin...', 3.5, 'Systems admin acceptance...', 26),
+(85, '2025-02-25 17:00:00', 'Rejected', 'Resume content for Benjamin Martin...', 3.5, 'Database admin rejection...', 35),
+
+-- Amelia Garcia (userId=15) - Physics major
+(86, '2025-02-26 18:00:00', 'Accepted', 'Resume content for Amelia Garcia...', 3.9, 'Research assistant acceptance...', 25),
+(87, '2025-02-27 09:00:00', 'Rejected', 'Resume content for Amelia Garcia...', 3.9, 'Data science rejection...', 11),
+
+-- Henry Rodriguez (userId=16) - CS Sophomore
+(88, '2025-02-28 10:00:00', 'Accepted', 'Resume content for Henry Rodriguez...', 3.3, 'QA engineer acceptance...', 17),
+(89, '2025-03-01 11:00:00', 'Rejected', 'Resume content for Henry Rodriguez...', 3.3, 'Software dev rejection...', 1),
+
+-- Harper Lewis (userId=17) - Design Senior
+(90, '2025-03-02 12:00:00', 'Accepted', 'Resume content for Harper Lewis...', 3.8, 'UX design acceptance...', 6),
+(91, '2025-03-03 13:00:00', 'Rejected', 'Resume content for Harper Lewis...', 3.8, 'Product design rejection...', 48),
+
+-- Alexander Lee (userId=18) - Electrical Engineering
+(92, '2025-03-04 14:00:00', 'Accepted', 'Resume content for Alexander Lee...', 3.7, 'Robotics acceptance...', 18),
+(93, '2025-03-05 15:00:00', 'Rejected', 'Resume content for Alexander Lee...', 3.7, 'Hardware rejection...', 45),
+
+-- Evelyn Walker (userId=19) - International Business
+(94, '2025-03-06 16:00:00', 'Accepted', 'Resume content for Evelyn Walker...', 3.6, 'Business dev acceptance...', 50),
+(95, '2025-03-07 17:00:00', 'Rejected', 'Resume content for Evelyn Walker...', 3.6, 'Marketing rejection...', 3),
+
+-- Sebastian Hall (userId=20) - Data Science Senior
+(96, '2025-03-08 18:00:00', 'Accepted', 'Resume content for Sebastian Hall...', 3.9, 'Data analyst acceptance...', 2),
+(97, '2025-03-09 09:00:00', 'Rejected', 'Resume content for Sebastian Hall...', 3.9, 'ML engineer rejection...', 11),
+(98, '2025-03-10 10:00:00', 'Accepted', 'Resume content for Sebastian Hall...', 3.9, 'Computer vision acceptance...', 47),
+
+-- Aria Allen (userId=21) - Marketing major
+(99, '2025-03-11 11:00:00', 'Accepted', 'Resume content for Aria Allen...', 3.4, 'Marketing assistant acceptance...', 3),
+(100, '2025-03-12 12:00:00', 'Rejected', 'Resume content for Aria Allen...', 3.4, 'Digital marketing rejection...', 19),
+
+-- Owen Young (userId=22) - CS Sophomore
+(101, '2025-03-13 13:00:00', 'Accepted', 'Resume content for Owen Young...', 3.5, 'QA engineer acceptance...', 28),
+(102, '2025-03-14 14:00:00', 'Rejected', 'Resume content for Owen Young...', 3.5, 'Frontend dev rejection...', 24),
+
+-- Luna King (userId=23) - Business Senior with Finance focus
+(103, '2025-03-15 15:00:00', 'Accepted', 'Resume content for Luna King...', 3.7, 'Finance intern acceptance...', 27),
+(104, '2025-03-16 16:00:00', 'Rejected', 'Resume content for Luna King...', 3.7, 'Business intelligence rejection...', 23),
+(105, '2025-03-17 17:00:00', 'Accepted', 'Resume content for Luna King...', 3.7, 'Blockchain dev acceptance...', 39),
+
+-- Grayson Wright (userId=24) - Cybersecurity major
+(106, '2025-03-18 18:00:00', 'Accepted', 'Resume content for Grayson Wright...', 3.6, 'Security analyst acceptance...', 32),
+(107, '2025-03-19 09:00:00', 'Rejected', 'Resume content for Grayson Wright...', 3.6, 'Penetration testing rejection...', 41),
+
+-- Chloe Lopez (userId=25) - Biology major
+(108, '2025-03-20 10:00:00', 'Accepted', 'Resume content for Chloe Lopez...', 3.8, 'Healthcare data acceptance...', 15),
+(109, '2025-03-21 11:00:00', 'Rejected', 'Resume content for Chloe Lopez...', 3.8, 'Biotech rejection...', 7),
 -- Olivia Miller (Marketing major, GPA 3.4, has Excel, PowerPoint, Communication, etc.)
 (9, '2025-02-01 15:30:00', 'Draft', 'Resume content for Olivia Miller...', 3.4, NULL, 3),
 (10, '2025-02-03 12:45:00', 'Submitted', 'Resume content for Olivia Miller...', 3.4, 'Digital marketing interest...', 19);
@@ -283,7 +374,138 @@ INSERT INTO createsPos (employerId, coopPositionId) VALUES
 (40, 31), (40, 32), (40, 33), (40, 34), (40, 35), (40, 36), (40, 37), (40, 38), (40, 39), (40, 40),
 (41, 41), (41, 42), (41, 43), (41, 44), (41, 45), (41, 46), (41, 47), (41, 48), (41, 49), (41, 50);
 
+-- 7. Advisor-Advisee relationships (bridge table - references users)
+INSERT INTO advisor_advisee (advisorId, studentId) VALUES
+-- Sarah Martinez (advisor 31) advises students 1-25 (expanded for comprehensive analytics)
+(31, 1), (31, 2), (31, 3), (31, 4), (31, 5), (31, 6), (31, 7), (31, 8), (31, 9), (31, 10),
+(31, 11), (31, 12), (31, 13), (31, 14), (31, 15), (31, 16), (31, 17), (31, 18), (31, 19), (31, 20),
+(31, 21), (31, 22), (31, 23), (31, 24), (31, 25),
+-- Michael Chen (advisor 32) advises students 26-30 (reduced set)
+(32, 26), (32, 27), (32, 28), (32, 29), (32, 30),
+-- Jennifer Kim (advisor 33) advises some graduate students (if any)
+(33, 31), (33, 32), (33, 33), (33, 34), (33, 35);
+
 -- 8. Applies To App relationships (bridge table - references applications and users)
 INSERT INTO appliesToApp (applicationId, studentId) VALUES
-(1, 1), (2, 1), (3, 2), (4, 2), (5, 3), (6, 3), (7, 4), (8, 4), (9, 5), (10, 5);
+(1, 1), (2, 1), (3, 2), (4, 2), (5, 3), (6, 3), (7, 4), (8, 4), (9, 5), (10, 5),
+-- Additional placement data relationships
+(61, 1), (62, 2), (63, 3), (64, 4), (65, 5), (66, 6),
+-- Comprehensive application relationships for expanded dataset
+(67, 6), (68, 6), (69, 7), (70, 7), (71, 8), (72, 8), (73, 9), (74, 9), (75, 10), (76, 10),
+(77, 11), (78, 11), (79, 11), (80, 12), (81, 12), (82, 13), (83, 13), (84, 14), (85, 14),
+(86, 15), (87, 15), (88, 16), (89, 16), (90, 17), (91, 17), (92, 18), (93, 18), (94, 19), (95, 19),
+(96, 20), (97, 20), (98, 20), (99, 21), (100, 21), (101, 22), (102, 22), (103, 23), (104, 23), (105, 23),
+(106, 24), (107, 24), (108, 25), (109, 25);
+
+-- 9. Past Co-op Experience (workedAtPos table - completed co-op positions)
+INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
+-- Original entries (keep existing)
+(1, 2, '2024-01-15', '2024-06-15', 5),
+(2, 7, '2024-03-01', '2024-08-31', 4),
+(3, 19, '2023-09-01', '2024-02-29', 5),
+(4, 12, '2024-01-01', '2024-06-30', 4),
+(5, 8, '2023-06-01', '2023-12-31', 3),
+
+-- Additional entries for more comprehensive data
+
+-- Mason Wilson (userId=6) - Cybersecurity major, completed security co-op
+(6, 4, '2023-09-01', '2024-02-29', 4),
+
+-- Ava Moore (userId=7) - Biomedical Engineering, completed research co-op
+(7, 7, '2023-06-01', '2023-12-31', 5),
+
+-- Ethan Taylor (userId=8) - Finance major, completed financial analyst co-op
+(8, 5, '2024-01-15', '2024-06-15', 4),
+
+-- Isabella Anderson (userId=9) - Psychology major, completed HR analytics co-op
+(9, 42, '2023-06-01', '2023-12-31', 3),
+
+-- James Thomas (userId=10) - Mechanical Engineering, completed manufacturing co-op
+(10, 43, '2024-01-01', '2024-06-30', 5),
+
+-- Mia Jackson (userId=11) - CS Senior, completed multiple co-ops
+(11, 1, '2023-01-15', '2023-06-15', 4),  -- First co-op - Software Developer
+(11, 16, '2023-09-01', '2024-02-29', 5), -- Second co-op - Full Stack Developer
+
+-- Lucas White (userId=12) - Business major with Data Science minor
+(12, 10, '2023-06-01', '2023-12-31', 4),  -- Business Analyst co-op
+
+-- Charlotte Harris (userId=13) - Environmental Engineering
+(13, 8, '2024-01-15', '2024-06-15', 5),   -- Environmental Engineer co-op
+
+-- Benjamin Martin (userId=14) - Information Systems Senior
+(14, 26, '2023-01-15', '2023-06-15', 3),  -- Systems Administrator co-op
+(14, 35, '2023-09-01', '2024-02-29', 4),  -- Database Administrator co-op
+
+-- Amelia Garcia (userId=15) - Physics major
+(15, 25, '2023-06-01', '2023-12-31', 4),  -- Research Assistant co-op
+
+-- Henry Rodriguez (userId=16) - CS Sophomore (first co-op)
+(16, 17, '2024-01-01', '2024-06-30', 3),  -- QA co-op (entry level)
+
+-- Harper Lewis (userId=17) - Design Senior
+(17, 6, '2023-01-15', '2023-06-15', 5),   -- UX Design co-op
+(17, 48, '2023-09-01', '2024-02-29', 4),  -- Product Design co-op
+
+-- Alexander Lee (userId=18) - Electrical Engineering
+(18, 18, '2023-06-01', '2023-12-31', 4),  -- Robotics Engineer co-op
+
+-- Evelyn Walker (userId=19) - International Business
+(19, 50, '2024-01-15', '2024-06-15', 4),  -- Business Development co-op
+
+-- Sebastian Hall (userId=20) - Data Science Senior
+(20, 2, '2023-01-15', '2023-06-15', 5),   -- Data Analyst co-op
+(20, 11, '2023-09-01', '2024-02-29', 5),  -- Machine Learning co-op
+
+-- Aria Allen (userId=21) - Marketing major
+(21, 3, '2023-06-01', '2023-12-31', 3),   -- Marketing Assistant co-op
+(21, 19, '2024-01-01', '2024-06-30', 4),  -- Digital Marketing co-op
+
+-- Owen Young (userId=22) - CS Sophomore (first co-op)
+(22, 28, '2024-01-15', '2024-06-15', 4),  -- Software QA Engineer
+
+-- Luna King (userId=23) - Business Senior with Finance focus
+(23, 27, '2023-01-15', '2023-06-15', 4),  -- Finance Intern
+(23, 23, '2023-09-01', '2024-02-29', 5),  -- Business Intelligence
+
+-- Grayson Wright (userId=24) - Cybersecurity major
+(24, 32, '2023-06-01', '2023-12-31', 4),  -- Security Analyst co-op
+
+-- Chloe Lopez (userId=25) - Biology major
+(25, 15, '2024-01-01', '2024-06-30', 5),  -- Healthcare Data Analyst
+
+-- Carter Hill (userId=26) - Information Systems Senior
+(26, 41, '2023-01-15', '2023-06-15', 3),  -- Network Engineer co-op
+
+-- Zoey Scott (userId=27) - Environmental Engineering
+(27, 33, '2023-06-01', '2023-12-31', 4),  -- Operations Analyst co-op
+
+-- Luke Green (userId=28) - Chemistry major
+(28, 25, '2024-01-15', '2024-06-15', 4),  -- Research Assistant co-op
+
+-- Lily Adams (userId=29) - Design Senior
+(29, 44, '2023-01-15', '2023-06-15', 3),  -- Content Creator co-op
+
+-- Jack Baker (userId=30) - CS Junior
+(30, 24, '2023-09-01', '2024-02-29', 4),  -- Frontend Developer co-op
+
+-- Additional second co-ops for some students to show progression
+
+-- Charlie Stout (userId=1) - second co-op after first successful one
+(1, 22, '2024-09-01', '2025-02-28', NULL), -- Backend Developer (current/recent)
+
+-- Sophia Brown (userId=3) - second engineering co-op
+(3, 45, '2024-06-01', '2024-11-30', NULL), -- Automation Engineer (current/recent)
+
+-- Noah Davis (userId=4) - advanced data science co-op
+(4, 40, '2024-09-01', '2025-02-28', NULL), -- AI Research Intern (current/recent)
+
+-- Mia Jackson (userId=11) - third co-op as senior
+(11, 39, '2024-06-01', '2024-11-30', NULL), -- Blockchain Developer (current/recent)
+
+-- Sebastian Hall (userId=20) - third advanced co-op
+(20, 47, '2024-06-01', '2024-11-30', NULL), -- Computer Vision co-op (current/recent)
+
+-- Luna King (userId=23) - advanced finance role
+(23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
 

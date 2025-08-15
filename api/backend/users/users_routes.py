@@ -174,6 +174,194 @@ def add_user_skills(userID):
         the_response.status_code = 500
         return the_response
 
+# Get advisor's assigned students
+@users.route('/advisors/<advisorID>/students', methods=['GET'])
+def get_advisor_students(advisorID):
+    query = '''
+        SELECT u.userId, u.firstName, u.lastName, u.email, u.phone,
+               u.major, u.minor, u.college, u.gradYear, u.grade,
+               d.gender, d.race, d.nationality, d.sexuality, d.disability,
+               aa.flag as flagged
+        FROM users u
+        LEFT JOIN demographics d ON u.userId = d.demographicId
+        JOIN advisor_advisee aa ON u.userId = aa.studentId
+        WHERE aa.advisorId = %s
+        ORDER BY u.lastName, u.firstName
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (advisorID,))
+    theData = cursor.fetchall()
+
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# Update student flag status for advisor
+@users.route('/advisors/<advisorID>/students/<studentID>/flag', methods=['PUT'])
+def update_student_flag(advisorID, studentID):
+    try:
+        data = request.get_json()
+        flagged = data.get('flagged', False)
+
+        query = '''
+            UPDATE advisor_advisee
+            SET flag = %s
+            WHERE advisorId = %s AND studentId = %s
+        '''
+
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (flagged, advisorID, studentID))
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": "Student flag updated successfully", "flagged": flagged}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error updating student flag: {e}")
+        the_response = make_response(jsonify({"error": "Failed to update student flag"}))
+        the_response.status_code = 500
+        return the_response
+
+# Get placement analytics data for advisor
+@users.route('/advisors/<advisorID>/analytics/placement-data', methods=['GET'])
+def get_advisor_placement_analytics(advisorID):
+    try:
+        query = '''
+            SELECT
+                u.firstName,
+                u.lastName,
+                u.gradYear,
+                u.major,
+                u.college,
+                a.gpa,
+                a.status,
+                cp.title as positionTitle,
+                cp.hourlyPay as salary,
+                COALESCE(comp.name, 'Unknown Company') as companyName,
+                cp.industry
+            FROM users u
+            JOIN advisor_advisee aa ON u.userId = aa.studentId
+            JOIN appliesToApp ata ON u.userId = ata.studentId
+            JOIN applications a ON ata.applicationId = a.applicationId
+            JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+            LEFT JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+            LEFT JOIN users emp ON crp.employerId = emp.userId
+            LEFT JOIN companyProfiles comp ON emp.companyProfileId = comp.companyProfileId
+            WHERE aa.advisorId = %s
+                AND a.status IN ('Accepted', 'Rejected')
+                AND cp.hourlyPay IS NOT NULL
+                AND a.gpa IS NOT NULL
+
+            UNION ALL
+
+            SELECT
+                u.firstName,
+                u.lastName,
+                u.gradYear,
+                u.major,
+                u.college,
+                COALESCE(avg_gpa.gpa, 3.5) as gpa,
+                'Completed' as status,
+                cp.title as positionTitle,
+                cp.hourlyPay as salary,
+                COALESCE(comp.name, 'Unknown Company') as companyName,
+                cp.industry
+            FROM users u
+            JOIN advisor_advisee aa ON u.userId = aa.studentId
+            JOIN workedAtPos wap ON u.userId = wap.studentId
+            JOIN coopPositions cp ON wap.coopPositionId = cp.coopPositionId
+            LEFT JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+            LEFT JOIN users emp ON crp.employerId = emp.userId
+            LEFT JOIN companyProfiles comp ON emp.companyProfileId = comp.companyProfileId
+            LEFT JOIN (
+                SELECT ata.studentId, AVG(a.gpa) as gpa
+                FROM appliesToApp ata
+                JOIN applications a ON ata.applicationId = a.applicationId
+                WHERE a.gpa IS NOT NULL
+                GROUP BY ata.studentId
+            ) avg_gpa ON u.userId = avg_gpa.studentId
+            WHERE aa.advisorId = %s
+                AND cp.hourlyPay IS NOT NULL
+
+            ORDER BY lastName, firstName
+        '''
+
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (advisorID, advisorID))
+        theData = cursor.fetchall()
+
+        the_response = make_response(jsonify(theData))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error fetching placement analytics: {e}")
+        the_response = make_response(jsonify({"error": "Failed to fetch placement analytics"}))
+        the_response.status_code = 500
+        return the_response
+
+
+
+# Update advisor profile (separate from student profile updates)
+@users.route('/advisors/<advisorID>/profile', methods=['PUT'])
+def update_advisor_profile(advisorID):
+    try:
+        current_app.logger.info(f'PUT /advisors/{advisorID}/profile route')
+        advisor_info = request.json
+
+        first_name = advisor_info.get('firstName')
+        last_name = advisor_info.get('lastName')
+        email = advisor_info.get('email')
+        phone = advisor_info.get('phone')
+        gender = advisor_info.get('gender')
+        race = advisor_info.get('race')
+        nationality = advisor_info.get('nationality')
+        sexuality = advisor_info.get('sexuality')
+        disability = advisor_info.get('disability')
+
+        # Update users table (basic info)
+        user_query = '''
+            UPDATE users
+            SET firstName = %s,
+                lastName = %s,
+                email = %s,
+                phone = %s
+            WHERE userId = %s
+        '''
+
+        # Update demographics table
+        demo_query = '''
+            UPDATE demographics
+            SET gender = %s,
+                race = %s,
+                nationality = %s,
+                sexuality = %s,
+                disability = %s
+            WHERE demographicId = %s
+        '''
+
+        cursor = db.get_db().cursor()
+
+        # Execute user update
+        cursor.execute(user_query, (first_name, last_name, email, phone, advisorID))
+
+        # Execute demographics update
+        cursor.execute(demo_query, (gender, race, nationality, sexuality, disability, advisorID))
+
+        db.get_db().commit()
+
+        the_response = make_response(jsonify({"message": "Advisor profile updated successfully"}))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        logger.error(f"Error updating advisor profile: {e}")
+        the_response = make_response(jsonify({"error": "Failed to update advisor profile"}))
+        the_response.status_code = 500
+        return the_response
+
 # Update student profiles to include additional info
 @users.route('/users', methods=['PUT'])
 def update_users():

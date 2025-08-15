@@ -153,6 +153,7 @@ with col2:
         st.session_state['authenticated'] = True
         st.session_state['role'] = 'advisor'
         st.session_state['first_name'] = 'Dr. Sarah'
+        st.session_state['user_id'] = 31  # Sarah Martinez
         logger.info("Logging in as Academic Advisor Persona")
         st.switch_page('pages/10_Advisor_Home.py')
 
