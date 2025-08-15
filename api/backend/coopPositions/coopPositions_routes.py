@@ -105,35 +105,104 @@ def get_required_skills(studentID):
 @coopPositions.route('/createsPos/coopPosition', methods=['POST'])
 def create_position():
     current_app.logger.info('POST /createsPos/coopPosition')
-    pos_info = request.json
-    coop_position_id = pos_info['coopPositionId'],
-    title = pos_info['title'],
-    location = pos_info['location'],
-    description = pos_info['description'],
-    hourly_pay = pos_info['hourlyPay'],
-    required_skills = pos_info.get('requiredSkillsId'),
-    desired_skills = pos_info.get('desiredSkillsId'),
-    desired_gpa = pos_info.get('desiredGPA'),
-    deadline = pos_info.get('deadline'),
-    start_date = pos_info['startDate'],
-    end_date = pos_info['endDate'],
-    flag = pos_info.get('flagged', False),
-    industry = pos_info['industry']
 
-    query = '''
-        INSERT INTO coopPositions
-            (coopPositionId, title, location, description, hourlyPay, requiredSkillsId,
-             desiredSkillsId, desiredGPA, deadline, startDate, endDate, flagged, industry)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-    '''
-    data = (coop_position_id, title, location, description, hourly_pay,
-            required_skills, desired_skills, desired_gpa, deadline,start_date,
-            end_date, flag, industry)
+    try:
+        pos_info = request.json
+        current_app.logger.info(f"Received position data: {pos_info}")
 
-    cursor = db.get_db().cursor()
-    cursor.execute(query, data)
-    db.get_db().commit()
-    return make_response(jsonify({"message": "Position created!"}), 201)
+        # Extract data without trailing commas (which create tuples)
+        coop_position_id = pos_info['coopPositionId']
+        title = pos_info['title']
+        location = pos_info['location']
+        description = pos_info['description']
+        hourly_pay = pos_info['hourlyPay']
+        required_skills = pos_info.get('requiredSkillsId')
+        desired_skills = pos_info.get('desiredSkillsId')
+        desired_gpa = pos_info.get('desiredGPA')
+        deadline = pos_info.get('deadline')
+        start_date = pos_info['startDate']
+        end_date = pos_info['endDate']
+        flag = pos_info.get('flag', False)  # Use 'flag' instead of 'flagged'
+        industry = pos_info['industry']
+
+        # Check if position ID already exists to prevent duplicates
+        cursor = db.get_db().cursor()
+        check_query = '''
+            SELECT coopPositionId FROM coopPositions WHERE coopPositionId = %s
+        '''
+        cursor.execute(check_query, (coop_position_id,))
+
+        if cursor.fetchone():
+            current_app.logger.error(f"Position ID {coop_position_id} already exists")
+            return make_response(jsonify({
+                "error": f"Position ID {coop_position_id} already exists. Please refresh and try again."
+            }), 409)
+
+        # Use correct column name 'flag' instead of 'flagged'
+        query = '''
+            INSERT INTO coopPositions
+                (coopPositionId, title, location, description, hourlyPay, requiredSkillsId,
+                 desiredSkillsId, desiredGPA, deadline, startDate, endDate, flag, industry)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        '''
+        data = (coop_position_id, title, location, description, hourly_pay,
+                required_skills, desired_skills, desired_gpa, deadline, start_date,
+                end_date, flag, industry)
+
+        cursor.execute(query, data)
+        db.get_db().commit()
+
+        current_app.logger.info(f"Successfully created position {coop_position_id}")
+        return make_response(jsonify({
+            "message": "Position created!",
+            "coopPositionId": coop_position_id
+        }), 201)
+
+    except Exception as e:
+        current_app.logger.error(f"Error creating position: {e}")
+        return make_response(jsonify({"error": str(e)}), 500)
+
+# Link employer to position (createsPos relationship)
+@coopPositions.route('/createsPos', methods=['POST'])
+def link_employer_to_position():
+    current_app.logger.info('POST /createsPos')
+
+    try:
+        link_info = request.json
+        current_app.logger.info(f"Received link data: {link_info}")
+
+        employer_id = link_info['employerId']
+        coop_position_id = link_info['coopPositionId']
+
+        # Check if the position exists
+        check_query = '''
+            SELECT coopPositionId FROM coopPositions WHERE coopPositionId = %s
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(check_query, (coop_position_id,))
+
+        if not cursor.fetchone():
+            return make_response(jsonify({"error": f"Position {coop_position_id} not found"}), 404)
+
+        # Insert the relationship
+        query = '''
+            INSERT INTO createsPos (employerId, coopPositionId)
+            VALUES (%s, %s)
+        '''
+
+        cursor.execute(query, (employer_id, coop_position_id))
+        db.get_db().commit()
+
+        current_app.logger.info(f"Successfully linked employer {employer_id} to position {coop_position_id}")
+        return make_response(jsonify({
+            "message": "Employer linked to position!",
+            "employerId": employer_id,
+            "coopPositionId": coop_position_id
+        }), 201)
+
+    except Exception as e:
+        current_app.logger.error(f"Error linking employer to position: {e}")
+        return make_response(jsonify({"error": str(e)}), 500)
 
 
 
@@ -428,6 +497,49 @@ def get_all_positions():
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
+
+# Get next available co-op position ID (thread-safe)
+@coopPositions.route('/coopPositions/nextId', methods=['GET'])
+def get_next_position_id():
+    current_app.logger.info('GET /coopPositions/nextId route')
+
+    try:
+        cursor = db.get_db().cursor()
+
+        # Use a transaction to ensure thread safety
+        cursor.execute('START TRANSACTION')
+
+        # Get the maximum ID with a lock to prevent race conditions
+        query = '''
+            SELECT COALESCE(MAX(coopPositionId), 0) + 1 as nextId
+            FROM coopPositions
+            FOR UPDATE
+        '''
+
+        cursor.execute(query)
+        result = cursor.fetchone()
+        next_id = result['nextId']
+
+        # Commit the transaction
+        cursor.execute('COMMIT')
+
+        current_app.logger.info(f'Next available position ID: {next_id}')
+
+        the_response = make_response(jsonify({
+            "nextId": next_id,
+            "message": f"Next available position ID is {next_id}"
+        }))
+        the_response.status_code = 200
+        return the_response
+
+    except Exception as e:
+        # Rollback on error
+        try:
+            cursor.execute('ROLLBACK')
+        except:
+            pass
+        current_app.logger.error(f"Error getting next position ID: {e}")
+        return make_response(jsonify({"error": str(e)}), 500)
 
 # Get positions created by a specific employer
 @coopPositions.route('/employers/<int:employerId>/positions', methods=['GET'])
