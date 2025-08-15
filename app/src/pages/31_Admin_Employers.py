@@ -36,10 +36,9 @@ st.divider()
 
 # ---- Filters / search ----
 with st.container():
-   fcol1, fcol2, fcol3 = st.columns([2,1,1])
+   fcol1, fcol2 = st.columns([3,1])
    query = fcol1.text_input("Search employers (name/company)", value="")
-   min_jobs = fcol2.number_input("Min jobs", min_value=0, value=0, step=1)
-   sort_by = fcol3.selectbox("Sort by", ["numJobs ↓","numJobs ↑","lastName A→Z","company A→Z"], index=0)
+   sort_by = fcol2.selectbox("Sort by", ["numJobs ↓","numJobs ↑","lastName A→Z","company A→Z"], index=0)
 
 view = counts_df.copy()
 if not view.empty:
@@ -51,7 +50,7 @@ if not view.empty:
             view["employerName"].str.lower().str.contains(q, na=False) |
             view["companyName"].str.lower().str.contains(q, na=False)
         ]
-    view = view[view["numJobs"] >= min_jobs]
+    #view = view[view["numJobs"] >= min_jobs]
 
     # sorting
     if sort_by == "numJobs ↓":

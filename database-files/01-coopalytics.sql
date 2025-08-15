@@ -92,7 +92,7 @@ CREATE TABLE workedAtPos (
 
     PRIMARY KEY (studentId, coopPositionId),
     FOREIGN KEY (studentId) REFERENCES users (userId) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (coopPositionId) REFERENCES coopPositions (coopPositionId) ON UPDATE CASCADE ON DELETE RESTRICT
+    FOREIGN KEY (coopPositionId) REFERENCES coopPositions (coopPositionId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE viewsPos (
@@ -123,7 +123,7 @@ CREATE TABLE applications (
     coverLetter     LONGTEXT,
     coopPositionId  INT         NOT NULL,
 
-    FOREIGN KEY (coopPositionId) REFERENCES coopPositions (coopPositionId) ON UPDATE CASCADE ON DELETE RESTRICT
+    FOREIGN KEY (coopPositionId) REFERENCES coopPositions (coopPositionId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE appliesToApp (
