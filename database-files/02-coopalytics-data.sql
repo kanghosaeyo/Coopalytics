@@ -144,7 +144,77 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (55, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
 (56, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
 (57, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(58, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
+(58, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+
+-- Additional Students (userId 59–68)
+(59, 'Nora', 'Reed', 'n.reed@student.edu', '555-0159', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(60, 'Caleb', 'Bennett', 'c.bennett@student.edu', '555-0160', 'Finance', 'Economics', 'D\'Amore-McKim School of Business', '2027', 'Sophomore', NULL, NULL),
+(61, 'Scarlett', 'Gray', 's.gray@student.edu', '555-0161', 'Marketing', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(62, 'Wyatt', 'Rivera', 'w.rivera@student.edu', '555-0162', 'Cybersecurity', 'Data Science', 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(63, 'Ellie', 'Cruz', 'e.cruz@student.edu', '555-0163', 'Biology', 'Chemistry', 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(64, 'Leo', 'Morgan', 'l.morgan@student.edu', '555-0164', 'Mechanical Engineering', NULL, 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(65, 'Paisley', 'Perry', 'p.perry@student.edu', '555-0165', 'Business', 'Finance', 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(66, 'Isaac', 'Reyes', 'i.reyes@student.edu', '555-0166', 'Computer Science', 'Mathematics', 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(67, 'Aubrey', 'Long', 'a.long@student.edu', '555-0167', 'Design', 'Art', 'College of Arts, Media and Design', '2026', 'Junior', NULL, NULL),
+(68, 'Gabriel', 'Watson', 'g.watson@student.edu', '555-0168', 'Physics', NULL, 'College of Science', '2026', 'Junior', NULL, NULL),
+(69, 'Lillian', 'Simmons', 'l.simmons@student.edu', '555-0169', 'Psychology', NULL, 'College of Social Sciences and Humanities', '2025', 'Senior', NULL, NULL),
+(70, 'Julian', 'Foster', 'j.foster@student.edu', '555-0170', 'Computer Science', 'Game Design', 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(71, 'Violet', 'Bryant', 'v.bryant@student.edu', '555-0171', 'Environmental Science', NULL, 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(72, 'Lincoln', 'Bailey', 'l.bailey@student.edu', '555-0172', 'Finance', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(73, 'Savannah', 'Cooper', 's.cooper@student.edu', '555-0173', 'Data Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(74, 'Asher', 'Howard', 'a.howard@student.edu', '555-0174', 'Biology', 'Psychology', 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(75, 'Aurora', 'Ward', 'a.ward@student.edu', '555-0175', 'Marketing', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(76, 'Hudson', 'Torres', 'h.torres@student.edu', '555-0176', 'Cybersecurity', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(77, 'Penelope', 'Peterson', 'p.peterson@student.edu', '555-0177', 'Physics', 'Mathematics', 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(78, 'Grayson', 'Ramirez', 'g.ramirez@student.edu', '555-0178', 'Mechanical Engineering', NULL, 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(79, 'Stella', 'Jenkins', 's.jenkins@student.edu', '555-0179', 'Design', NULL, 'College of Arts, Media and Design', '2025', 'Senior', NULL, NULL),
+(80, 'Leo', 'Gonzalez', 'l.gonzalez@student.edu', '555-0180', 'Economics', 'Finance', 'D\'Amore-McKim School of Business', '2026', 'Junior', NULL, NULL),
+(81, 'Naomi', 'Fleming', 'n.fleming@student.edu', '555-0181', 'Psychology', 'Neuroscience', 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(82, 'Eli', 'Stone', 'e.stone@student.edu', '555-0182', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(83, 'Ariana', 'Wheeler', 'a.wheeler@student.edu', '555-0183', 'Information Systems', NULL, 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(84, 'Nathan', 'Payne', 'n.payne@student.edu', '555-0184', 'Biochemistry', 'Biology', 'College of Science', '2026', 'Junior', NULL, NULL),
+(85, 'Clara', 'Davidson', 'c.davidson@student.edu', '555-0185', 'Finance', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(86, 'Miles', 'Griffin', 'm.griffin@student.edu', '555-0186', 'Mechanical Engineering', 'Mathematics', 'College of Engineering', '2027', 'Sophomore', NULL, NULL),
+(87, 'Autumn', 'Hayes', 'a.hayes@student.edu', '555-0187', 'Data Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(88, 'Xavier', 'Pierce', 'x.pierce@student.edu', '555-0188', 'Cybersecurity', NULL, 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(89, 'Elena', 'Ford', 'e.ford@student.edu', '555-0189', 'Business', 'Marketing', 'D\'Amore-McKim School of Business', '2026', 'Junior', NULL, NULL),
+(90, 'Everett', 'Stevens', 'e.stevens@student.edu', '555-0190', 'Physics', NULL, 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(91, 'Isla', 'Bryan', 'i.bryan@student.edu', '555-0191', 'Political Science', NULL, 'College of Social Sciences and Humanities', '2026', 'Junior', NULL, NULL),
+(92, 'Max', 'Henderson', 'm.henderson@student.edu', '555-0192', 'Mathematics', 'Physics', 'College of Science', '2025', 'Senior', NULL, NULL),
+(93, 'Zoe', 'Murray', 'z.murray@student.edu', '555-0193', 'Psychology', 'Criminology', 'College of Social Sciences and Humanities', '2027', 'Sophomore', NULL, NULL),
+(94, 'Jace', 'Walters', 'j.walters@student.edu', '555-0194', 'Cybersecurity', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(95, 'Bella', 'Hunter', 'b.hunter@student.edu', '555-0195', 'Mechanical Engineering', 'Robotics', 'College of Engineering', '2025', 'Senior', NULL, NULL),
+(96, 'Roman', 'Barnes', 'r.barnes@student.edu', '555-0196', 'Finance', NULL, 'D\'Amore-McKim School of Business', '2027', 'Sophomore', NULL, NULL),
+(97, 'Layla', 'Knight', 'l.knight@student.edu', '555-0197', 'Data Science', 'Information Systems', 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(98, 'Brody', 'Chapman', 'b.chapman@student.edu', '555-0198', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(99, 'Hazel', 'Ford', 'h.ford@student.edu', '555-0199', 'Marketing', 'Communications', 'D\'Amore-McKim School of Business', '2027', 'Sophomore', NULL, NULL),
+(100, 'Micah', 'Reed', 'm.reed@student.edu', '555-0200', 'Biology', NULL, 'College of Science', '2026', 'Junior', NULL, NULL),
+(101, 'Eva', 'Summers', 'e.summers@student.edu', '555-0201', 'Environmental Engineering', 'Public Policy', 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(102, 'Connor', 'Pearce', 'c.pearce@student.edu', '555-0202', 'Electrical Engineering', NULL, 'College of Engineering', '2025', 'Senior', NULL, NULL),
+(103, 'Melody', 'Harrington', 'm.harrington@student.edu', '555-0203', 'Psychology', NULL, 'College of Social Sciences and Humanities', '2027', 'Sophomore', NULL, NULL),
+(104, 'Victor', 'Floyd', 'v.floyd@student.edu', '555-0204', 'Information Systems', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(105, 'Alina', 'Barrett', 'a.barrett@student.edu', '555-0205', 'Finance', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(106, 'Gavin', 'Neal', 'g.neal@student.edu', '555-0206', 'Physics', NULL, 'College of Science', '2026', 'Junior', NULL, NULL),
+(107, 'Jasmine', 'Holmes', 'j.holmes@student.edu', '555-0207', 'Cybersecurity', 'Computer Science', 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(108, 'Tyler', 'Dixon', 't.dixon@student.edu', '555-0208', 'Mechanical Engineering', NULL, 'College of Engineering', '2025', 'Senior', NULL, NULL),
+(109, 'Sophie', 'Tucker', 's.tucker@student.edu', '555-0209', 'Marketing', NULL, 'D\'Amore-McKim School of Business', '2026', 'Junior', NULL, NULL),
+(110, 'Diego', 'Pena', 'd.pena@student.edu', '555-0210', 'Computer Science', NULL, 'Khoury College of Computer Sciences', '2027', 'Sophomore', NULL, NULL),
+(111, 'Vivian', 'Armstrong', 'v.armstrong@student.edu', '555-0211', 'Environmental Science', NULL, 'College of Science', '2026', 'Junior', NULL, NULL),
+(112, 'Zion', 'Moss', 'z.moss@student.edu', '555-0212', 'Business', NULL, 'D\'Amore-McKim School of Business', '2025', 'Senior', NULL, NULL),
+(113, 'Jade', 'Cross', 'j.cross@student.edu', '555-0213', 'Psychology', NULL, 'College of Social Sciences and Humanities', '2027', 'Sophomore', NULL, NULL),
+(114, 'Ryder', 'Snow', 'r.snow@student.edu', '555-0214', 'Electrical Engineering', NULL, 'College of Engineering', '2026', 'Junior', NULL, NULL),
+(115, 'Eliza', 'Day', 'e.day@student.edu', '555-0215', 'Computer Science', 'Mathematics', 'Khoury College of Computer Sciences', '2025', 'Senior', NULL, NULL),
+(116, 'Nolan', 'Paul', 'n.paul@student.edu', '555-0216', 'Data Science', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+(117, 'Camila', 'Preston', 'c.preston@student.edu', '555-0217', 'Biochemistry', NULL, 'College of Science', '2027', 'Sophomore', NULL, NULL),
+(118, 'Andres', 'Cain', 'a.cain@student.edu', '555-0218', 'Information Systems', NULL, 'Khoury College of Computer Sciences', '2026', 'Junior', NULL, NULL),
+
+-- Additional Advisors (userId 69–74)
+(119, 'Anna', 'Reyes', 'a.reyes@neu.edu', '555-0307', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(120, 'Thomas', 'Ng', 't.ng@neu.edu', '555-0308', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(121, 'Emily', 'Morgan', 'e.morgan@neu.edu', '555-0309', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(122, 'Brian', 'Lopez', 'b.lopez@neu.edu', '555-0310', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(123, 'Rachel', 'Parker', 'r.parker@neu.edu', '555-0311', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
+(124, 'Jason', 'Hughes', 'j.hughes@neu.edu', '555-0312', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic');
 
 -- 4. Demographics table (48 rows - references users)
 INSERT INTO demographics (demographicId, gender, race, nationality, sexuality, disability) VALUES
@@ -457,14 +527,32 @@ INSERT INTO createsPos (employerId, coopPositionId) VALUES
 
 -- 7. Advisor-Advisee relationships (bridge table - references users)
 INSERT INTO advisor_advisee (advisorId, studentId) VALUES
--- Sarah Martinez (advisor 31) advises students 1-25 (expanded for comprehensive analytics)
+-- Sarah Martinez (advisor 31) advises students 1-25
 (31, 1), (31, 2), (31, 3), (31, 4), (31, 5), (31, 6), (31, 7), (31, 8), (31, 9), (31, 10),
 (31, 11), (31, 12), (31, 13), (31, 14), (31, 15), (31, 16), (31, 17), (31, 18), (31, 19), (31, 20),
 (31, 21), (31, 22), (31, 23), (31, 24), (31, 25),
--- Michael Chen (advisor 32) advises students 26-30 (reduced set)
+-- Michael Chen (advisor 32) advises students 26-30
 (32, 26), (32, 27), (32, 28), (32, 29), (32, 30),
--- Jennifer Kim (advisor 33) advises some graduate students (if any)
-(33, 31), (33, 32), (33, 33), (33, 34), (33, 35);
+-- Jennifer Kim (advisor 33) advises students 31-35
+(33, 31), (33, 32), (33, 33), (33, 34), (33, 35),
+-- Additional advisors and advisees to reach 125 total entries
+-- Advisor 34 (David Lee)
+(34, 51), (34, 52), (34, 53), (34, 54), (34, 55), (34, 56), (34, 57), (34, 58), (34, 59), (34, 60),
+-- Advisor 35 (Emily Davis)
+(35, 61), (35, 62), (35, 63), (35, 64), (35, 65), (35, 66), (35, 67), (35, 68), (35, 69), (35, 70),
+-- Advisor 36 (Robert Wilson)
+(36, 71), (36, 72), (36, 73), (36, 74), (36, 75), (36, 76), (36, 77), (36, 78), (36, 79), (36, 80),
+-- Advisor 37 (Linda Green)
+(37, 81), (37, 82), (37, 83), (37, 84), (37, 85), (37, 86), (37, 87), (37, 88), (37, 89), (37, 90),
+-- Advisor 38 (James Brown)
+(38, 91), (38, 92), (38, 93), (38, 94), (38, 95), (38, 96), (38, 97), (38, 98), (38, 99), (38, 100),
+-- Advisor 39 (Patricia White)
+(39, 101), (39, 102), (39, 103), (39, 104), (39, 105), (39, 106), (39, 107), (39, 108), (39, 109), (39, 110),
+-- Advisor 40 (Mark Black)
+(40, 111), (40, 112), (40, 113), (40, 114), (40, 115), (40, 116), (40, 117), (40, 118), (40, 119), (40, 120),
+-- Co-advising entries for diversity
+(31, 50), (32, 45), (33, 55);
+
 
 -- 8. Applies To App relationships (bridge table - references applications and users)
 INSERT INTO appliesToApp (applicationId, studentId) VALUES
