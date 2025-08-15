@@ -1,6 +1,6 @@
 # Coopalytics 🎓
 
-[![Docker](https://img.shields.io/badge/Docker-Containerized-blue?logo=docker)](https://www.docker.com/)
+[![Docker](https://img.shields.io/badge/Containerized-Docker-blue?logo=docker)](https://www.docker.com/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red?logo=streamlit)](https://streamlit.io/)
 [![Flask](https://img.shields.io/badge/Backend-Flask-green?logo=flask)](https://flask.palletsprojects.com/)
 [![MySQL](https://img.shields.io/badge/Database-MySQL-orange?logo=mysql)](https://www.mysql.com/)
