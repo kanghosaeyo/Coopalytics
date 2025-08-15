@@ -11,16 +11,15 @@ companyProfiles = Blueprint('companyProfiles', __name__)
 @companyProfiles.route('/companyProfiles/<companyProfileId>', methods=['GET'])
 def get_company_profile(companyProfileId):
     query = '''
-        SELECT *
+        SELECT companyProfileId, name, bio, industry, websiteLink
         FROM companyProfiles
         WHERE companyProfileId = %s
-    '''.format(companyProfileId)
+    '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
-    columns = [col[0] for col in cursor.description]
-    theData = [dict(zip(columns, row)) for row in cursor.fetchall()]
-    
+    cursor.execute(query, (companyProfileId,))
+    theData = cursor.fetchall()
+
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
@@ -33,12 +32,11 @@ def get_all_company_profiles():
         FROM companyProfiles
         ORDER BY name
     '''
-    
+
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    columns = [col[0] for col in cursor.description]
-    theData = [dict(zip(columns, row)) for row in cursor.fetchall()]
-    
+    theData = cursor.fetchall()
+
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
