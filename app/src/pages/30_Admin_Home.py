@@ -3,7 +3,7 @@ from modules.nav import SideBarLinks
 
 # ----- Config -----
 BASE_API = os.getenv("BASE_API", "http://web-api:4000")
-COOP_API = f"{BASE_API}/api/coopPositions"
+COOP_API = f"{BASE_API}/coopPositions"
 DEI_API  = f"{BASE_API}/api/dei"     # ok if not registered; handled below
 TIMEOUT  = 10
 

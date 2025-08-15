@@ -3,7 +3,7 @@ from modules.nav import SideBarLinks
 
 # ---- Config ----
 BASE_API = os.getenv("BASE_API", "http://web-api:4000")
-COOP_API = f"{BASE_API}/api/coopPositions"
+COOP_API = f"{BASE_API}/coopPositions"
 TIMEOUT = 10
 
 st.set_page_config(page_title="Review Job Postings • Coopalytics", layout="wide", initial_sidebar_state="expanded")
