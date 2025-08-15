@@ -252,7 +252,27 @@ INSERT INTO coopPositions (coopPositionId, title, location, description, hourlyP
 (47, 'Computer Vision Co-op', 'Burlington, VT', 'Develop image processing algorithms and computer vision applications.', 27.50, 11, 1, 3.5, '2025-03-17 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Technology'),
 (48, 'Product Design Intern', 'Manchester, NH', 'Create product prototypes and conduct user experience research.', 20.00, 40, 39, 3.0, '2025-02-14 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Design'),
 (49, 'Infrastructure Engineer', 'Portland, ME', 'Manage cloud infrastructure and implement DevOps best practices.', 24.00, 8, 35, 3.2, '2025-03-23 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Technology'),
-(50, 'Business Development', 'Concord, NH', 'Identify new business opportunities and support partnership development.', 18.50, 17, 15, 2.9, '2025-02-18 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Business');
+(50, 'Business Development', 'Concord, NH', 'Identify new business opportunities and support partnership development.', 18.50, 17, 15, 2.9, '2025-02-18 23:59:59', '2026-06-01', '2026-12-01', FALSE, 'Business'),
+(51, 'Cloud Solutions Intern', 'Newark, NJ', 'Assist in designing and deploying cloud-based solutions on AWS and Azure platforms.', 26.00, 8, 33, 3.3, '2025-04-10 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(52, 'Human Resources Intern', 'Buffalo, NY', 'Support recruitment efforts and maintain employee records.', 18.00, 12, 13, 2.8, '2025-04-15 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Human Resources'),
+(53, 'Manufacturing Process Analyst', 'Syracuse, NY', 'Analyze manufacturing processes and recommend efficiency improvements.', 23.50, 15, 16, 3.2, '2025-04-12 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Manufacturing'),
+(54, 'Social Media Coordinator', 'Rochester, NY', 'Manage social media channels and develop content strategies.', 17.50, 17, 14, 2.7, '2025-04-20 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Marketing'),
+(55, 'Automation Specialist Intern', 'Albany, NY', 'Develop automation scripts and support RPA implementation.', 25.00, 3, 21, 3.4, '2025-04-18 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Manufacturing'),
+(56, 'Customer Experience Analyst', 'Burlington, VT', 'Analyze customer feedback and recommend service improvements.', 18.50, 17, 12, 2.9, '2025-04-22 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Customer Service'),
+(57, 'Computer Vision Researcher', 'Manchester, NH', 'Work on developing computer vision algorithms for real-time applications.', 28.00, 11, 1, 3.5, '2025-04-16 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(58, 'Product Design Assistant', 'Portland, ME', 'Assist in prototype development and user testing sessions.', 20.50, 40, 39, 3.1, '2025-04-19 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Design'),
+(59, 'Infrastructure Support Intern', 'Concord, NH', 'Help maintain IT infrastructure and assist with troubleshooting.', 22.00, 8, 9, 3.0, '2025-04-14 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(60, 'Business Development Analyst', 'Newark, NJ', 'Research market opportunities and support partnership development.', 19.00, 17, 15, 3.0, '2025-04-21 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Business'),
+(61, 'IT Support Technician', 'Buffalo, NY', 'Provide technical support and maintain hardware/software assets.', 18.00, 8, 10, 2.8, '2025-05-01 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(62, 'Data Quality Analyst', 'Syracuse, NY', 'Ensure accuracy and consistency of data in business systems.', 20.00, 12, 11, 3.1, '2025-05-03 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(63, 'Lean Manufacturing Intern', 'Rochester, NY', 'Implement lean principles to improve manufacturing workflows.', 23.00, 15, 16, 3.3, '2025-05-05 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Manufacturing'),
+(64, 'Content Marketing Intern', 'Albany, NY', 'Develop and publish marketing content across digital channels.', 17.50, 17, 14, 2.9, '2025-05-07 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Marketing'),
+(65, 'Robotics Process Analyst', 'Burlington, VT', 'Analyze and improve robotic automation systems.', 25.50, 3, 21, 3.4, '2025-05-09 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Manufacturing'),
+(66, 'Employee Relations Intern', 'Manchester, NH', 'Support employee engagement initiatives and communications.', 18.00, 12, 13, 2.8, '2025-05-11 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Human Resources'),
+(67, 'AI Algorithm Developer', 'Portland, ME', 'Develop machine learning models for AI research projects.', 27.00, 11, 1, 3.6, '2025-05-13 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(68, 'UI/UX Designer Intern', 'Concord, NH', 'Design user interfaces and improve user experience for web apps.', 21.00, 40, 39, 3.2, '2025-05-15 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Design'),
+(69, 'Cloud Infrastructure Engineer', 'Newark, NJ', 'Manage cloud services and optimize infrastructure performance.', 26.50, 8, 33, 3.4, '2025-05-17 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
+(70, 'Sales Strategy Intern', 'Buffalo, NY', 'Analyze sales data and help develop sales strategies.', 18.50, 12, 14, 2.9, '2025-05-19 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Sales');;
 
 -- 6. Applications table (60 rows - references coopPositions)
 INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
