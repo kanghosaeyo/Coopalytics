@@ -77,7 +77,8 @@ with tab2:
                         "coopPositionId": selected_pos_id,
                         "resume": resume,
                         "coverLetter": cover_letter,
-                        "gpa": gpa
+                        "gpa": gpa,
+                        "status": "Submitted"
                     }
 
                     try:

@@ -16,20 +16,20 @@ logger.info("Loading Coop Positions page")
 # Constants
 API_BASE_URL = "http://web-api:4000"
 
-# Get user ID from session state
+# student id from session state
 charlie_user_id = st.session_state.get("user_id", None)
 
 if charlie_user_id is None:
     st.error("🚫 User not logged in. Please return to the home page and log in.")
     st.stop()
 
-# Sidebar filter
+# Coop Position filter
 filter_option = st.selectbox(
     "View positions by:",
     options=["All", "Liked", "Disliked", "Matches Desired Skills"]
 )
 
-# Get liked/disliked coopPositionIds
+# Get coopPositionIds based on preference
 def get_preference_ids(student_id, preference_value):
     url = f"{API_BASE_URL}/viewpos/{student_id}?preference={'true' if preference_value else 'false'}"
     try:
@@ -44,7 +44,7 @@ def get_preference_ids(student_id, preference_value):
         logger.error(f"Error fetching preference={preference_value} positions: {e}")
         return set()
 
-# Fetch positions based on selected filter
+# get positions based on selected filter
 def fetch_positions():
     if filter_option == "All":
         url = f"{API_BASE_URL}/positions"
@@ -69,14 +69,14 @@ def fetch_positions():
         st.error(f"API request error: {e}")
         return []
 
-# Load liked/disliked position IDs only if viewing All
+# Load position ID preferences only if viewing All
 liked_position_ids = set()
 disliked_position_ids = set()
 if filter_option == "All":
     liked_position_ids = get_preference_ids(charlie_user_id, True)
     disliked_position_ids = get_preference_ids(charlie_user_id, False)
 
-# Fetch & display positions
+# get and display positions
 positions = fetch_positions()
 
 if filter_option == "Matches Desired Skills" and not positions:
@@ -86,7 +86,7 @@ for pos in positions:
     coop_id = pos["coopPositionId"]
     title = pos["title"]
 
-    # Add icons if in "All" view
+    # Add icons if in viewing all positions
     if filter_option == "All":
         liked = coop_id in liked_position_ids
         disliked = coop_id in disliked_position_ids
@@ -113,7 +113,7 @@ for pos in positions:
         st.write(f"**Desired Skills ID**: {pos.get('desiredSkillsId', 'None')}")
         st.write(f"**Flagged**: {'Yes' if pos.get('flag') else 'No'}")
 
-        # Like/Dislike buttons
+        # like, dislike, and remove preference buttons
         col1, col2, col3 = st.columns([1, 1, 1])
 
         with col1:
