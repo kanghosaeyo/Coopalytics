@@ -239,7 +239,7 @@ def get_advisor_placement_analytics(advisorID):
                 a.status,
                 cp.title as positionTitle,
                 cp.hourlyPay as salary,
-                COALESCE(comp.name, 'Unknown Company') as companyName,
+                comp.name as companyName,
                 cp.industry
             FROM users u
             JOIN advisor_advisee aa ON u.userId = aa.studentId
@@ -262,11 +262,11 @@ def get_advisor_placement_analytics(advisorID):
                 u.gradYear,
                 u.major,
                 u.college,
-                COALESCE(avg_gpa.gpa, 3.5) as gpa,
+                avg_gpa.gpa as gpa,
                 'Completed' as status,
                 cp.title as positionTitle,
                 cp.hourlyPay as salary,
-                COALESCE(comp.name, 'Unknown Company') as companyName,
+                comp.name as companyName,
                 cp.industry
             FROM users u
             JOIN advisor_advisee aa ON u.userId = aa.studentId
