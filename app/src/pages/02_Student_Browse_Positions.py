@@ -104,7 +104,8 @@ for pos in positions:
         st.write(f"**Pay**: ${pos.get('hourlyPay', 'N/A')}/hr")
 
         # Like/Dislike buttons
-        col1, col2 = st.columns([1, 1])
+        col1, col2, col3 = st.columns([1, 1, 1])
+
         with col1:
             if st.button("👍 Like", key=f"like_{coop_id}"):
                 response = requests.post(f"{API_BASE_URL}/position", json={
@@ -130,3 +131,15 @@ for pos in positions:
                     st.rerun()
                 else:
                     st.error("Failed to save preference.")
+
+        with col3:
+            if st.button("🗑️ Remove Preference", key=f"remove_{coop_id}"):
+                response = requests.delete(f"{API_BASE_URL}/position", json={
+                    "studentId": charlie_user_id,
+                    "coopPositionId": coop_id
+                })
+                if response.status_code == 200:
+                    st.info("Preference removed.")
+                    st.rerun()
+                else:
+                    st.error("Failed to remove preference.")
