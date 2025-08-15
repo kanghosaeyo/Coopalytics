@@ -272,7 +272,7 @@ INSERT INTO coopPositions (coopPositionId, title, location, description, hourlyP
 (67, 'AI Algorithm Developer', 'Portland, ME', 'Develop machine learning models for AI research projects.', 27.00, 11, 1, 3.6, '2025-05-13 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
 (68, 'UI/UX Designer Intern', 'Concord, NH', 'Design user interfaces and improve user experience for web apps.', 21.00, 40, 39, 3.2, '2025-05-15 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Design'),
 (69, 'Cloud Infrastructure Engineer', 'Newark, NJ', 'Manage cloud services and optimize infrastructure performance.', 26.50, 8, 33, 3.4, '2025-05-17 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Technology'),
-(70, 'Sales Strategy Intern', 'Buffalo, NY', 'Analyze sales data and help develop sales strategies.', 18.50, 12, 14, 2.9, '2025-05-19 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Sales');;
+(70, 'Sales Strategy Intern', 'Buffalo, NY', 'Analyze sales data and help develop sales strategies.', 18.50, 12, 14, 2.9, '2025-05-19 23:59:59', '2026-07-01', '2026-12-31', FALSE, 'Sales');
 
 -- 6. Applications table (60 rows - references coopPositions)
 INSERT INTO applications (applicationId, dateTimeApplied, status, resume, gpa, coverLetter, coopPositionId) VALUES
@@ -418,15 +418,19 @@ INSERT INTO skillDetails (skillId, studentId, proficiencyLevel) VALUES
 
 
 
-
-
 -- 7. Creates Position relationships (bridge table - references users and coopPositions)
 INSERT INTO createsPos (employerId, coopPositionId) VALUES
 (37, 1), (37, 2), (37, 3), (37, 4), (37, 5), (37, 6), (37, 7), (37, 8), (37, 9), (37, 10),
 (38, 11), (38, 12), (38, 13), (38, 14), (38, 15), (38, 16), (38, 17), (38, 18), (38, 19), (38, 20),
 (39, 21), (39, 22), (39, 23), (39, 24), (39, 25), (39, 26), (39, 27), (39, 28), (39, 29), (39, 30),
 (40, 31), (40, 32), (40, 33), (40, 34), (40, 35), (40, 36), (40, 37), (40, 38), (40, 39), (40, 40),
-(41, 41), (41, 42), (41, 43), (41, 44), (41, 45), (41, 46), (41, 47), (41, 48), (41, 49), (41, 50);
+(38, 21), (38, 22), (38, 23), (38, 24), (38, 25), (38, 26), (38, 27), (38, 28), (38, 29), (38, 30),
+(38, 31), (38, 32), (38, 33), (38, 34), (38, 35), (38, 36), (38, 37), (38, 38), (38, 39), (38, 40),
+(39, 1), (39, 2), (39, 3), (39, 4), (39, 5), (39, 6), (39, 7), (39, 8), (39, 9), (39, 10),
+(39, 11), (39, 12), (39, 13), (39, 14), (39, 15), (39, 16), (39, 17), (39, 18), (39, 19), (39, 20),
+(40, 1), (40, 2), (40, 3), (40, 4), (40, 5), (40, 6), (40, 7), (40, 8), (40, 9), (40, 10),
+(40, 11), (40, 12), (40, 13), (40, 14), (40, 15), (40, 16), (40, 17), (40, 18), (40, 19), (40, 20),
+(40, 21), (40, 22), (40, 23), (40, 24), (40, 25), (40, 26), (40, 27), (40, 28), (40, 29), (40, 30);
 
 -- 7. Advisor-Advisee relationships (bridge table - references users)
 INSERT INTO advisor_advisee (advisorId, studentId) VALUES
@@ -563,4 +567,3 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 -- Luna King (userId=23) - advanced finance role
 (23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
 
-# this is maybe fixed
