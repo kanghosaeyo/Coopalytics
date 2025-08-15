@@ -185,6 +185,33 @@ def update_application_status(applicationId):
         current_app.logger.error(f"Error updating application status: {e}")
         return make_response(jsonify({"error": "Internal server error"}), 500)
 
+# NEW ENDPOINT: Get single application details by application ID
+@applications.route('/applications/<int:applicationId>/details', methods=['GET'])
+def get_application_details(applicationId):
+    current_app.logger.info('GET /applications/%s/details', applicationId)
+
+    query = '''
+        SELECT a.applicationId, a.dateTimeApplied, a.status, a.resume, a.gpa, a.coverLetter,
+               a.coopPositionId, cp.title as positionTitle, cp.location, cp.hourlyPay,
+               cp.deadline, cp.industry, cp.description as positionDescription,
+               u.userId as studentId, u.firstName, u.lastName, u.email,
+               u.major, u.minor, u.college, u.gradYear, u.grade
+        FROM applications a
+        JOIN appliesToApp ata ON a.applicationId = ata.applicationId
+        JOIN users u ON ata.studentId = u.userId
+        JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+        WHERE a.applicationId = %s
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (applicationId,))
+    theData = cursor.fetchall()
+
+    if not theData:
+        return make_response(jsonify({"error": "Application not found"}), 404)
+
+    return make_response(jsonify(theData[0]), 200)
+
 # Student applies to a position
 @applications.route('/users/appliesToApp/applications', methods=['POST'])
 def create_application():
