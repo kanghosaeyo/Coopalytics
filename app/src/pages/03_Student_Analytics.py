@@ -14,7 +14,7 @@ st.title("Student Analytics Dashboard")
 st.markdown("---")
 
 # API endpoint for wage data
-API_BASE_URL = "http://localhost:4000"
+API_BASE_URL = "http://web-api:4000"
 WAGE_DATA_ENDPOINT = f"{API_BASE_URL}/workedatpos/wagedata"
 
 @st.cache_data(ttl=300)  # Cache for 5 minutes
@@ -88,15 +88,6 @@ if wage_data:
         # Display the table
         st.dataframe(display_df, use_container_width=True)
         
-        # Add download button
-        csv = display_df.to_csv(index=False)
-        st.download_button(
-            label="Download Data as CSV",
-            data=csv,
-            file_name="coop_wage_data.csv",
-            mime="text/csv"
-        )
-        
         # Add some visualizations
         st.markdown("---")
         st.subheader("Pay Distribution Analysis")
@@ -121,7 +112,7 @@ else:
 # Add some helpful information
 st.markdown("---")
 st.info("""
-**Data Source**: This data is retrieved from the REST API endpoint `/wap/workedatpos/wagedata` which aggregates information about:
+**Data Source**: This data is retrieved from the REST API endpoint `/workedatpos/wagedata` which aggregates information about:
 - Company names and position titles
 - Salary ranges (minimum, maximum, and average hourly pay)
 - Number of students who previously worked in each position
