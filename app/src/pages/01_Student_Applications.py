@@ -26,18 +26,26 @@ with tab1:
     try:
         res = requests.get(f"{API_BASE_URL}/student/{user_id}/applications")
         if res.status_code == 200:
-            apps = res.json()
+            apps = res.json()              
             if not apps:
                 st.info("No applications submitted yet.")
             else:
                 for app in apps:
-                    with st.expander(f"{app['positionTitle']} — {app['applicationStatus']}"):
-                        st.markdown(f"**Applied on:** `{app['dateTimeApplied']}`")
-                        st.markdown(f"**GPA:** `{app.get('gpa', 'N/A')}`")
+                    # Assign individual fields to variables for clarity
+                    position_title = app.get('positionTitle', 'Unknown Position')
+                    application_status = app.get('applicationStatus', 'Unknown Status')
+                    date_applied = app.get('dateTimeApplied', 'N/A')
+                    gpa = app.get('gpa', 'N/A')
+                    resume = app.get('resume', 'N/A')
+                    cover_letter = app.get('coverLetter', 'N/A')
+
+                    with st.expander(f"{position_title} — {application_status}"):
+                        st.markdown(f"**Applied on:** `{date_applied}`")
+                        st.markdown(f"**GPA:** `{gpa}`")
                         st.markdown("**Resume:**")
-                        st.code(app.get("resume", "N/A"))
+                        st.code(resume)
                         st.markdown("**Cover Letter:**")
-                        st.code(app.get("coverLetter", "N/A"))
+                        st.code(cover_letter)
         else:
             st.error(f"Could not fetch applications. Server returned status code {res.status_code}")
     except Exception as e:
@@ -75,11 +83,11 @@ with tab2:
                     try:
                         submit_res = requests.post(f"{API_BASE_URL}/applications/new", json=data)
                         if submit_res.status_code == 201:
-                            st.success("✅ Application submitted successfully!")
+                            st.success("Application submitted successfully!")
                             st.rerun()
                         else:
                             error_info = submit_res.json().get("error", "No error message returned")
-                            st.error(f"❌ Failed to submit application. Reason: {error_info}")
+                            st.error(f"Failed to submit application. Reason: {error_info}")
                     except Exception as e:
                         st.error(f"Exception occurred during submission: {e}")
         else:

@@ -4,6 +4,7 @@ from flask import jsonify
 from flask import make_response
 from flask import current_app
 from backend.db_connection import db
+import pymysql
 
 # New Blueprint for applications
 applications = Blueprint('applications', __name__)
@@ -35,11 +36,11 @@ def get_student_applications(studentID):
         ORDER BY a.dateTimeApplied DESC, cp.deadline ASC
     '''
 
-    cursor = db.get_db().cursor()
+    connection = db.get_db()
+
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
     cursor.execute(query, (studentID,))
-    columns = [col[0] for col in cursor.description]
-    rows = cursor.fetchall()
-    theData = [dict(zip(columns, row)) for row in rows]
+    theData = cursor.fetchall()
     
     return make_response(jsonify(theData), 200)
 
