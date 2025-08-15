@@ -429,7 +429,7 @@ def get_all_positions():
     the_response.status_code = 200
     return the_response
 
-# NEW ENDPOINT: Get positions created by a specific employer
+# Get positions created by a specific employer
 @coopPositions.route('/employers/<int:employerId>/positions', methods=['GET'])
 def get_employer_positions(employerId):
     current_app.logger.info('GET /employers/%s/positions', employerId)

@@ -123,7 +123,7 @@ def get_applications(coopPositionId):
 
     return make_response(jsonify(theData), 200)
 
-# NEW ENDPOINT: Employer views all applications with student details for a specific position
+# Employer views all applications with student details for a specific position
 @applications.route('/applications/<int:coopPositionId>/with-students', methods=['GET'])
 def get_applications_with_students(coopPositionId):
     current_app.logger.info('GET /applications/%s/with-students', coopPositionId)
@@ -146,7 +146,7 @@ def get_applications_with_students(coopPositionId):
 
     return make_response(jsonify(theData), 200)
 
-# NEW ENDPOINT: Update application status (for employers)
+# Update application status (for employers)
 @applications.route('/applications/<int:applicationId>/status', methods=['PUT'])
 def update_application_status(applicationId):
     current_app.logger.info('PUT /applications/%s/status', applicationId)
@@ -187,7 +187,7 @@ def update_application_status(applicationId):
         current_app.logger.error(f"Error updating application status: {e}")
         return make_response(jsonify({"error": "Internal server error"}), 500)
 
-# NEW ENDPOINT: Get single application details by application ID
+# Get single application details by application ID
 @applications.route('/applications/<int:applicationId>/details', methods=['GET'])
 def get_application_details(applicationId):
     current_app.logger.info('GET /applications/%s/details', applicationId)
