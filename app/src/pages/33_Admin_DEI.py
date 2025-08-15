@@ -13,15 +13,38 @@ def fetch_json(path):
     r.raise_for_status()
     return r.json()
 
+def normalize_dei(payload):
+    """
+    Accept either:
+      - dict: {"gender":[{"label","count"}, ...], "race":[...], ...}
+      - list: [{"metric":"gender","label":"Female","count":12}, ...]
+    and always return the dict shape.
+    """
+    if isinstance(payload, dict):
+        return payload
+
+    if isinstance(payload, list):
+        out = {"gender": [], "race": [], "nationality": [], "disability": []}
+        for row in payload:
+            metric = (row.get("metric") or "").strip().lower()
+            label  = row.get("label")
+            count  = row.get("count", 0)
+            if metric in out and label is not None:
+                try:
+                    count = int(count)
+                except Exception:
+                    pass
+                out[metric].append({"label": label, "count": count})
+        return out
+
+    # Unknown payload
+    return {}
+
 # Try a single summary endpoint first; fall back to per-dimension endpoints if needed
 data = {}
 try:
-    # EXPECTED SHAPE:
-    # {"gender":[{"label":"Female","count":120},...],
-    #  "race":[{"label":"Asian","count":90},...],
-    #  "nationality":[...],
-    #  "disability":[...]}
-    data = fetch_json("/api/dei/metrics")
+    raw = fetch_json("/api/dei/metrics")
+    data = normalize_dei(raw)
 except Exception:
     # Fallback to separate endpoints if your API exposes them
     for dim in ["gender", "race", "nationality", "disability"]:
@@ -30,13 +53,14 @@ except Exception:
         except Exception:
             data[dim] = []
 
-dims = [k for k,v in data.items() if isinstance(v, list) and len(v) > 0]
+# Only keep non-empty lists
+dims = [k for k, v in data.items() if isinstance(v, list) and len(v) > 0]
 if not dims:
     st.info("No DEI data available.")
     st.stop()
 
 # Selector
-colA, colB = st.columns([2,1])
+colA, colB = st.columns([2, 1])
 with colA:
     dim = st.selectbox("Select metric", dims, index=0)
 with colB:
@@ -52,7 +76,7 @@ df = df.groupby("label", as_index=False)["count"].sum().sort_values("count", asc
 total = int(df["count"].sum())
 
 # KPIs
-k1,k2,k3 = st.columns(3)
+k1, k2, k3 = st.columns(3)
 k1.metric("Total records", f"{total}")
 k2.metric("Distinct categories", f"{df.shape[0]}")
 coverage = 100 if total > 0 else 0
