@@ -11,8 +11,8 @@ SideBarLinks()
 
 # API endpoint configuration
 API_BASE_URL = "http://web-api:4000"
-RATING_ENDPOINT = f"{API_BASE_URL}/wap/workedatpos/company-ratings"
-ALL_COMPANIES_ENDPOINT = f"{API_BASE_URL}/cprof/companyProfiles"
+RATING_ENDPOINT = f"{API_BASE_URL}/workedatpos/company-ratings"
+ALL_COMPANIES_ENDPOINT = f"{API_BASE_URL}/companyProfiles"
 
 st.title('Company Partnerships')
 
