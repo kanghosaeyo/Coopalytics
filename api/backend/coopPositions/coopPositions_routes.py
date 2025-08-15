@@ -137,9 +137,9 @@ def create_position():
 
 
 
-# Admin reviews positions before they go live 
+# Admin reviews all positions (both pending and approved)
 @coopPositions.route('/coopPositions/pending', methods=['GET'])
-def get_pending_positions():
+def get_all_positions_for_admin():
     current_app.logger.info('GET /pending route')
 
     query = '''
@@ -153,13 +153,13 @@ def get_pending_positions():
             cp.startDate,
             cp.endDate,
             cp.industry,
+            cp.flag,
             com.name AS companyName
         FROM coopPositions cp
         LEFT JOIN createsPos cr  ON cr.coopPositionId = cp.coopPositionId
         LEFT JOIN users u        ON u.userId = cr.employerId
         LEFT JOIN companyProfiles com ON com.companyProfileId = u.companyProfileId
-        WHERE cp.flag = FALSE
-        ORDER BY cp.deadline IS NULL, cp.deadline ASC, cp.coopPositionId DESC
+        ORDER BY cp.flag DESC, cp.deadline IS NULL, cp.deadline ASC, cp.coopPositionId DESC
     '''
 
     cursor = db.get_db().cursor()
@@ -200,99 +200,207 @@ def get_employer_job_counts():
     the_response.status_code = 200
     return the_response
 
-# Admin approves a co-op position 
+# Admin approves a co-op position
 @coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
-    current_app.logger.info('PUT /%s/approve route', pos_id)
+    current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
 
-    query = '''
-        UPDATE coopPositions
-        SET flag = FALSE
-        WHERE coopPositionId = %s AND flag = TRUE
+    # First check if the position exists
+    check_query = '''
+        SELECT coopPositionId, flag
+        FROM coopPositions
+        WHERE coopPositionId = %s
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query, (pos_id,))
-    if cursor.rowcount == 0:
-        the_response = make_response(jsonify({"ok": False, "error": "not found or already approved"}))
-        the_response.status_code = 409
+    cursor.execute(check_query, (pos_id,))
+    position = cursor.fetchone()
+
+    if not position:
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": f"Position {pos_id} not found"
+        }))
+        the_response.status_code = 404
         return the_response
 
+    # Check if already approved
+    if position['flag'] == 0:  # flag = FALSE means already approved
+        the_response = make_response(jsonify({
+            "ok": True,
+            "positionId": pos_id,
+            "status": "already approved",
+            "message": f"Position {pos_id} is already approved"
+        }))
+        the_response.status_code = 200
+        return the_response
+
+    # Approve the position (set flag to FALSE)
+    update_query = '''
+        UPDATE coopPositions
+        SET flag = FALSE
+        WHERE coopPositionId = %s
+    '''
+
+    cursor.execute(update_query, (pos_id,))
     db.get_db().commit()
-    the_response = make_response(jsonify({"ok": True, "positionId": pos_id, "status": "approved"}))
+
+    the_response = make_response(jsonify({
+        "ok": True,
+        "positionId": pos_id,
+        "status": "approved",
+        "message": f"Position {pos_id} has been approved"
+    }))
     the_response.status_code = 200
     return the_response
 
-# Admin deletes an unapproved/invalid posting 
+# Admin deletes a co-op position
 @coopPositions.route('/coopPositions/<int:pos_id>', methods=['DELETE'])
-def delete_unapproved_position(pos_id):
-    current_app.logger.info('DELETE /%s route', pos_id)
+def delete_position(pos_id):
+    current_app.logger.info('DELETE /coopPositions/%s route', pos_id)
 
-    query = '''
-        DELETE FROM coopPositions
+    # First check if the position exists
+    check_query = '''
+        SELECT coopPositionId, flag, title
+        FROM coopPositions
         WHERE coopPositionId = %s
-          AND flag = TRUE
     '''
 
     cursor = db.get_db().cursor()
-    try:
-        cursor.execute(query, (pos_id,))
-        if cursor.rowcount == 0:
-            the_response = make_response(jsonify({
-                "ok": False,
-                "error": "not found or already approved"
-            }))
-            the_response.status_code = 409
-            return the_response
+    cursor.execute(check_query, (pos_id,))
+    position = cursor.fetchone()
 
+    if not position:
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": f"Position {pos_id} not found"
+        }))
+        the_response.status_code = 404
+        return the_response
+
+    # Delete the position (remove flag restriction for admin flexibility)
+    delete_query = '''
+        DELETE FROM coopPositions
+        WHERE coopPositionId = %s
+    '''
+
+    try:
+        cursor.execute(delete_query, (pos_id,))
         db.get_db().commit()
-        the_response = make_response(jsonify({"ok": True, "positionId": pos_id, "deleted": True}))
+
+        the_response = make_response(jsonify({
+            "ok": True,
+            "positionId": pos_id,
+            "deleted": True,
+            "message": f"Position {pos_id} '{position['title']}' has been permanently deleted"
+        }))
         the_response.status_code = 200
         return the_response
 
     except Exception as e:
+        current_app.logger.error(f"Error deleting position {pos_id}: {e}")
         the_response = make_response(jsonify({
             "ok": False,
-            "error": "cannot delete due to related records"
+            "error": f"Cannot delete position {pos_id} due to related records (applications, etc.)"
         }))
         the_response.status_code = 409
         return the_response
     
-# Admin flags a position 
-@coopPositions.route('/<int:pos_id>/flag/<int:value>', methods=['PUT'])
+# Admin flags a position
+@coopPositions.route('/coopPositions/<int:pos_id>/flag/<int:value>', methods=['PUT'])
 def set_position_flag(pos_id, value):
-    current_app.logger.info('PUT /%s/flag/%s route', pos_id, value)
+    current_app.logger.info('PUT /coopPositions/%s/flag/%s route', pos_id, value)
 
-    query = '''
-        UPDATE coopPositions
-        SET flag = %s
-        WHERE coopPositionId = %s;
+    # First check if the position exists
+    check_query = '''
+        SELECT coopPositionId, flag
+        FROM coopPositions
+        WHERE coopPositionId = %s
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query, (value, pos_id))
+    cursor.execute(check_query, (pos_id,))
+    position = cursor.fetchone()
+
+    if not position:
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": f"Position {pos_id} not found"
+        }))
+        the_response.status_code = 404
+        return the_response
+
+    # Validate flag value (should be 0 or 1)
+    if value not in [0, 1]:
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": "Flag value must be 0 (approved) or 1 (flagged)"
+        }))
+        the_response.status_code = 400
+        return the_response
+
+    # Update the flag
+    update_query = '''
+        UPDATE coopPositions
+        SET flag = %s
+        WHERE coopPositionId = %s
+    '''
+
+    cursor.execute(update_query, (value, pos_id))
     db.get_db().commit()
 
-    the_response = make_response(jsonify({'message': 'flag updated!'}))
+    flag_status = "flagged" if value == 1 else "approved"
+    the_response = make_response(jsonify({
+        "ok": True,
+        "positionId": pos_id,
+        "flag": value,
+        "status": flag_status,
+        "message": f"Position {pos_id} has been {flag_status}"
+    }))
     the_response.status_code = 200
     return the_response
 
 # Admin removes a flag from a position
-@coopPositions.route('/<int:pos_id>/unflag', methods=['PUT'])
+@coopPositions.route('/coopPositions/<int:pos_id>/unflag', methods=['PUT'])
 def unflag_position(pos_id):
-    current_app.logger.info('PUT /%s/unflag route', pos_id)
+    current_app.logger.info('PUT /coopPositions/%s/unflag route', pos_id)
 
-    query = '''
-        UPDATE coopPositions
-        SET flag = FALSE
-        WHERE coopPositionId = %s;
+    # First check if the position exists
+    check_query = '''
+        SELECT coopPositionId, flag
+        FROM coopPositions
+        WHERE coopPositionId = %s
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query, (pos_id,))
+    cursor.execute(check_query, (pos_id,))
+    position = cursor.fetchone()
+
+    if not position:
+        the_response = make_response(jsonify({
+            "ok": False,
+            "error": f"Position {pos_id} not found"
+        }))
+        the_response.status_code = 404
+        return the_response
+
+    # Update the flag to FALSE (unflag)
+    update_query = '''
+        UPDATE coopPositions
+        SET flag = FALSE
+        WHERE coopPositionId = %s
+    '''
+
+    cursor.execute(update_query, (pos_id,))
     db.get_db().commit()
 
-    the_response = make_response(jsonify({'message': 'flag removed!'}))
+    the_response = make_response(jsonify({
+        "ok": True,
+        "positionId": pos_id,
+        "flag": 0,
+        "status": "approved",
+        "message": f"Position {pos_id} has been unflagged (approved)"
+    }))
     the_response.status_code = 200
     return the_response
 
