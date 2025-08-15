@@ -1,12 +1,85 @@
 import logging
-logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 import streamlit as st
-from modules.nav import SideBarLinks
 import requests
+from modules.nav import SideBarLinks
 
+# Setup
 st.set_page_config(layout='wide')
 SideBarLinks()
-
+logger = logging.getLogger(__name__)
 logger.info("Loading Applications page")
+
+API_BASE_URL = "http://web-api:4000"
+user_id = st.session_state.get("user_id", None)
+
+if user_id is None:
+    st.error("🚫 User not logged in. Please return to the home page and log in.")
+    st.stop()
+
+# Create tabs 
+tab1, tab2 = st.tabs(["📄 Application Status", "📝 Apply to New Position"])
+
+# Existing applications tab
+with tab1:
+    st.subheader("📄 My Applications")
+
+    try:
+        res = requests.get(f"{API_BASE_URL}/student/{user_id}/applications")
+        if res.status_code == 200:
+            apps = res.json()
+            if not apps:
+                st.info("No applications submitted yet.")
+            else:
+                for app in apps:
+                    with st.expander(f"{app['positionTitle']} — {app['applicationStatus']}"):
+                        st.markdown(f"**Applied on:** `{app['dateTimeApplied']}`")
+                        st.markdown(f"**GPA:** `{app.get('gpa', 'N/A')}`")
+                        st.markdown("**Resume:**")
+                        st.code(app.get("resume", "N/A"))
+                        st.markdown("**Cover Letter:**")
+                        st.code(app.get("coverLetter", "N/A"))
+        else:
+            st.error("Could not fetch applications.")
+    except Exception as e:
+        st.error(f"Error fetching applications: {e}")
+
+# Apply to new position tab
+with tab2:
+    st.subheader("📝 Submit a New Application")
+
+    # Fetch positions
+    try:
+        pos_res = requests.get(f"{API_BASE_URL}/positions")
+        if pos_res.status_code == 200:
+            positions = pos_res.json()
+            pos_map = {f"{pos['title']} (ID: {pos['coopPositionId']})": pos['coopPositionId'] for pos in positions}
+            pos_label = st.selectbox("Select a Position", list(pos_map.keys()))
+            selected_pos_id = pos_map[pos_label]
+
+            # Form fields
+            st.markdown("**Resume**")
+            resume = st.text_area("Paste your resume here", height=150)
+
+            st.markdown("**Cover Letter**")
+            cover_letter = st.text_area("Paste your cover letter here", height=150)
+
+            gpa = st.number_input("Your GPA", min_value=0.0, max_value=4.0, step=0.01)
+
+            if st.button("📤 Submit Application"):
+                data = {
+                    "studentId": user_id,
+                    "coopPositionId": selected_pos_id,
+                    "resume": resume,
+                    "coverLetter": cover_letter,
+                    "gpa": gpa
+                }
+                submit_res = requests.post(f"{API_BASE_URL}/applications/new", json=data)
+                if submit_res.status_code == 201:
+                    st.success("✅ Application submitted successfully!")
+                    st.experimental_rerun()
+                else:
+                    st.error("❌ Failed to submit application.")
+        else:
+            st.error("Failed to fetch positions.")
+    except Exception as e:
+        st.error(f"Error: {e}")
