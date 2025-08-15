@@ -143,18 +143,10 @@ advisor_students = fetch_advisor_students(advisor_user_id)
 
 # Display advisor information
 if advisor_data:
-    st.subheader("👨‍🏫 Your Profile")
-    col1, col2 = st.columns(2)
+    st.write(f"**Name:** {advisor_data.get('firstName', '')} {advisor_data.get('lastName', '')}")
+    st.write(f"**Email:** {advisor_data.get('email', '')}")
+    st.write(f"**Phone:** {advisor_data.get('phone', '')}")
     
-    with col1:
-        st.write(f"**Name:** {advisor_data.get('firstName', '')} {advisor_data.get('lastName', '')}")
-        st.write(f"**Email:** {advisor_data.get('email', '')}")
-        st.write(f"**Phone:** {advisor_data.get('phone', '')}")
-    
-    with col2:
-        st.write(f"**College:** {advisor_data.get('college', '')}")
-        st.write(f"**Industry:** {advisor_data.get('industry', '')}")
-        st.write(f"**Gender:** {advisor_data.get('gender', '')}")
 
 st.markdown("---")
 
@@ -293,5 +285,5 @@ if advisor_students:
 
         st.markdown("---")
 
-    else:
-        st.info("No students assigned to you at this time.")
+else:
+    st.info("No students assigned to you at this time.")
