@@ -115,11 +115,75 @@ def get_applications(coopPositionId):
         WHERE a.coopPositionId = %s
         ORDER BY a.dateTimeApplied DESC;
     '''
-    cursor = db.get_db().cursor(dictionary=True)
+    cursor = db.get_db().cursor()
     cursor.execute(query, (coopPositionId,))
     theData = cursor.fetchall()
 
     return make_response(jsonify(theData), 200)
+
+# NEW ENDPOINT: Employer views all applications with student details for a specific position
+@applications.route('/applications/<int:coopPositionId>/with-students', methods=['GET'])
+def get_applications_with_students(coopPositionId):
+    current_app.logger.info('GET /applications/%s/with-students', coopPositionId)
+
+    query = '''
+        SELECT a.dateTimeApplied, a.status, a.resume, a.gpa, a.coverLetter,
+               a.coopPositionId, a.applicationId,
+               u.userId as studentId, u.firstName, u.lastName, u.email,
+               u.major, u.minor, u.college, u.gradYear, u.grade
+        FROM applications a
+        JOIN appliesToApp ata ON a.applicationId = ata.applicationId
+        JOIN users u ON ata.studentId = u.userId
+        JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+        WHERE a.coopPositionId = %s
+        ORDER BY a.dateTimeApplied DESC;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (coopPositionId,))
+    theData = cursor.fetchall()
+
+    return make_response(jsonify(theData), 200)
+
+# NEW ENDPOINT: Update application status (for employers)
+@applications.route('/applications/<int:applicationId>/status', methods=['PUT'])
+def update_application_status(applicationId):
+    current_app.logger.info('PUT /applications/%s/status', applicationId)
+
+    try:
+        request_data = request.json
+        new_status = request_data.get('status')
+
+        if not new_status:
+            return make_response(jsonify({"error": "Status is required"}), 400)
+
+        # Validate status values
+        valid_statuses = ['Draft', 'Submitted', 'Under Review', 'Accepted', 'Rejected']
+        if new_status not in valid_statuses:
+            return make_response(jsonify({"error": "Invalid status"}), 400)
+
+        query = '''
+            UPDATE applications
+            SET status = %s
+            WHERE applicationId = %s
+        '''
+
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (new_status, applicationId))
+
+        if cursor.rowcount == 0:
+            return make_response(jsonify({"error": "Application not found"}), 404)
+
+        db.get_db().commit()
+
+        return make_response(jsonify({
+            "success": True,
+            "applicationId": applicationId,
+            "newStatus": new_status
+        }), 200)
+
+    except Exception as e:
+        current_app.logger.error(f"Error updating application status: {e}")
+        return make_response(jsonify({"error": "Internal server error"}), 500)
 
 # Student applies to a position
 @applications.route('/users/appliesToApp/applications', methods=['POST'])

@@ -201,7 +201,7 @@ def get_employer_job_counts():
     return the_response
 
 # Admin approves a co-op position 
-@coopPositions.route('/<int:pos_id>/approve', methods=['PUT'])
+@coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
     current_app.logger.info('PUT /%s/approve route', pos_id)
 
@@ -224,7 +224,7 @@ def approve_position(pos_id):
     return the_response
 
 # Admin deletes an unapproved/invalid posting 
-@coopPositions.route('/<int:pos_id>', methods=['DELETE'])
+@coopPositions.route('/coopPositions/<int:pos_id>', methods=['DELETE'])
 def delete_unapproved_position(pos_id):
     current_app.logger.info('DELETE /%s route', pos_id)
 
@@ -317,6 +317,31 @@ def get_all_positions():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+# NEW ENDPOINT: Get positions created by a specific employer
+@coopPositions.route('/employers/<int:employerId>/positions', methods=['GET'])
+def get_employer_positions(employerId):
+    current_app.logger.info('GET /employers/%s/positions', employerId)
+
+    query = '''
+        SELECT cp.coopPositionId, cp.title, cp.description, cp.location,
+               cp.hourlyPay, cp.startDate, cp.endDate, cp.deadline,
+               cp.industry, comp.name as companyName
+        FROM coopPositions cp
+        JOIN createsPos crp ON cp.coopPositionId = crp.coopPositionId
+        LEFT JOIN users emp ON crp.employerId = emp.userId
+        LEFT JOIN companyProfiles comp ON emp.companyProfileId = comp.companyProfileId
+        WHERE crp.employerId = %s
+        ORDER BY cp.deadline DESC;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (employerId,))
+    theData = cursor.fetchall()
+
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
     return the_response
