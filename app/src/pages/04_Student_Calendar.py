@@ -37,7 +37,7 @@ if deadlines:
 else:
     df = pd.DataFrame(columns=["title", "deadline"])
 
-st.title(f"📅 Position Deadlines for {month} {year}")
+st.title("📅 Your Position Deadline Calendar")
 
 # Select month and year for calendar view
 col1, col2 = st.columns(2)
@@ -47,12 +47,13 @@ with col1:
 with col2:
     month = st.selectbox("Month", list(calendar.month_name)[1:], index=today.month - 1)
 
+# Now use the selected month and year
+st.subheader(f"{month} {year}")
+
 month_num = list(calendar.month_name).index(month)
 
 # Generate calendar matrix for the selected month and year
 cal = calendar.monthcalendar(year, month_num)
-
-st.title(f"📅 Position Deadlines for {month} {year}")
 
 # Helper: group positions by deadline date
 positions_by_date = {}
