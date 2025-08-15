@@ -121,7 +121,7 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (34, 'David', 'Johnson', 'd.johnson@neu.edu', '555-0304', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
 (35, 'Lisa', 'Thompson', 'l.thompson@neu.edu', '555-0305', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
 (36, 'Robert', 'Wilson', 'r.wilson@neu.edu', '555-0306', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Academic'),
--- Employers (userId 37-44)
+-- Employers (userId 37-54)
 (37, 'Phoebe', 'Hwang', 'p.hwang@technova.com', '555-0401', NULL, NULL, NULL, NULL, NULL, 1, 'Technology'),
 (38, 'Marcus', 'Roberts', 'm.roberts@dataflow.com', '555-0402', NULL, NULL, NULL, NULL, NULL, 2, 'Technology'),
 (39, 'Elena', 'Thompson', 'e.thompson@greenenergy.com', '555-0403', NULL, NULL, NULL, NULL, NULL, 3, 'Energy'),
@@ -130,11 +130,21 @@ INSERT INTO users (userId, firstName, lastName, email, phone, major, minor, coll
 (42, 'Daniel', 'Clark', 'd.clark@autoinnovate.com', '555-0406', NULL, NULL, NULL, NULL, NULL, 6, 'Automotive'),
 (43, 'Amanda', 'Lewis', 'a.lewis@cloudsecure.com', '555-0407', NULL, NULL, NULL, NULL, NULL, 7, 'Technology'),
 (44, 'Christopher', 'Walker', 'c.walker@bioresearch.com', '555-0408', NULL, NULL, NULL, NULL, NULL, 8, 'Healthcare'),
--- Admins (userId 45-48)
-(45, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(46, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(47, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
-(48, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
+(45, 'Natalie', 'Wells', 'natalie.wells@cloudfirst.com', '555-0409', NULL, NULL, NULL, NULL, NULL, 8, 'Technology'),  
+(46, 'Derek', 'Foster', 'derek.foster@energyflow.com', '555-0410', NULL, NULL, NULL, NULL, NULL, 13, 'Energy'),    
+(47, 'Vanessa', 'Li', 'vanessa.li@greenloop.net', '555-0411', NULL, NULL, NULL, NULL, NULL, 35, 'Technology'),         
+(48, 'Carlos', 'Nguyen', 'carlos.nguyen@quantive.co', '555-0412', NULL, NULL, NULL, NULL, NULL, 12, 'Finance'),      
+(49, 'Priya', 'Mehta', 'priya.mehta@verdanthub.org', '555-0413', NULL, NULL, NULL, NULL, NULL, 21, 'Technology'),      
+(50, 'Samuel', 'Bryant', 'samuel.bryant@tridentlabs.tech', '555-0414', NULL, NULL, NULL, NULL, NULL, 31, 'Technology'),
+(51, 'Isabelle', 'Drake', 'isabelle.drake@devvibe.ai', '555-0415', NULL, NULL, NULL, NULL, NULL, 15, 'Technology'), 
+(52, 'Liam', 'Patel', 'liam.patel@xentrix.io', '555-0416', NULL, NULL, NULL, NULL, NULL, 22, 'Finance'),            
+(53, 'Olivia', 'Kim', 'olivia.kim@aerovate.com', '555-0417', NULL, NULL, NULL, NULL, NULL, 27, 'Technology'),          
+(54, 'Marcus', 'Holt', 'marcus.holt@clearbyte.net', '555-0418', NULL, NULL, NULL, NULL, NULL, 34, 'Technology'),
+-- Admins (userId 55-58)
+(55, 'Kaelyn', 'Dunn', 'k.dunn@neu.edu', '555-0501', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(56, 'Tyler', 'Rodriguez', 't.rodriguez@neu.edu', '555-0502', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(57, 'Madison', 'Foster', 'm.foster@neu.edu', '555-0503', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration'),
+(58, 'Jordan', 'Bell', 'j.bell@neu.edu', '555-0504', NULL, NULL, 'NEU', NULL, NULL, NULL, 'Administration');
 
 -- 4. Demographics table (48 rows - references users)
 INSERT INTO demographics (demographicId, gender, race, nationality, sexuality, disability) VALUES
