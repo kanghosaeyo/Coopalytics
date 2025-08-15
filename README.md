@@ -9,7 +9,7 @@ A comprehensive co-op management system designed to streamline the cooperative e
 
 ## 📋 Project Overview
 
-Coopalytics is a full-stack web application that facilitates the entire co-op lifecycle, from position posting to application management and administrative oversight. The platform provides tailored experiences for three distinct user types:
+Coopalytics is a full-stack web application that facilitates the entire co-op lifecycle, from position posting to application management and administrative oversight. The platform provides tailored experiences for four distinct user types:
 
 ### 🎯 Key Features
 
@@ -23,6 +23,7 @@ Coopalytics is a full-stack web application that facilitates the entire co-op li
 ### 👥 Target Users
 
 - **Students**: Seeking co-op opportunities and managing their application process
+- **Advisors**: Managing students' application processes and overlooking student data
 - **Employers**: Posting positions and managing the hiring process
 - **System Administrators**: Overseeing platform operations and maintaining data integrity
 
@@ -114,13 +115,19 @@ Coopalytics/
 
 ### User Personas & Access
 
-The application supports three distinct user personas, each with tailored functionality:
+The application supports four distinct user personas, each with tailored functionality:
 
 #### 🎓 Student Persona
 - **Dashboard**: View application status and recommended positions
 - **Position Search**: Browse and filter available co-op opportunities
 - **Application Management**: Submit applications and track their progress
 - **Profile Management**: Update personal information and skills
+
+#### 👨‍🏫 Advisor Persona
+- **Advisor Dashboard**: View and manage advisor profile
+- **Student Management**: View and flag assigned students' profiles and application status
+- **Placement Analytics**: Monitor and filter detailed statistics for student placement
+- **Company Partnerships**: Access detailed company information and ratings
 
 #### 🏢 Employer Persona
 - **Company Dashboard**: Manage company profile and posted positions
