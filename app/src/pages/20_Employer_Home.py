@@ -59,7 +59,7 @@ def fetch_company_data(company_profile_id):
             return data[0] if data else None
         return None
     except Exception as e:
-        logger.error(f"Error fetching user data: {e}")
+        logger.error(f"Error fetching company data: {e}")
         # Fallback data if API is not available
         return {
             'companyProfileId': 1,
@@ -100,10 +100,11 @@ if user_data:
         col1 = st.columns(1)[0]
            
         with col1:
-            company_name = st.text_input("Company Name", value=company_data.get("name", ""))
-            bio = st.text_input("Who Are We", value=company_data.get("bio", ""))
-            industry = st.text_input("Industry", value=company_data.get("industry", ""))
-            website_link = st.text_input("Website", value=company_data.get("websiteLink", ""))
+            # Add null check for company_data
+            company_name = st.text_input("Company Name", value=company_data.get("name", "") if company_data else "")
+            bio = st.text_input("Who Are We", value=company_data.get("bio", "") if company_data else "")
+            industry = st.text_input("Industry", value=company_data.get("industry", "") if company_data else "")
+            website_link = st.text_input("Website", value=company_data.get("websiteLink", "") if company_data else "")
 
             company_submitted = st.form_submit_button("Update Company Profile", type="primary", use_container_width=True)
            
