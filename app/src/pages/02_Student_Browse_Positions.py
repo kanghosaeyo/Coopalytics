@@ -99,9 +99,19 @@ for pos in positions:
             title += " 👎"
 
     with st.expander(title):
-        st.write(f"**Location**: {pos.get('location', 'N/A')}")
+        st.write(f"**Location**: {pos.get('location', 'Not Specified')}")
         st.write(f"**Description**: {pos.get('description', 'N/A')}")
-        st.write(f"**Pay**: ${pos.get('hourlyPay', 'N/A')}/hr")
+        st.write(f"**Industry**: {pos.get('industry', 'Not Specified')}")
+        st.write(f"**Hourly Pay**: ${pos.get('hourlyPay', 'N/A')}/hr")
+        
+        st.write(f"**Desired GPA**: {pos.get('desiredGPA', 'N/A')}")
+        st.write(f"**Deadline**: {pos.get('deadline', 'N/A')}")
+        st.write(f"**Start Date**: {pos.get('startDate', 'N/A')}")
+        st.write(f"**End Date**: {pos.get('endDate', 'N/A')}")
+
+        st.write(f"**Required Skills ID**: {pos.get('requiredSkillsId', 'None')}")
+        st.write(f"**Desired Skills ID**: {pos.get('desiredSkillsId', 'None')}")
+        st.write(f"**Flagged**: {'Yes' if pos.get('flag') else 'No'}")
 
         # Like/Dislike buttons
         col1, col2, col3 = st.columns([1, 1, 1])
