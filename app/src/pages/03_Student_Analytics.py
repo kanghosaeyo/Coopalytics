@@ -13,11 +13,10 @@ SideBarLinks()
 st.title("Student Analytics Dashboard")
 st.markdown("---")
 
-# API endpoint for wage data
+
 API_BASE_URL = "http://web-api:4000"
 WAGE_DATA_ENDPOINT = f"{API_BASE_URL}/workedatpos/wagedata"
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
 def fetch_wage_data():
     """Fetch wage data from the REST API"""
     try:
@@ -31,14 +30,10 @@ def fetch_wage_data():
         st.error(f"Error connecting to API: {str(e)}")
         return []
 
-# Fetch the wage data
 wage_data = fetch_wage_data()
 
 if wage_data:
-    # Convert to DataFrame for easier manipulation
     df = pd.DataFrame(wage_data)
-    
-    # Display summary statistics
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -108,16 +103,5 @@ if wage_data:
 else:
     st.warning("No wage data available. Please check if the API is running and accessible.")
     st.info("Make sure the backend API is running on port 4000.")
-
-# Add some helpful information
-st.markdown("---")
-st.info("""
-**Data Source**: This data is retrieved from the REST API endpoint `/workedatpos/wagedata` which aggregates information about:
-- Company names and position titles
-- Salary ranges (minimum, maximum, and average hourly pay)
-- Number of students who previously worked in each position
-
-**Note**: Data is cached for 5 minutes to improve performance. Refresh the page to get the latest data.
-""")
 
 
