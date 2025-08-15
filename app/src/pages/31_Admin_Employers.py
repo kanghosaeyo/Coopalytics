@@ -14,6 +14,7 @@ st.title("🏢 Employer Accounts")
 def get_json(url):
   r = requests.get(url, timeout=TIMEOUT); r.raise_for_status(); return r.json()
 
+
 # ---- Load data ----
 try:
     counts_df = pd.DataFrame(get_json(f"{COOP_API}/employerJobCounts"))

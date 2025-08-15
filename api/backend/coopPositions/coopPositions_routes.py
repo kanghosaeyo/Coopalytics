@@ -26,7 +26,7 @@ def get_position_info():
 
 
 # Student/Advisor views the average pay for each industry
-@coopPositions.route('/coopPositions/industryAveragePay', methods=['GET'])
+@coopPositions.route('/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
     query = '''
         SELECT cp.industry, AVG(cp.hourlyPay) AS industryAvgHourlyPay
@@ -138,7 +138,7 @@ def create_position():
 
 
 # Admin reviews positions before they go live 
-@coopPositions.route('/coopPositions/pending', methods=['GET'])
+@coopPositions.route('/pending', methods=['GET'])
 def get_pending_positions():
     current_app.logger.info('GET /coopPositions/pending route')
 
@@ -171,7 +171,7 @@ def get_pending_positions():
     return the_response
 
 # Admin views number of co-ops posted by each employer
-@coopPositions.route('/coopPositions/employerJobCounts', methods=['GET'])
+@coopPositions.route('/employerJobCounts', methods=['GET'])
 def get_employer_job_counts():
     current_app.logger.info('GET /coopPositions/employerJobCounts route')
 
@@ -201,7 +201,7 @@ def get_employer_job_counts():
     return the_response
 
 # Admin approves a co-op position 
-@coopPositions.route('/coopPositions/<int:pos_id>/approve', methods=['PUT'])
+@coopPositions.route('/<int:pos_id>/approve', methods=['PUT'])
 def approve_position(pos_id):
     current_app.logger.info('PUT /coopPositions/%s/approve route', pos_id)
 
