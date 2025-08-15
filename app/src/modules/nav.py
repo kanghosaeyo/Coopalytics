@@ -50,6 +50,11 @@ def AdvisorHomeNav():
         "pages/10_Advisor_Home.py", label="Advisor Dashboard", icon="👨‍🏫"
     )
 
+def AdvisorStudentManagementNav():
+    st.sidebar.page_link(
+        "pages/13_Advisor_StudentManagement.py", label="Student Management", icon="👥"
+    )
+
 
 def AdvisorAnalyticsNav():
     st.sidebar.page_link(
@@ -152,6 +157,7 @@ def SideBarLinks(show_home=False):
         # Advisor Navigation (Sarah Martinez persona)
         if st.session_state["role"] == "advisor":
             AdvisorHomeNav()
+            AdvisorStudentManagementNav()
             AdvisorAnalyticsNav()
             AdvisorCompaniesNav()
 
