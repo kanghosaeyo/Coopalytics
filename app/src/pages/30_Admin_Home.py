@@ -42,7 +42,6 @@ active_employers = 0 if employers_df.empty else employers_df[employers_df["numJo
 c2.metric("Active Employers", active_employers)
 total_jobs = 0 if employers_df.empty else int(employers_df["numJobs"].sum())
 c3.metric("Total Jobs Posted", total_jobs)
-c4.metric("DEI Data (gender groups)", 0 if dei_gender.empty else len(dei_gender))
 
 st.divider()
 
