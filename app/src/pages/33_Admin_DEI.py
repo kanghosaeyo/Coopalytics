@@ -88,3 +88,4 @@ st.bar_chart(df.set_index("label")["count"])
 
 if show_table:
     st.dataframe(df, use_container_width=True)
+
