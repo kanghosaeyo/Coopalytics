@@ -419,5 +419,4 @@ This is an academic project. For questions or issues, please contact the develop
 
 ---
 
->>>>>>> theirs
 **Built with ❤️ by Co-op Huntrix**
