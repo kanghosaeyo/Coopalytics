@@ -9,7 +9,7 @@ from backend.db_connection import db
 views_position = Blueprint('views_position', __name__)
 
 # student flags positions they like/do not like 
-@views_position.route('/views_position/position', methods=['POST'])
+@views_position.route('/position', methods=['POST'])
 def set_job_preference():
     the_data = request.json
     current_app.logger.info(the_data)
@@ -37,9 +37,9 @@ def set_job_preference():
 
 
 # Student views deadlines for positions
-@views_position.route('/views_position/<int:studentID>/deadlines', methods=['GET'])
+@views_position.route('/<int:studentID>/deadlines', methods=['GET'])
 def get_deadlines(studentID):
-    current_app.logger.info('GET /views_position/deadlines route')
+    current_app.logger.info(f'GET /{studentID}/deadlines route')
 
     query = '''
         SELECT cp.title,
@@ -60,7 +60,7 @@ def get_deadlines(studentID):
 # Student views positions based on preference
 @views_position.route('/viewpos/<int:studentID>', methods=['GET'])
 def get_positions_by_preference(studentID):
-    current_app.logger.info(f'GET /viewpos/{studentID}')
+    current_app.logger.info(f'GET /viewpos/{studentID} route')
 
     pref_param = request.args.get('preference')
 
@@ -90,7 +90,6 @@ def get_positions_by_preference(studentID):
     except Exception as e:
         current_app.logger.error(f"Error fetching positions by preference: {e}")
         return jsonify({"error": "Server error"}), 500
-
     
 
 # Admin views preference metrics 
