@@ -26,7 +26,7 @@ def get_position_info():
 
 
 # Student/Advisor views the average pay for each industry
-@coopPositions.route('/industryAveragePay', methods=['GET'])
+@coopPositions.route('/coopPositions/industryAveragePay', methods=['GET'])
 def get_industry_average_pay():
     query = '''
         SELECT cp.industry, AVG(cp.hourlyPay) AS industryAvgHourlyPay
