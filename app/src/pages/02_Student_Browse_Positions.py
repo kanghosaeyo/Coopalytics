@@ -29,17 +29,29 @@ filter_option = st.selectbox(
     options=["All", "Liked", "Disliked", "Matches Desired Skills"]
 )
 
-# Function to fetch and display positions
+# Get liked/disliked coopPositionIds
+def get_preference_ids(student_id, preference_value):
+    url = f"{API_BASE_URL}/viewpos/{student_id}?preference={'true' if preference_value else 'false'}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            positions = response.json()
+            return {pos["coopPositionId"] for pos in positions}
+        else:
+            logger.error(f"Failed to fetch preference={preference_value} positions: {response.status_code}")
+            return set()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching preference={preference_value} positions: {e}")
+        return set()
+
+# Fetch positions based on selected filter
 def fetch_positions():
     if filter_option == "All":
-        url = f"{API_BASE_URL}/positions"  # ✔ this is from coopPositions blueprint
-
+        url = f"{API_BASE_URL}/positions"
     elif filter_option == "Liked":
-        url = f"{API_BASE_URL}/vp/viewpos/{charlie_user_id}?preference=true"  # ✔ matches blueprint + route
-
+        url = f"{API_BASE_URL}/viewpos/{charlie_user_id}?preference=true"
     elif filter_option == "Disliked":
-        url = f"{API_BASE_URL}/vp/viewpos/{charlie_user_id}?preference=false"
-
+        url = f"{API_BASE_URL}/viewpos/{charlie_user_id}?preference=false"
     elif filter_option == "Matches Desired Skills":
         url = f"{API_BASE_URL}/{charlie_user_id}/desiredSkills"
     else:
@@ -57,21 +69,48 @@ def fetch_positions():
         st.error(f"API request error: {e}")
         return []
 
-# Load and display data
+# Load liked/disliked position IDs only if viewing All
+liked_position_ids = set()
+disliked_position_ids = set()
+if filter_option == "All":
+    liked_position_ids = get_preference_ids(charlie_user_id, True)
+    disliked_position_ids = get_preference_ids(charlie_user_id, False)
+
+# Fetch & display positions
 positions = fetch_positions()
+
+if filter_option == "Matches Desired Skills" and not positions:
+    st.info("🔍 No matches found. You may not have any desired skills set in your profile.")
+
 for pos in positions:
-    with st.expander(pos["title"]):
+    coop_id = pos["coopPositionId"]
+    title = pos["title"]
+
+    # Add icons if in "All" view
+    if filter_option == "All":
+        liked = coop_id in liked_position_ids
+        disliked = coop_id in disliked_position_ids
+
+        if liked and disliked:
+            title += " 👍👎"
+        elif liked:
+            title += " 👍"
+        elif disliked:
+            title += " 👎"
+
+    with st.expander(title):
         st.write(f"**Location**: {pos.get('location', 'N/A')}")
         st.write(f"**Description**: {pos.get('description', 'N/A')}")
         st.write(f"**Pay**: ${pos.get('hourlyPay', 'N/A')}/hr")
 
         # Like/Dislike buttons
-        col1, col2 = st.columns([1, 1])
+        col1, col2, col3 = st.columns([1, 1, 1])
+
         with col1:
-            if st.button("👍 Like", key=f"like_{pos['coopPositionId']}"):
-                response = requests.post(f"{API_BASE_URL}/vp/position", json={
+            if st.button("👍 Like", key=f"like_{coop_id}"):
+                response = requests.post(f"{API_BASE_URL}/position", json={
                     "studentId": charlie_user_id,
-                    "coopPositionId": pos["coopPositionId"],
+                    "coopPositionId": coop_id,
                     "preference": True
                 })
                 if response.status_code == 200:
@@ -81,10 +120,26 @@ for pos in positions:
                     st.error("Failed to save preference.")
 
         with col2:
-            if st.button("👎 Dislike", key=f"dislike_{pos['coopPositionId']}"):
-                requests.post(f"{API_BASE_URL}/vp/position", json={
+            if st.button("👎 Dislike", key=f"dislike_{coop_id}"):
+                response = requests.post(f"{API_BASE_URL}/position", json={
                     "studentId": charlie_user_id,
-                    "coopPositionId": pos["coopPositionId"],
+                    "coopPositionId": coop_id,
                     "preference": False
                 })
-                st.warning("Marked as disliked.")
+                if response.status_code == 200:
+                    st.warning("Marked as disliked.")
+                    st.rerun()
+                else:
+                    st.error("Failed to save preference.")
+
+        with col3:
+            if st.button("🗑️ Remove Preference", key=f"remove_{coop_id}"):
+                response = requests.delete(f"{API_BASE_URL}/position", json={
+                    "studentId": charlie_user_id,
+                    "coopPositionId": coop_id
+                })
+                if response.status_code == 200:
+                    st.info("Preference removed.")
+                    st.rerun()
+                else:
+                    st.error("Failed to remove preference.")

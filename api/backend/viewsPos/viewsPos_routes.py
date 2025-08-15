@@ -35,6 +35,26 @@ def set_job_preference():
     response.status_code = 200
     return response
 
+# student deletes preference for a posting 
+@views_position.route('/position', methods=['DELETE'])
+def remove_job_preference():
+    the_data = request.json
+    current_app.logger.info(f"DELETE preference for: {the_data}")
+    
+    student_id = the_data['studentId']
+    coop_position_id = the_data['coopPositionId']
+
+    query = '''
+        DELETE FROM viewsPos
+        WHERE studentId = %s AND coopPositionId = %s
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (student_id, coop_position_id))
+    db.get_db().commit()
+
+    return make_response(jsonify({"message": "Preference removed"}), 200)
+
 
 # Student views deadlines for positions
 @views_position.route('/<int:studentID>/deadlines', methods=['GET'])
