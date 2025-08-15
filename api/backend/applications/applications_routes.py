@@ -12,35 +12,36 @@ applications = Blueprint('applications', __name__)
 # Student viewing their own application statuses
 @applications.route('/student/<studentID>/applications', methods=['GET'])
 def get_student_applications(studentID):
-    current_app.logger.info('GET /student/<userID>/applications route')
+    current_app.logger.info(f'GET /student/{studentID}/applications route')
     
     query = '''
         SELECT u.userId,
                u.firstName,
                u.lastName,
                a.applicationId,
-               a.status    AS applicationStatus,
-               cp.title    AS positionTitle,
+               a.status AS applicationStatus,
+               a.resume,
+               a.coverLetter,
+               a.gpa,
+               cp.title AS positionTitle,
                cp.deadline AS applicationDeadline,
-               com.name    AS companyName,
-               a.dateApplied,
+               a.dateTimeApplied,
                cp.description AS positionDescription
         FROM users u
                  JOIN appliesToApp ata ON u.userId = ata.studentId
                  JOIN applications a ON ata.applicationId = a.applicationId
                  JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
-                 JOIN companyProfiles com ON cp.companyProfileId = com.companyProfileId
         WHERE u.userId = %s
-        ORDER BY a.dateApplied DESC, cp.deadline ASC
+        ORDER BY a.dateTimeApplied DESC, cp.deadline ASC
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
-    theData = cursor.fetchall()
+    cursor.execute(query, (studentID,))
+    columns = [col[0] for col in cursor.description]
+    rows = cursor.fetchall()
+    theData = [dict(zip(columns, row)) for row in rows]
     
-    the_response = make_response(jsonify(theData))
-    the_response.status_code = 200
-    return the_response
+    return make_response(jsonify(theData), 200)
 
 # student sees how many positions they have applied to
 @applications.route('/student/<studentID>/applications/summary', methods=['GET'])
@@ -122,34 +123,43 @@ def get_applications(coopPositionId):
     return make_response(jsonify(theData), 200)
 
 # Student applies to a position
-@applications.route('/users/appliesToApp/applications', methods=['POST'])
+@applications.route('/applications/new', methods=['POST'])
 def create_application():
-     current_app.logger.info('GET /applications')
-     application_info = request.json
-     datetime_applied = application_info['dateTimeApplied']
-     status = application_info['status']
-     resume = application_info['resume']
-     gpa = application_info['gpa']
-     cover_letter = application_info['coverLetter']
-     coop_position_id = application_info['coopPositionId']
-     application_id = application_info['applicationId']
+    current_app.logger.info('POST /applications/new')
 
+    data = request.json
+    required_fields = ['coopPositionId', 'studentId']
+    
+    # Check required fields
+    if not all(field in data for field in required_fields):
+        current_app.logger.warning('POST /applications/new missing required fields')
+        return make_response(jsonify({"error": "coopPositionId and studentId are required"}), 400)
 
-     query = '''
-INSERT INTO applications
-VALUES (dateTimeApplied = %s,
-        status = %s,
-        resume = %s,
-        gpa = %s,
-        coverLetter = %s,
-        coopPositionId = %s,
-        applicationId = %s);
-        '''
-     data = (datetime_applied, status, resume, gpa, cover_letter,
-             coop_position_id, application_id)
-     
-     cursor = db.get_db().cursor()
-     r = cursor.execute(query, data)
-     db.get_db().commit()
-     return 'application submitted!'
+    try:
+        cursor = db.get_db().cursor()
 
+        # Insert new application (dateTimeApplied defaults to CURRENT_TIMESTAMP, status defaults to 'Draft')
+        cursor.execute('''
+            INSERT INTO applications (resume, gpa, coverLetter, coopPositionId)
+            VALUES (%s, %s, %s, %s)
+        ''', (
+            data.get('resume', ''),
+            data.get('gpa'),
+            data.get('coverLetter', ''),
+            data['coopPositionId']
+        ))
+
+        application_id = cursor.lastrowid
+
+        # Link student to application
+        cursor.execute('''
+            INSERT INTO appliesToApp (applicationId, studentId)
+            VALUES (%s, %s)
+        ''', (application_id, data['studentId']))
+
+        db.get_db().commit()
+        return jsonify({"message": "Application submitted", "applicationId": application_id}), 201
+
+    except Exception as e:
+        current_app.logger.error(f"Error creating application: {e}")
+        return jsonify({"error": "Failed to submit application"}), 500
