@@ -138,7 +138,7 @@ def create_position():
 
 
 # Admin reviews positions before they go live 
-@coopPositions.route('/pending', methods=['GET'])
+@coopPositions.route('/coopPositions/pending', methods=['GET'])
 def get_pending_positions():
     current_app.logger.info('GET /coopPositions/pending route')
 
@@ -171,7 +171,7 @@ def get_pending_positions():
     return the_response
 
 # Admin views number of co-ops posted by each employer
-@coopPositions.route('/employerJobCounts', methods=['GET'])
+@coopPositions.route('/coopPositions/employerJobCounts', methods=['GET'])
 def get_employer_job_counts():
     current_app.logger.info('GET /coopPositions/employerJobCounts route')
 
