@@ -39,7 +39,7 @@ with tab1:
                         st.markdown("**Cover Letter:**")
                         st.code(app.get("coverLetter", "N/A"))
         else:
-            st.error("Could not fetch applications.")
+            st.error(f"Could not fetch applications. Server returned status code {res.status_code}")
     except Exception as e:
         st.error(f"Error fetching applications: {e}")
 
@@ -47,38 +47,41 @@ with tab1:
 with tab2:
     st.subheader("📝 Submit a New Application")
 
-    # Fetch positions
     try:
         pos_res = requests.get(f"{API_BASE_URL}/positions")
         if pos_res.status_code == 200:
             positions = pos_res.json()
             pos_map = {f"{pos['title']} (ID: {pos['coopPositionId']})": pos['coopPositionId'] for pos in positions}
-            pos_label = st.selectbox("Select a Position", list(pos_map.keys()))
-            selected_pos_id = pos_map[pos_label]
 
-            # Form fields
-            st.markdown("**Resume**")
-            resume = st.text_area("Paste your resume here", height=150)
+            if not pos_map:
+                st.warning("No co-op positions are currently available.")
+            else:
+                pos_label = st.selectbox("Select a Position", list(pos_map.keys()))
+                selected_pos_id = pos_map[pos_label]
 
-            st.markdown("**Cover Letter**")
-            cover_letter = st.text_area("Paste your cover letter here", height=150)
+                resume = st.text_area("Paste your resume here", height=150)
+                cover_letter = st.text_area("Paste your cover letter here", height=150)
+                gpa = st.number_input("Your GPA", min_value=0.0, max_value=4.0, step=0.01, format="%.2f")
 
-            gpa = st.number_input("Your GPA", min_value=0.0, max_value=4.0, step=0.01)
+                if st.button("📤 Submit Application"):
+                    data = {
+                        "studentId": user_id,
+                        "coopPositionId": selected_pos_id,
+                        "resume": resume,
+                        "coverLetter": cover_letter,
+                        "gpa": gpa
+                    }
 
-            if st.button("📤 Submit Application"):
-                data = {
-                    "studentId": user_id,
-                    "coopPositionId": selected_pos_id,
-                    "resume": resume,
-                    "coverLetter": cover_letter,
-                    "gpa": gpa
-                }
-                submit_res = requests.post(f"{API_BASE_URL}/applications/new", json=data)
-                if submit_res.status_code == 201:
-                    st.success("✅ Application submitted successfully!")
-                    st.experimental_rerun()
-                else:
-                    st.error("❌ Failed to submit application.")
+                    try:
+                        submit_res = requests.post(f"{API_BASE_URL}/applications/new", json=data)
+                        if submit_res.status_code == 201:
+                            st.success("✅ Application submitted successfully!")
+                            st.rerun()
+                        else:
+                            error_info = submit_res.json().get("error", "No error message returned")
+                            st.error(f"❌ Failed to submit application. Reason: {error_info}")
+                    except Exception as e:
+                        st.error(f"Exception occurred during submission: {e}")
         else:
             st.error("Failed to fetch positions.")
     except Exception as e:

@@ -28,9 +28,9 @@ def get_student_applications(studentID):
                a.dateTimeApplied,
                cp.description AS positionDescription
         FROM users u
-                 JOIN appliesToApp ata ON u.userId = ata.studentId
-                 JOIN applications a ON ata.applicationId = a.applicationId
-                 JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
+        JOIN appliesToApp ata ON u.userId = ata.studentId
+        JOIN applications a ON ata.applicationId = a.applicationId
+        JOIN coopPositions cp ON a.coopPositionId = cp.coopPositionId
         WHERE u.userId = %s
         ORDER BY a.dateTimeApplied DESC, cp.deadline ASC
     '''
@@ -129,8 +129,7 @@ def create_application():
 
     data = request.json
     required_fields = ['coopPositionId', 'studentId']
-    
-    # Check required fields
+
     if not all(field in data for field in required_fields):
         current_app.logger.warning('POST /applications/new missing required fields')
         return make_response(jsonify({"error": "coopPositionId and studentId are required"}), 400)
@@ -138,7 +137,7 @@ def create_application():
     try:
         cursor = db.get_db().cursor()
 
-        # Insert new application (dateTimeApplied defaults to CURRENT_TIMESTAMP, status defaults to 'Draft')
+        # Insert application
         cursor.execute('''
             INSERT INTO applications (resume, gpa, coverLetter, coopPositionId)
             VALUES (%s, %s, %s, %s)
@@ -161,5 +160,5 @@ def create_application():
         return jsonify({"message": "Application submitted", "applicationId": application_id}), 201
 
     except Exception as e:
-        current_app.logger.error(f"Error creating application: {e}")
-        return jsonify({"error": "Failed to submit application"}), 500
+        current_app.logger.error(f"❌ Error creating application: {e}")
+        return jsonify({"error": str(e)}), 500  # Temporarily return full error for debugging

@@ -115,7 +115,7 @@ CREATE TABLE createsPos (
 );
 
 CREATE TABLE applications (
-    applicationId   INT PRIMARY KEY,
+    applicationId   INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     dateTimeApplied DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status          VARCHAR(15) NOT NULL DEFAULT 'Draft',
     resume          LONGTEXT,
