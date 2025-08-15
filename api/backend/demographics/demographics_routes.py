@@ -60,3 +60,39 @@ def dei_positions_gender():
     theData = cursor.fetchall()
     resp = make_response(jsonify(theData)); resp.status_code = 200
     return resp
+
+# /api/dei/metrics 
+@demographics.route('/api/dei/metrics', methods=['GET'])
+def dei_metrics():
+    current_app.logger.info('GET /api/dei/metrics route')
+    query = '''
+        SELECT 'gender'     AS metric, gender     AS label, COUNT(*) AS count
+        FROM demographics
+        WHERE gender IS NOT NULL
+        GROUP BY gender
+
+        UNION ALL
+        SELECT 'race'       AS metric, race       AS label, COUNT(*) AS count
+        FROM demographics
+        WHERE race IS NOT NULL
+        GROUP BY race
+
+        UNION ALL
+        SELECT 'nationality' AS metric, nationality AS label, COUNT(*) AS count
+        FROM demographics
+        WHERE nationality IS NOT NULL
+        GROUP BY nationality
+
+        UNION ALL
+        SELECT 'disability' AS metric, disability AS label, COUNT(*) AS count
+        FROM demographics
+        WHERE disability IS NOT NULL
+        GROUP BY disability
+
+        ORDER BY metric, count DESC, label;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    resp = make_response(jsonify(theData)); resp.status_code = 200
+    return resp
