@@ -27,7 +27,7 @@ if charlie_user_id is None:
 # Fetch deadlines for flagged (preferred) positions
 def fetch_flagged_deadlines(user_id):
     try:
-        url = f"{API_BASE_URL}/views_position/{user_id}/deadlines"
+        url = f"{API_BASE_URL}/vp/{user_id}/deadlines"  # <-- fixed endpoint
         logger.info(f"Fetching deadlines from: {url}")
         response = requests.get(url)
 
@@ -41,6 +41,7 @@ def fetch_flagged_deadlines(user_id):
     except Exception as e:
         logger.error(f"Exception occurred while fetching deadlines: {e}")
         return []
+
 
 # UI
 st.title("📅 Your Position Deadline Calendar")
