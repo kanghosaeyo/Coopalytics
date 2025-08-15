@@ -10,13 +10,11 @@ A comprehensive co-op management system designed to streamline the cooperative e
 ## 📋 Project Overview
 
 Coopalytics is a full-stack web application that facilitates the entire co-op lifecycle, from position posting to application management and administrative oversight. The platform provides tailored experiences for four distinct user types:
->>>>>>> theirs
 
 ### 🎯 Key Features
 
 - **Student Portal**: Browse positions, submit applications, manage profiles, and track application status
 - **Academic Advisor Portal**: Monitor your advisees' application progress, analyze placement trends, identify students needing support, and access comprehensive analytics
->>>>>>> theirs
 - **Employer Dashboard**: Post co-op positions, review applications, manage company profiles, and make hiring decisions
 - **Admin Panel**: Oversee all positions, manage user accounts, review flagged content, and maintain system integrity
 - **Real-time Application Management**: Status updates, notifications, and comprehensive tracking
@@ -27,7 +25,6 @@ Coopalytics is a full-stack web application that facilitates the entire co-op li
 
 - **Students**: Seeking co-op opportunities and managing their application process
 - **Advisors**: Managing students' application processes and overlooking student data
->>>>>>> theirs
 - **Employers**: Posting positions and managing the hiring process
 - **System Administrators**: Overseeing platform operations and maintaining data integrity
 
