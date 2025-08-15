@@ -18,7 +18,7 @@ logger.info("Loading Create Co-op Posting page")
 API_BASE_URL = "http://web-api:4000"
 
 # Get the user_id from session state (use real session state in production)
-employer_user_id = st.session_state.get("user_id", 37)  # Default to 37 for demo
+employer_user_id = 37 #st.session_state.get("user_id", 37)  # Default to 37 for demo
 
 if employer_user_id is None:
     st.error("User not logged in. Please return to home and log in.")
