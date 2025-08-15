@@ -42,6 +42,8 @@ def get_scatter_plot_data():
     
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
+    the_response.headers.add('Access-Control-Allow-Origin', '*')
+    the_response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return the_response
 
 # Advisor and student views company rating data rated by past co-ops
@@ -74,6 +76,38 @@ def get_company_ratings():
     
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
+    the_response.headers.add('Access-Control-Allow-Origin', '*')
+    the_response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return the_response
 
+# Student views wage data from past co-ops
+@workedatpos.route('/workedatpos/wagedata', methods=['GET'])
+def get_company_wage_data():
+    current_app.logger.info('GET /workedatpos/wagedata route')
+
+    query = '''
+        SELECT cp.name AS companyName,
+               pos.title AS positionTitle,
+                MIN(pos.hourlyPay) AS minSalary,
+                MAX(pos.hourlyPay) AS maxSalary,
+                AVG(pos.hourlyPay) AS avgPay,
+                COUNT(w.studentId) AS numPreviousCoops
+        FROM companyProfiles cp JOIN users u ON cp.companyProfileId = u.companyProfileId
+            JOIN createsPos cr ON u.userId = cr.employerId
+            JOIN coopPositions pos ON cr.coopPositionId = pos.coopPositionId
+            LEFT JOIN workedAtPos w ON pos.coopPositionId = w.coopPositionId
+        GROUP BY cp.name, pos.title
+        ORDER BY avgPay DESC;
+
+        '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    the_response.headers.add('Access-Control-Allow-Origin', '*')
+    the_response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return the_response
 
