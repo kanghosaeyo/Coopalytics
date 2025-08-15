@@ -6,6 +6,7 @@ import streamlit as st
 from modules.nav import SideBarLinks
 import requests
 
+# set up
 st.set_page_config(layout='wide')
 SideBarLinks()
 
@@ -14,14 +15,14 @@ logger.info("Loading Student Home page")
 # Charlie Stout's userId from database
 API_BASE_URL = "http://web-api:4000"
 
-# Get the user_id from session state
+# user_id from session state
 charlie_user_id = st.session_state.get("user_id", None)
 
 if charlie_user_id is None:
     st.error("User not logged in. Please return to home and log in.")
     st.stop()
 
-# Function to fetch user data from API
+# Function to get user data from API
 def fetch_user_data(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/users/{user_id}")
@@ -54,7 +55,7 @@ def fetch_user_data(user_id):
             'disability': None
         }
 
-# Function to fetch user skills from API
+# Function to get user skills from API
 def fetch_user_skills(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/users/{user_id}/skills")
@@ -65,7 +66,7 @@ def fetch_user_skills(user_id):
         logger.error(f"Error fetching user skills: {e}")
         return []
 
-# Function to fetch application summary from API
+# Function to get application summary from API
 def fetch_application_summary(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/student/{user_id}/applications/summary")
@@ -81,7 +82,7 @@ def fetch_application_summary(user_id):
         logger.error(f"Error fetching application summary: {e}")
         return []
 
-# Function to fetch recent applications from API
+# Function to get recent applications from API
 def fetch_recent_applications(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/users/{user_id}/recent-applications")
@@ -101,7 +102,7 @@ def update_user_data(user_data):
         logger.error(f"Error updating user data: {e}")
         return False
 
-# Function to fetch all available skills from API
+# Function to get all available skills from API
 def fetch_all_skills():
     try:
         response = requests.get(f"{API_BASE_URL}/skills")
@@ -134,7 +135,7 @@ def add_user_skills(user_id, new_skills):
         logger.error(f"Error adding user skills: {e}")
         return False
 
-# Fetch user data and related information
+# Get user data and related information
 user_data = fetch_user_data(charlie_user_id)
 if isinstance(user_data, list) and len(user_data) > 0:
     user_data = user_data[0]
@@ -148,9 +149,10 @@ if user_data:
     st.title("🎓 Student Dashboard")
     st.subheader(f"Welcome back, {user_data['firstName']}!")
     
-    # Create tabs for better organization
+    # Tabs for initial student profile view
     tab1, tab2, tab3 = st.tabs(["📋 Profile", "📊 Quick Stats", "🛠️ Skills Management"])
     
+    # Initial student profile view that can be updated
     with tab1:
         st.header("Your Profile")
         
@@ -267,7 +269,7 @@ if user_data:
                 else:
                     st.error("❌ Failed to update profile")
 
-
+    # General Stats for the student on their application process
     with tab2:
         st.header("📊 Quick Stats")
 
@@ -296,7 +298,7 @@ if user_data:
         with metric_col4:
             st.metric(label="⭐ GPA", value=str(latest_gpa), delta="Latest Application")
         
-        # Skills section
+        # Skills section that can be updated by the student
         st.subheader("🛠️ Your Skills Profile")
         st.caption("Based on your profile and experience")
 
@@ -406,7 +408,7 @@ if user_data:
         st.markdown("---")
         st.subheader("➕ Add New Skills")
 
-        # Fetch all available skills for adding
+        # get all available skills for adding
         all_skills = fetch_all_skills()
         if all_skills:
             # Filter out skills user already has
@@ -447,7 +449,7 @@ if user_data:
                                             'proficiencyLevel': proficiency
                                         })
 
-                        st.markdown("")  # Add spacing
+                        st.markdown("")  
 
                     # Add selected skills button
                     add_skills_submitted = st.form_submit_button("➕ Add Selected Skills", type="secondary", use_container_width=True)

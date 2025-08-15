@@ -14,7 +14,7 @@ if charlie_user_id is None:
     st.error("🚫 User not logged in. Please return to the home page and log in.")
     st.stop()
 
-# Fetch deadlines
+# get deadlines
 def fetch_flagged_deadlines(user_id):
     try:
         url = f"{API_BASE_URL}/{user_id}/deadlines"
@@ -30,7 +30,7 @@ def fetch_flagged_deadlines(user_id):
 
 deadlines = fetch_flagged_deadlines(charlie_user_id)
 
-# Convert to DataFrame and preprocess
+# Convert to df 
 if deadlines:
     df = pd.DataFrame(deadlines)
     df['deadline'] = pd.to_datetime(df['deadline']).dt.date
@@ -39,7 +39,7 @@ else:
 
 st.title("📅 Your Position Deadline Calendar")
 
-# Select month and year for calendar view
+# create feature for user to select the month and year they want to look at 
 col1, col2 = st.columns(2)
 today = datetime.date.today()
 with col1:
@@ -47,7 +47,7 @@ with col1:
 with col2:
     month = st.selectbox("Month", list(calendar.month_name)[1:], index=today.month - 1)
 
-# Now use the selected month and year
+# Header for Calendar
 st.subheader(f"{month} {year}")
 
 month_num = list(calendar.month_name).index(month)
@@ -55,12 +55,12 @@ month_num = list(calendar.month_name).index(month)
 # Generate calendar matrix for the selected month and year
 cal = calendar.monthcalendar(year, month_num)
 
-# Helper: group positions by deadline date
+# group positions by deadline date
 positions_by_date = {}
 for _, row in df.iterrows():
     positions_by_date.setdefault(row['deadline'], []).append(row['title'])
 
-# Display calendar grid
+# show calendar
 days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 cols = st.columns(7)
 for i, day in enumerate(days_of_week):
@@ -70,14 +70,13 @@ for week in cal:
     cols = st.columns(7)
     for i, day in enumerate(week):
         if day == 0:
-            # Empty cell (day belongs to adjacent month)
             cols[i].markdown(" ")
         else:
             date_obj = datetime.date(year, month_num, day)
             pos_titles = positions_by_date.get(date_obj, [])
             # Show date number
             day_str = f"**{day}**"
-            # Show position titles (up to 2, else show count)
+            # Show position titles
             if pos_titles:
                 if len(pos_titles) <= 2:
                     events_str = "\n".join([f"- {title}" for title in pos_titles])
