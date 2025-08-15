@@ -49,21 +49,22 @@ def get_scatter_plot_data():
 def get_company_ratings():
     current_app.logger.info('GET /workedatpos/company-ratings route')
     
+    # Query to get company ratings by individual company
     query = '''
-        SELECT comp.name AS companyName, 
+        SELECT 
             comp.companyProfileId,
+            comp.name AS companyName,
+            comp.industry AS companyIndustry,
             AVG(wp.companyRating) AS avgRating,
             COUNT(wp.companyRating) AS totalRatings,
             MIN(wp.companyRating) AS minRating,
             MAX(wp.companyRating) AS maxRating,
             COUNT(DISTINCT wp.studentId) AS studentsWhoRated
-        FROM companyProfiles comp
-            JOIN users employer ON comp.companyProfileId = employer.companyProfileId
-            JOIN createsPos cp_link ON employer.userId = cp_link.employerId
-            JOIN coopPositions cp ON cp_link.coopPositionId = cp.coopPositionId
-            JOIN workedAtPos wp ON cp.coopPositionId = wp.coopPositionId
+        FROM workedAtPos wp
+        JOIN coopPositions cp ON wp.coopPositionId = cp.coopPositionId
+        JOIN companyProfiles comp ON cp.industry = comp.industry
         WHERE wp.companyRating IS NOT NULL
-        GROUP BY comp.companyProfileId, comp.name
+        GROUP BY comp.companyProfileId, comp.name, comp.industry
         ORDER BY avgRating DESC;
         '''
     

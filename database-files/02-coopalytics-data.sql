@@ -509,3 +509,37 @@ INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyR
 -- Luna King (userId=23) - advanced finance role
 (23, 39, '2024-06-01', '2024-11-30', NULL); -- Blockchain Developer (current/recent)
 
+-- 9. Worked At Position relationships with company ratings (bridge table - references users and coopPositions)
+INSERT INTO workedAtPos (studentId, coopPositionId, startDate, endDate, companyRating) VALUES
+-- Students who completed co-ops with ratings
+(1, 1, '2024-06-01', '2024-12-01', 4),  -- Charlie Stout at TechNova Inc
+(2, 5, '2024-06-01', '2024-12-01', 5),  -- Liam Williams at FinanceFirst Corp
+(3, 18, '2024-06-01', '2024-12-01', 4), -- Sophia Brown at AutoMech Industries
+(4, 11, '2024-06-01', '2024-12-01', 5), -- Noah Davis at DataFlow Analytics
+(5, 3, '2024-06-01', '2024-12-01', 3),  -- Olivia Miller at TechNova Inc
+(6, 4, '2024-06-01', '2024-12-01', 4),  -- Mason Wilson at TechNova Inc
+(7, 7, '2024-06-01', '2024-12-01', 4),  -- Ava Moore at BioResearch Labs
+(8, 5, '2024-06-01', '2024-12-01', 3),  -- Ethan Taylor at FinanceFirst Corp
+(9, 3, '2024-06-01', '2024-12-01', 4),  -- Isabella Anderson at TechNova Inc
+(10, 18, '2024-06-01', '2024-12-01', 5), -- James Thomas at AutoMech Industries
+(11, 16, '2024-06-01', '2024-12-01', 4), -- Mia Jackson at TechNova Inc
+(12, 10, '2024-06-01', '2024-12-01', 3), -- Lucas White at TechNova Inc
+(13, 8, '2024-06-01', '2024-12-01', 4),  -- Charlotte Harris at GreenTech Solutions
+(14, 2, '2024-06-01', '2024-12-01', 5),  -- Benjamin Martin at TechNova Inc
+(15, 15, '2024-06-01', '2024-12-01', 4), -- Amelia Garcia at BioResearch Labs
+(16, 1, '2024-06-01', '2024-12-01', 3),  -- Henry Rodriguez at TechNova Inc
+(17, 6, '2024-06-01', '2024-12-01', 4),  -- Harper Lewis at TechNova Inc
+(18, 9, '2024-06-01', '2024-12-01', 5),  -- Alexander Lee at TechNova Inc
+(19, 10, '2024-06-01', '2024-12-01', 3), -- Evelyn Walker at TechNova Inc
+(20, 2, '2024-06-01', '2024-12-01', 4),  -- Sebastian Hall at TechNova Inc
+(21, 19, '2024-06-01', '2024-12-01', 4), -- Aria Allen at TechNova Inc
+(22, 1, '2024-06-01', '2024-12-01', 3),  -- Owen Young at TechNova Inc
+(23, 5, '2024-06-01', '2024-12-01', 4),  -- Luna King at FinanceFirst Corp
+(24, 4, '2024-06-01', '2024-12-01', 5),  -- Grayson Wright at TechNova Inc
+(25, 7, '2024-06-01', '2024-12-01', 3),  -- Chloe Lopez at BioResearch Labs
+(26, 2, '2024-06-01', '2024-12-01', 4),  -- Carter Hill at TechNova Inc
+(27, 8, '2024-06-01', '2024-12-01', 5),  -- Zoey Scott at GreenTech Solutions
+(28, 7, '2024-06-01', '2024-12-01', 4),  -- Luke Green at BioResearch Labs
+(29, 6, '2024-06-01', '2024-12-01', 3),  -- Lily Adams at TechNova Inc
+(30, 1, '2024-06-01', '2024-12-01', 4); -- Jack Baker at TechNova Inc
+
