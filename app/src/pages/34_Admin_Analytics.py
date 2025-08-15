@@ -42,7 +42,7 @@ st.markdown("""
     }
     
     .metric-value {
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         font-weight: bold;
         color: #1f77b4;
         margin: 0.5rem 0;
@@ -99,14 +99,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# API Status Section
-st.markdown("""
-<div class="api-status">
-    <h3 style="margin: 0 0 1rem 0; color: #495057;">🔌 System Status</h3>
-    <p style="margin: 0; color: #6c757d;">Monitoring backend API connectivity and system health...</p>
-</div>
-""", unsafe_allow_html=True)
-
 # Test the API endpoints
 test_url = "http://web-api:4000"
 
@@ -117,82 +109,64 @@ st.markdown('<h2 class="section-header">👥 User Analytics</h2>', unsafe_allow_
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-label">👨‍🎓 Students</div>
-        <div class="metric-value" id="student-count">-</div>
-        <div style="color: #28a745; font-size: 0.9rem;">Active in system</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Fetch student count
+    # Fetch student count first
     try:
         response = requests.get(f"{test_url}/users/count/students", timeout=5)
         if response.status_code == 200:
             data = response.json()
             student_count = data.get('student_count', 0)
-            st.markdown(f"""
-            <script>
-                document.getElementById('student-count').innerHTML = '{student_count}';
-            </script>
-            """, unsafe_allow_html=True)
-            st.markdown(f"**{student_count} Students**")
         else:
-            st.error(f"Connection failed: {response.status_code}")
+            student_count = 0
     except Exception as e:
-        st.error(f"Connection error: {str(e)}")
-
-with col2:
-    st.markdown("""
+        student_count = 0
+    
+    st.markdown(f"""
     <div class="metric-card">
-        <div class="metric-label">👨‍🏫 Advisors</div>
-        <div class="metric-value" id="advisor-count">-</div>
-        <div style="color: #17a2b8; font-size: 0.9rem;">Academic support</div>
+        <div class="metric-label">👨‍🎓 Students</div>
+        <div class="metric-value">{student_count}</div>
+        <div style="color: #28a745; font-size: 0.9rem;">Active in system</div>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Fetch advisor count
+
+with col2:
+    # Fetch advisor count first
     try:
         response = requests.get(f"{test_url}/users/count/advisors", timeout=5)
         if response.status_code == 200:
             data = response.json()
             advisor_count = data.get('advisor_count', 0)
-            st.markdown(f"""
-            <script>
-                document.getElementById('advisor-count').innerHTML = '{advisor_count}';
-            </script>
-            """, unsafe_allow_html=True)
-            st.markdown(f"**{advisor_count} Advisors**")
         else:
-            st.error(f"Connection failed: {response.status_code}")
+            advisor_count = 0
     except Exception as e:
-        st.error(f"Connection error: {str(e)}")
-
-with col3:
-    st.markdown("""
+        advisor_count = 0
+    
+    st.markdown(f"""
     <div class="metric-card">
-        <div class="metric-label">🏢 Employers</div>
-        <div class="metric-value" id="employer-count">-</div>
-        <div style="color: #ffc107; font-size: 0.9rem;">Industry partners</div>
+        <div class="metric-label">👨‍🏫 Advisors</div>
+        <div class="metric-value">{advisor_count}</div>
+        <div style="color: #17a2b8; font-size: 0.9rem;">Academic support</div>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Fetch employer count
+
+with col3:
+    # Fetch employer count first
     try:
         response = requests.get(f"{test_url}/users/count/employers", timeout=5)
         if response.status_code == 200:
             data = response.json()
             employer_count = data.get('employer_count', 0)
-            st.markdown(f"""
-            <script>
-                document.getElementById('employer-count').innerHTML = '{employer_count}';
-            </script>
-            """, unsafe_allow_html=True)
-            st.markdown(f"**{employer_count} Employers**")
         else:
-            st.error(f"Connection failed: {response.status_code}")
+            employer_count = 0
     except Exception as e:
-        st.error(f"Connection error: {str(e)}")
+        employer_count = 0
+    
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">🏢 Employers</div>
+        <div class="metric-value">{employer_count}</div>
+        <div style="color: #ffc107; font-size: 0.9rem;">Industry partners</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Summary Section
 st.markdown("---")
