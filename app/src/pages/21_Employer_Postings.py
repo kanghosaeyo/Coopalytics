@@ -170,14 +170,6 @@ with st.form("create_coop_form"):
     if required_skills or desired_skills:
         st.info(f"📋 **Selected:** {len(required_skills)} required, {len(desired_skills)} desired skills")
     
-        # Additional requirements
-        st.subheader("📋 Additional Information")
-        additional_requirements = st.text_area(
-            "Additional Requirements or Preferences",
-            placeholder="Any other requirements, preferred majors, or additional information...",
-            height=100
-    )
-    
     # Submit button
     submitted = st.form_submit_button("🚀 Create Co-op Position", type="primary", use_container_width=True)
     
@@ -210,7 +202,7 @@ with st.form("create_coop_form"):
                 "coopPositionId": next_position_id,
                 "title": title.strip(),
                 "location": location.strip(),
-                "description": description.strip() + (f"\n\nAdditional Requirements:\n{additional_requirements.strip()}" if additional_requirements.strip() else ""),
+                "description": description.strip(),
                 "hourlyPay": float(hourly_pay),
                 "requiredSkillsId": skill_ids.get(required_skills[0]) if required_skills else None,
                 "desiredSkillsId": skill_ids.get(desired_skills[0]) if desired_skills else None,
